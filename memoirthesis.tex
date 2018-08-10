@@ -11,103 +11,20 @@
 \usepackage{calligra}
 \usepackage{tikz}
 \usepackage{adjustbox}
+%\usepackage{hyperref}
 \usetikzlibrary{arrows,shapes,snakes,
 		       automata,backgrounds,
 		       petri,topaths}%geometric/algebraic description.
 %\usepackage[version=0.96]{pgf}			%PGF/TikZ is a tandem of languages for producing vector graphics from a 
 
 \usepackage{tcolorbox}
-
-\newtcolorbox{bidentidad}[2][]{
-  enhanced,
-  skin=enhancedlast jigsaw,
-  attach boxed title to top left={xshift=-4mm,yshift=-0.5mm},
-  fonttitle=\bfseries\sffamily,
-  colbacktitle=darkgray,
-  colframe=darkgray,
-  interior style={
-    top color=blue!3,
-    bottom color=red!3
-  },
-  boxed title style={
-    empty,
-    arc=0pt,
-    outer arc=0pt,
-    boxrule=0pt
-  },
-  underlay boxed title={
-    \fill[darkgray] 
-      (title.north west) -- 
-      (title.north east) -- 
-      +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- 
-      ([xshift=4mm,yshift=0.5mm]frame.north east) -- 
-      +(0mm,-1mm) -- 
-      (title.south west) -- cycle;
-    \fill[darkgray] 
-      ([yshift=-0.5mm]frame.north west) -- 
-      +(-0.4,0) -- 
-      +(0,-0.3) -- cycle;
-    \fill[darkgray] 
-      ([yshift=-0.5mm]frame.north east) -- 
-      +(0,-0.3) -- 
-      +(0.4,0) -- cycle; 
-  },
-title = Questions
-}
-
-
-\newtcolorbox{bidentidad2}[2][]{
-  enhanced,
-  skin=enhancedlast jigsaw,
-  attach boxed title to top left={xshift=-4mm,yshift=-0.5mm},
-  fonttitle=\bfseries\sffamily,
-  colbacktitle=darkgray,
-  colframe=darkgray,
-  interior style={
-    top color=blue!3,
-    bottom color=red!3
-  },
-  boxed title style={
-    empty,
-    arc=0pt,
-    outer arc=0pt,
-    boxrule=0pt
-  },
-  underlay boxed title={
-    \fill[darkgray] 
-      (title.north west) -- 
-      (title.north east) -- 
-      +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- 
-      ([xshift=4mm,yshift=0.5mm]frame.north east) -- 
-      +(0mm,-1mm) -- 
-      (title.south west) -- cycle;
-    \fill[darkgray] 
-      ([yshift=-0.5mm]frame.north west) -- 
-      +(-0.4,0) -- 
-      +(0,-0.3) -- cycle;
-    \fill[darkgray] 
-      ([yshift=-0.5mm]frame.north east) -- 
-      +(0,-0.3) -- 
-      +(0.4,0) -- cycle; 
-  },
-title = More generally;
-}
-
 \usepackage{enumitem}
 \usepackage{pifont}
 \tcbuselibrary{skins}
 \usepackage{psvectorian}
 \renewcommand*{\psvectorianDefaultColor}{Blue}%
 \usepackage{datetime}
-\usepackage{ifpdf}
-\ifpdf
-\pdfinfo{
-   /Author (Peterson Yuhala)
-   /Title (MII ENSPY)
-   /Keywords (Xen; )
-   /CreationDate (D:\pdfdate)
-}
-\fi
+
 % When draft option is on. 
 \ifdraftdoc 
 	\usepackage{draftwatermark}				%Sets watermarks up.
@@ -146,11 +63,12 @@ title = More generally;
 % Font with math support: New Century Schoolbook
 \usepackage{fouriernc}
 \usepackage[french]{minitoc}
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\setcounter{minitocdepth}{4}
 \usepackage{fancybox}
 \usepackage{makeidx}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \definecolor{marron}{RGB}{60,30,10}
 \definecolor{darkblue}{RGB}{0,0,80}
 \definecolor{lightblue}{RGB}{80,80,80}
@@ -161,8 +79,7 @@ title = More generally;
 \definecolor{shadecolor}{rgb}{0.97,0.97,0.97}
 \usepackage{fourier-orns}
 \usepackage[T1]{fontenc}
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
 \def\headrule{{\color{darkorange}\raisebox{-2.1pt}[10pt][10pt]{\leafright} \hrulefill \raisebox{-2.1pt}[10pt][10pt]{~~~\decofourleft \decotwo\decofourright~~~} \hrulefill \raisebox{-2.1pt}[10pt][10pt]{ \leafleft}}}
 \makeatother
@@ -238,15 +155,12 @@ expansion=true]{microtype}
 \makeoddhead{myvf}{\leftmark}{\ornamento}{\rightmark}
 \pagestyle{myvf}
 
-
 \newcommand{\clearemptydoublepage}{\newpage{\thispagestyle{empty}\cleardoublepage}}
 %
 % Creates indexes for Table of Contents, List of Figures, List of Tables and Index
 \makeindex
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{import}
-
-% Add other packages needed for chapters here. For example:
 \usepackage{lipsum}					%Needed to create dummy text
 \usepackage{subcaption}
 \usepackage{amsfonts} 					%Calls Amer. Math. Soc. (AMS) fonts
@@ -262,7 +176,6 @@ expansion=true]{microtype}
 \usepackage{graphicx}					%Calls figure environment
 \usepackage{longtable,rotating}			%Long tab environments including rotation. 
 \usepackage[applemac, utf8]{inputenc}			%Needed to encode non-english characters 
-									%directly for mac
 \usepackage{color}
 \usepackage{colortbl}					%Makes coloured tables
 \usepackage{wasysym}					%More math symbols
@@ -271,22 +184,13 @@ expansion=true]{microtype}
 \usepackage{verbatim}					%Permits pre-formated text insertion
 \usepackage{upgreek }					%Calls other kind of greek alphabet
 \usepackage{latexsym}					%Extra symbols
-%\usepackage[numbers,sort&compress]{natbib}
-\usepackage{biblatex}
-\addbibresource{frontmatter/bibtex.bib}   
-
-
-		%Calls bibliography commands 
-\usepackage{url}						%Supports url commands
-\usepackage{etex}						%eTeXÕs extended support for counters
-\usepackage{fixltx2e}					%Eliminates some in felicities of the 
-									%original LaTeX kernel
-%\usepackage[none]{hyphenat}
+%\usepackage{natbib}
+\usepackage{apalike}
+%\usepackage{biblatex}
+%\addbibresource{frontmatter/bibtex.bib}   
 \usepackage[spanish,english]{babel}		%For languages characters and hyphenation
-\usepackage{memhfixc}					%Must be used on memoir document 
-									%class after hyperref
-\usepackage{color}                    				%Creates coloured text and background
-
+\usepackage{memhfixc}					
+\usepackage{color}     
 \usepackage{enumerate}					%For enumeration counter
 \usepackage{footnote}					%For footnotes
 \usepackage{afterpage}
@@ -296,12 +200,13 @@ expansion=true]{microtype}
 \usepackage{pagecolor}
 \usepackage{microtype}					%Makes pdf look better.
 \usepackage{rotfloat}					%For rotating and float environments as tables, 
-									%figures, etc. 
 \usepackage{alltt}						%LaTeX commands are not disabled in 
-									%verbatim-like environment
-
-				%To use diverse features from tikz	
-         
+\usepackage[acronym]{glossaries}
+\usepackage{acronym}
+\usepackage{chngcntr}
+\usepackage[section]{placeins}  
+\usepackage{titletoc}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \tcbset{
     Baystyle/.style={
         sharp corners,
@@ -426,13 +331,14 @@ expansion=true]{microtype}
   }
 %An initial of the very first character of the content
 \usepackage{Carrickc,ArtNouvc,Kramer,Konanur,Rothdn,Starburst}
+\usepackage{hyperref}
 \usepackage{lettrine}
 %\renewcommand\LettrineFontHook{\Rothdnfamily}
 \newcommand{\initial}[1]{%
     \setcounter{DefaultLines}{3}%
     \renewcommand{\rmdefault}{fnc}%
     \renewcommand\LettrineFontHook{\Starburstfamily}%
-	\lettrine[lines=3,lhang=0.33,nindent=0em]{
+	\lettrine[lines=2,lhang=0.45,nindent=0.5em]{
 		\color{darkorange}
      		{\textsc{#1}}}{}}
      		
@@ -479,7 +385,7 @@ expansion=true]{microtype}
 \AtBeginDocument{\renewcommand{\refname}{Références}}
 \AtBeginDocument{\renewcommand{\chaptername}{Chapitre}}
 \AtBeginDocument{\renewcommand{\mtctitle}{Sommaire}}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \theoremstyle{plain}
 \newtheorem{theo}{Theorem}[chapter]
 \theoremstyle{plain}
@@ -493,28 +399,17 @@ expansion=true]{microtype}
 \newtheorem{cor}{Corollary}[chapter]
 \theoremstyle{plain}
 \newtheorem{resu}{Result}[chapter]
-%
 % Hyphenation for some words
 %
-\hyphenation{res-pec-tively}
-\hyphenation{mono-ti-ca-lly}
-\hyphenation{hypo-the-sis}
-\hyphenation{para-me-ters}
-\hyphenation{sol-va-bi-li-ty}
+\hyphenation{vir-tua-li-sées}
 %
-%
-\usepackage[acronym]{glossaries}
-\usepackage{acronym}
-
-\usepackage{chngcntr}
-\usepackage[section]{placeins}  
-\usepackage{titletoc}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \addto\captionsenglish{%
    \renewcommand\listfigurename{Liste des figures}}   
 \addto\captionsenglish{%
    \renewcommand\listtablename{List des tableaux}}
-   
+ 
+\renewcommand{\baselinestretch}{1.5}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \sloppy
@@ -575,7 +470,9 @@ expansion=true]{microtype}
 \clearemptydoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \backmatter
-\printbibliography
+\bibliographystyle{apalike}
+\bibliography{frontmatter/bibtex}
+%\printbibliography
 \clearemptydoublepage
 \appendix
 \import{chapters/appendices/}{app0A.tex}

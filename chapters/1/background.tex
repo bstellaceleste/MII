@@ -2,7 +2,28 @@
 \chapter{Background}
 \label{chap:background}
 
+\initial{D}\textit{ans ce chapitre nous introduisons ou rappelons les informations et concepts de base nécessaires à la compréhension du travail présenté dans ce document. Il s'agit des notions de \textbf{virtualisation, working set, PML.}}\\
+\par
+
 \minitoc
 
 \newpage    
-\section{Server virtualization}
+%%%%%%%%%%%%%%%%%%%%%%%%%SECTION VIRTUALISATION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Virtualisation}
+
+\subsection{Généralités}
+
+\subsubsection{Définition}
+\par\noindent La virtualisation est l’ensemble des techniques matérielles ou logicielles qui permettent de faire fonctionner simultanément sur une seule machine physique (machine hôte) plusieurs systèmes d’exploitation appelés \ac{VMs} -\textit{Virtual Machines, en anglais}-.\\
+
+\par\noindent La plupart des serveurs (non virtualisés) utilisent moins de 15\% de leurs capacités \cite{online1}, ce qui favorise leur prolifération et la complexité de leur gestion. La virtualisation résout ces problèmes d’efficacité en permettant l'exécution de plusieurs systèmes d’exploitation sur un même serveur physique sous la forme de machines virtuelles, dont chacune peut accéder aux ressources de calcul du serveur sous-jacent. Chaque VM est une entité isolée, autonome et complètement indépendante des autres. Dans ces environnements virtualisés, un système
+de virtualisation,\ac{VMM} , est responsable de la gestion de ces machines virtuelles et du partage des ressources entre elles. Il émule le matériel pour elles, et établit la communication entre elles et les périphériques (de la machine hôte).
+
+\subsubsection{Techniques de virtualisation}
+
+\subsubsection{Systèmes de virtualisation}
+
+\subsection{Virtualisation de la mémoire et du processeur}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%SECTION PML%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{PML}
