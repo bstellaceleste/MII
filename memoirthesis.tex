@@ -1,31 +1,8 @@
 %\title{University of Bristol Thesis Template}
 \RequirePackage[l2tabu]{nag}		% Warns for incorrect (obsolete) LaTeX usage
 %
-%
-% File: memoirthesis.tex
-% Author: Victor Brena
-% Description: Contains the thesis template using memoir class,
-% which is mainly based on book class but permits better control of 
-% chapter styles for example. This template is an adaptation and 
-% modification of Oscar's.
-% 
-% Memoir is a flexible class for typesetting poetry, fiction, 
-% non-fiction and mathematical works as books, reports, articles or
-% manuscripts. CTAN repository is found at:
-% http://www.ctan.org/tex-archive/macros/latex/contrib/memoir/
-%
-%
-% UoB guidelines for thesis presentation were found at:
-% http://www.bris.ac.uk/esu/pg/pgrcop11-12topic.pdf#page=49
-%
-% UoB guidelines:
-%
-% The dissertation must be printed on A4 white paper. Paper up to A3 may be used
-% for maps, plans, diagrams and illustrative material. Pages (apart from the
-% preliminary pages) should normally be double-sided.
-%
-% Memoir class loads useful packages by default (see manual).
-\documentclass[a4paper,11pt,leqno,oneside]{memoir} %add 'draft' to turn draft option on (see below)
+
+\documentclass[a4paper,12pt,leqno,oneside]{memoir} %add 'draft' to turn draft option on (see below)
 \usepackage[T1]{fontenc}
 %
 %
@@ -145,26 +122,6 @@ title = More generally;
 \usepackage{siunitx}
 
 \usetikzlibrary{chains}
-%\usepackage{background}
-% \backgroundsetup{
-% scale=1,
-% opacity=1,
-% angle=0,
-% color=black,
-% contents={%
-% \begin{tikzpicture}[every node/.style={inner sep=0pt}]
-% \node[anchor=north west](CNW)
-% at (current page.north west) {\pgfornament[width=1.75cm]{61}};
-% \node[anchor=north east](CNE)
-% at (current page.north east) {\pgfornament[width=1.75cm,symmetry=v]{61}};
-% \node[anchor=south west](CSW)
-% at (current page.south west) {\pgfornament[width=1.75cm,symmetry=h]{61}};
-% \node[anchor=south east](CSE)
-% at (current page.south east) {\pgfornament[width=1.75cm,symmetry=c]{61}};
-% \end{tikzpicture}%
-%   }
-% }
-
 \usepackage{multirow}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
@@ -188,13 +145,12 @@ title = More generally;
 \frenchspacing
 % Font with math support: New Century Schoolbook
 \usepackage{fouriernc}
-\usepackage[nohints]{minitoc}
+\usepackage[french]{minitoc}
 \usepackage{fancybox}
 \usepackage{makeidx}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \definecolor{marron}{RGB}{60,30,10}
 \definecolor{darkblue}{RGB}{0,0,80}
 \definecolor{lightblue}{RGB}{80,80,80}
@@ -223,15 +179,7 @@ expansion=true]{microtype}
 \newcommand{\ornamento}{\vspace{-2em} \noindent \textcolor{darkorange}{\hrulefill \raisebox{-2.5pt}[10pt][10pt]{\leafright \decofourleft \decothreeleft  \aldineright \decotwo \floweroneleft \decoone   \floweroneright \decotwo \aldineleft\decothreeright \decofourright \leafleft} \hrulefill}}
 \newcommand{\ornpar}{\noindent \textcolor{darkorange}{\hrulefill \raisebox{-1.9pt}[10pt][10pt]{}}}
 \newcommand{\ornimpar}{\textcolor{darkorange}{\raisebox{-1.9pt}[10pt][10pt]{} \hrulefill \raisebox{-1.9pt}[10pt][10pt]{}}}
-%
-% UoB guidelines:
-%
-% Text should be in double or 1.5 line spacing, and font size should be
-% chosen to ensure clarity and legibility for the main text and for any
-% quotations and footnotes. Margins should allow for eventual hard binding.
-%
-% Note: This is automatically set by memoir class. Nevertheless \OnehalfSpacing 
-% enables double spacing but leaves single spaced for captions for instance. 
+
 \OnehalfSpacing 
 %
 % Sets numbering division level
@@ -291,30 +239,11 @@ expansion=true]{microtype}
 \pagestyle{myvf}
 
 
-%
-% Oscar's command (it works):
-% Fills blank pages until next odd-numbered page. Used to emulate single-sided
-% frontmatter. This will work for title, abstract and declaration. Though the
-% contents sections will each start on an odd-numbered page they will
-% spill over onto the even-numbered pages if extending beyond one page
-% (hopefully, this is ok).
 \newcommand{\clearemptydoublepage}{\newpage{\thispagestyle{empty}\cleardoublepage}}
-%
 %
 % Creates indexes for Table of Contents, List of Figures, List of Tables and Index
 \makeindex
-%\printglossaries 
-%below creates a list of abbreviations. \gls and related
-% commands are then used throughout the text, so that latex can automatically
-% keep track of which abbreviations have already been defined in the text.
-%
-% The import command enables each chapter tex file to use relative paths when
-% accessing supplementary files. For example, to include
-% chapters/brewing/images/figure1.png from chapters/brewing/brewing.tex we can
-% use
-% \includegraphics{images/figure1}
-% instead of
-% \includegraphics{chapters/brewing/images/figure1}
+
 \usepackage{import}
 
 % Add other packages needed for chapters here. For example:
@@ -342,14 +271,10 @@ expansion=true]{microtype}
 \usepackage{verbatim}					%Permits pre-formated text insertion
 \usepackage{upgreek }					%Calls other kind of greek alphabet
 \usepackage{latexsym}					%Extra symbols
-\usepackage[numbers,sort&compress]{natbib}
+%\usepackage[numbers,sort&compress]{natbib}
 \usepackage{biblatex}
 \addbibresource{frontmatter/bibtex.bib}   
 
-
-%\usepackage[style=authoryear,maxcitenames=2,uniquelist=false,sorting=nyt,backend=bibtex]{biblatex}
-%\usepackage[backend=biber,style=authoryear,sorting=nyt]{biblatex}
-%\addbibresource{thesisbiblio.bib}
 
 		%Calls bibliography commands 
 \usepackage{url}						%Supports url commands
@@ -507,7 +432,7 @@ expansion=true]{microtype}
     \setcounter{DefaultLines}{3}%
     \renewcommand{\rmdefault}{fnc}%
     \renewcommand\LettrineFontHook{\Starburstfamily}%
-	\lettrine[lines=3,lhang=0.45,nindent=0em]{
+	\lettrine[lines=3,lhang=0.33,nindent=0em]{
 		\color{darkorange}
      		{\textsc{#1}}}{}}
      		
@@ -589,6 +514,7 @@ expansion=true]{microtype}
    \renewcommand\listfigurename{Liste des figures}}   
 \addto\captionsenglish{%
    \renewcommand\listtablename{List des tableaux}}
+   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \sloppy
@@ -632,17 +558,12 @@ expansion=true]{microtype}
 \renewcommand{\contentsname}{Table des matières}
 \maxtocdepth{subsubsection}
 
-\dominitoc
+%\dominitoc
 \tableofcontents*
 \markboth{TABLE OF CONTENTS}{}
 
 \clearemptydoublepage
-%
-
-%
-%
-% The bulk of the document is delegated to these chapter files in
-% subdirectories.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mainmatter
 %
 \clearemptydoublepage
@@ -652,13 +573,7 @@ expansion=true]{microtype}
 \clearemptydoublepage
 \import{chapters/2/}{etat_art.tex}
 \clearemptydoublepage
-%
-%
-% And the appendix goes here
-
-%
-% Apparently the guidelines don't say anything about citations or
-% bibliography styles so I guess we can use anything.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \backmatter
 \printbibliography
 \clearemptydoublepage
