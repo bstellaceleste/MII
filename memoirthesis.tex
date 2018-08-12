@@ -185,9 +185,9 @@ expansion=true]{microtype}
 \usepackage{upgreek }					%Calls other kind of greek alphabet
 \usepackage{latexsym}					%Extra symbols
 %\usepackage{natbib}
-\usepackage{apalike}
-%\usepackage{biblatex}
-%\addbibresource{frontmatter/bibtex.bib}   
+%\usepackage[maxnames=1]{apalike}
+\usepackage{biblatex}
+\addbibresource{frontmatter/bibtex.bib}   
 \usepackage[spanish,english]{babel}		%For languages characters and hyphenation
 \usepackage{memhfixc}					
 \usepackage{color}     
@@ -441,7 +441,7 @@ expansion=true]{microtype}
 
 \listoftables*
 \addstarredchapter{\listtablename}
-\addtocontents{lot}{\par\nobreak\textbf{{\scshape Table} \hfill Page}\par\nobreak}
+\addtocontents{lot}{\par\nobreak\textbf{{\scshape Tableau} \hfill Page}\par\nobreak}
 \clearemptydoublepage
 %
 \listoffigures*
@@ -470,9 +470,9 @@ expansion=true]{microtype}
 \clearemptydoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \backmatter
-\bibliographystyle{apalike}
-\bibliography{frontmatter/bibtex}
-%\printbibliography
+%\bibliographystyle{mla}
+%\bibliography{frontmatter/bibtex}
+\printbibliography
 \clearemptydoublepage
 \appendix
 \import{chapters/appendices/}{app0A.tex}
