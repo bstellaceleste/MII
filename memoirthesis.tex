@@ -1,18 +1,16 @@
 %\title{University of Bristol Thesis Template}
-\RequirePackage[l2tabu]{nag}		% Warns for incorrect (obsolete) LaTeX usage
-%
+\RequirePackage[l2tabu]{nag}		
+\RequirePackage{etex}
+\documentclass[a4paper,12pt,leqno,oneside]{memoir} 
 
-\documentclass[a4paper,12pt,leqno,oneside]{memoir} %add 'draft' to turn draft option on (see below)
 \usepackage[T1]{fontenc}
-%
-%
-% Adding metadata:
+\usepackage{morewrites}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \usepackage{calligra}
 \usepackage{tikz}
 \usepackage{adjustbox}
-%\usepackage{hyperref}
-\usetikzlibrary{arrows,shapes,snakes,
+\usepackage{hyperref}
+\usetikzlibrary{arrows,shapes,decorations,
 		       automata,backgrounds,
 		       petri,topaths}%geometric/algebraic description.
 %\usepackage[version=0.96]{pgf}			%PGF/TikZ is a tandem of languages for producing vector graphics from a 
@@ -65,7 +63,7 @@
 \usepackage[french]{minitoc}
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
-\setcounter{minitocdepth}{4}
+\setcounter{minitocdepth}{2}
 \usepackage{fancybox}
 \usepackage{makeidx}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -206,6 +204,7 @@ expansion=true]{microtype}
 \usepackage{chngcntr}
 \usepackage[section]{placeins}  
 \usepackage{titletoc}
+\usepackage{comment}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \tcbset{
     Baystyle/.style={
@@ -410,6 +409,8 @@ expansion=true]{microtype}
    \renewcommand\listtablename{List des tableaux}}
  
 \renewcommand{\baselinestretch}{1.5}
+
+\defbibfilter{papers}{type=article  or   type=book}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \sloppy
@@ -419,7 +420,7 @@ expansion=true]{microtype}
 %
 \input{frontmatter/title}
 \cleardoublepage
-
+%
 \input{frontmatter/title2}
 \cleardoublepage
 \input{frontmatter/dedication}
@@ -437,8 +438,6 @@ expansion=true]{microtype}
 \input{frontmatter/abstract}
 \clearemptydoublepage
 %
-
-
 \listoftables*
 \addstarredchapter{\listtablename}
 \addtocontents{lot}{\par\nobreak\textbf{{\scshape Tableau} \hfill Page}\par\nobreak}
@@ -449,14 +448,12 @@ expansion=true]{microtype}
 \addtocontents{lof}{\par\nobreak\textbf{{\scshape Figure} \hfill Page}\par\nobreak}
 \cleardoublepage
 %
-
 \renewcommand{\contentsname}{Table des matières}
 \maxtocdepth{subsubsection}
 
 %\dominitoc
 \tableofcontents*
 \markboth{TABLE OF CONTENTS}{}
-
 \clearemptydoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mainmatter
@@ -472,7 +469,12 @@ expansion=true]{microtype}
 \backmatter
 %\bibliographystyle{mla}
 %\bibliography{frontmatter/bibtex}
-\printbibliography
+\let\textcircled=\pgftextcircled
+\chapter*{Références}
+\addstarredchapter{Références}
+\markboth{Références}{}
+\printbibliography[heading=subbibintoc,filter=papers,title={Bibliographie}]
+\printbibliography[heading=subbibintoc,type=online,title={Webographie}]
 \clearemptydoublepage
 \appendix
 \import{chapters/appendices/}{app0A.tex}
