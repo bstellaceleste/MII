@@ -47,8 +47,15 @@ Le tableau suivant (\ref{tab:sytemes_virtualisation}) présente certaines \acs{V
   \end{center}
 \end{table}
 
-Le système que nous utilisons dans le cadre de ce travail est \textbf{XEN}. XEN est un système de virtualisation assez connu \cite{article2} et utilisé par Amazon pour virtualiser ses datacenters \cite{online4}. Il s'appuie sur un hyperviseur qui s'exécute sur le matériel et une achine virtuelle particulière appelée \textit{\textbf{dom0}} : il s'agit de l'OS de la machine hôte. Les services de l'OS hôte ne sont pas inclus dans l'hyperviseur afin de la maintenir aussi léger que possible. Les autres VMs ici sont appelées \textit{\textbf{domU}}.\\
+Le système que nous utilisons dans le cadre de ce travail est \textbf{XEN}. XEN est un système de virtualisation assez connu \cite{article2} et utilisé par Amazon pour virtualiser ses datacenters \cite{online4}. Il s'appuie sur un hyperviseur qui s'exécute sur le matériel et une achine virtuelle particulière appelée \textit{\textbf{dom0}} : il s'agit de l'OS de la machine hôte. Les services de l'OS hôte ne sont pas inclus dans l'hyperviseur afin de la maintenir aussi léger que possible. Les autres VMs ici sont appelées \textit{\textbf{domU}} (voir figure \ref{fig:virtualisation_xen}).\\
 Les systèmes de virtualisation peuvent également être classés en fonction du type de virtualisation qu'elles peuvent exécuter.
+
+\begin{figure}[htp]
+      \centering
+      \includegraphics[scale=.8]{fig1/virtualisation_xen}
+      \caption{Architecture Virtualisation avec hyperviseur XEN}
+      \label{fig:virtualisation_xen}
+    \end{figure}
 
 \subsection{Techniques de virtualisation}
 En fonction de la position du système de virtualisation et des machines virtuelles par rapport au matériel, il existe cinq techniques de virtualisation:
@@ -194,6 +201,7 @@ Il existe une entrée de table de page pour l'intégralité de l'espace d'adress
 \end{figure}
 
 \subsubsection{Shadow paging}
+\label{subsubsection:shadow_paging}
 \begin{enumerate}[label=\textbf{(\roman*)}]
     \item \textbf{Description}\\
     Dans cette approche, l'hyperviseur maintient une table de page dont les entrées sont directement les correspondances \textbf{\acs{gVA} --> \acs{hPA}}. Cette table porte le nom de \textbf{\textit{shadow page table}}.\\
@@ -254,7 +262,7 @@ Avec les VT-x, chaque VM a une structure de données en mémoire centrale, gér�
 
 \subsection{Description du PML}
 Le \acs{PML} est utilisé dans le cadre la virtualisation. C'est une amélioration de la technologie \textit{\ac{Intel VT}}. Il étend les capacités des VMM qui utilisent le mécanisme d'\acs{EPT}, en leur donnant la possibilité de traquer les pages mémoires modifiées par les \acs{VMs} (\textit{guest-physical pages}) durant leur exécution \cite{online5}.\\
-Intel a inclu dans ses processeurs récents des bits \ac{A/D} \footnote{Lorsqu'un processus accède à une page mémoire, pendant la translation d'adresse lors du parcours de l'EPT, le bit \textit{accessed} correspondant est mis à 1. De même le bit \textit{dirty} est mis à 1 pour signifier que la page a été modifiée.} pour l'\acs{EPT} \cite{book3}. Etant donné que ces bits sont définis ou mis à jour sans invoquer la VMM, elle n'a aucun moyen d'accumuler des statistiques de \textit{working set} (pages utilisées, modifiées, etc.) pendant l'exécution de la VM. Pour obtenir de telles statistiques, la VMM doit scanner à tout moment l'EPT pour collecter les informations sur les bits \textit{accessed} et \textit{dirty}, ou alors marquer les pages comme \textit{non présentes} ou \emph{en lecture seule}, de sorte à ce que si un processus tente d'accéder à une page ou de la modifier, cela génère une exception que la VMM pourra capturer. De telles opérations imposent des coûts de latence et de performance qui sont inacceptables dans certaines circonstances.\\
+Intel a inclu dans ses processeurs récents des bits \ac{A/D} \footnote{Lorsqu'un processus accède à une page mémoire, pendant la translation d'adresse lors du parcours de l'EPT, le bit \textit{accessed} correspondant est mis à 1. De même le bit \textit{dirty} est mis à 1 pour signifier que la page a été modifiée.} pour l'\acs{EPT} \cite{book3}. Etant donné que ces bits sont définis ou mis à jour sans invoquer la VMM, elle n'a aucun moyen d'accumuler des statistiques de \textit{working set} (pages utilisées, modifiées, etc.) pendant l'exécution de la VM. Pour obtenir de telles statistiques, la VMM doit scanner à tout moment l'EPT pour collecter les informations sur les bits \textit{accessed} et \textit{dirty}, ou alors marquer les pages comme \textit{non présentes} ou \emph{en lecture seule}, de sorte que si un processus tente d'accéder à une page ou de la modifier, cela génère une exception que la VMM pourra capturer. De telles opérations imposent des coûts de latence et de performance qui sont inacceptables dans certaines circonstances.\\
 
 \par\noindent Le PML s'appuie sur la prise en charge par le processeur des bits \acs{A/D} de l'\acs{EPT} (sous-section \ref{subsubsection:nested_paging} : virtualisation complète de la mémoire). En effet, il étend le procédé qui se produit lorsque les bits \textit{dirty} sont mis à jour (quand une page mémoire est modifiée). Lorsqu'une écriture fait passer un bit \textit{dirty} de 0 à 1, le processeur enregistre l'adresse physique (\acs{gPA}) de la page mémoire \footnote{Il s'agit des \textit{guest-physical adresses}, i.e. des pages mémoire des processus s'exécutant dans la VM.} à l'origine de cet accès dans un emplacement mémoire sous le nom de \textit{page modification log}. Lorsque cette page de logs est pleine (512 entrées), le processeur génère un \textit{vmexit}. Pendant ce \textit{vmexit}, aucune adresse supplémentaire n'est enregistrée \footnote{Car pendant un vmexit, la VM est en pause étant donné que l'hyperviseur prend la main.}, et le processeur met effectivement ç jour les bits dirty des adresses correspondantes dans la table de page de l'OS hôte.\\
 
