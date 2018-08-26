@@ -167,23 +167,23 @@ Bien que la virtualisation présente de nombreux avantages, les coûts qu'elle e
 Dans un environnement natif, les adresses utilisées par un processus (ou application) sont des adresses virtuelles (Vaddr, pour \textit{virtual address}). Chaque processus maintient une table de pages qui contient les correspondances entre ces adresses et les adresses physiques correspondantes (voir figure \ref{fig:vaddr_paddr_natif}). On a donc un seul niveau de parcours de table de page dans un environnement natif. La figure \ref{fig:parcours_1D} illustre ce parcours.
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=1\linewidth]{chapters/1/fig1/vaddr_paddr}
+    \includegraphics[scale=.65]{chapters/1/fig1/vaddr_paddr}
     \caption{Translation adresse virtuelle - adresse physique (environnement natif)}
     \label{fig:vaddr_paddr_natif}
 \end{figure}
 
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=1\linewidth]{chapters/1/fig1/parcours_1D}
+    \includegraphics[scale=.55]{chapters/1/fig1/parcours_1D}
     \caption{Parcours table de page 1D (une dimension)}
     \label{fig:parcours_1D}
 \end{figure}
 
 \subsection{Environnement virtualisé}
-Dans un environnement virtualisé chaque VM est un Os à part entière, donc les processus qui s'y exécutent maintiennent une table de page (\textit{guest Page Table, gPT}), comme dans un environnement natif, pour effectuer la translation d'adresses virtuelles, appelées ici \ac{gVA}, en adresses physiques \textit{\textbf{\ac{gPA}}}. Au niveau de l'OS hôte, les VMs sont des applications. Donc il y a également une table de page associée à chaque VM (\textit{host Page Table, hPT}) qui permet de passer des adresses physiques au niveau de la VM (\acs{gPA}) aux adresses physiques en mémoire centrale \textit{\textbf{\ac{hPA}}} (voir figure \ref{fig:vaddr_paddr_virt}).
+Dans un environnement virtualisé chaque VM est un Os à part entière, donc les processus qui s'y exécutent maintiennent une table de page (\textit{\acl{gPT}, \acs{gPT}}), comme dans un environnement natif, pour effectuer la translation d'adresses virtuelles, appelées ici \ac{gVA}, en adresses physiques \textit{\textbf{\ac{gPA}}}. Au niveau de l'OS hôte, les VMs sont des applications. Donc il y a également une table de page associée à chaque VM (\textit{\acl{hPT}, \acs{hPT}}) qui permet de passer des adresses physiques au niveau de la VM (\acs{gPA}) aux adresses physiques en mémoire centrale \textit{\textbf{\ac{hPA}}} (voir figure \ref{fig:vaddr_paddr_virt}).
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=1\linewidth]{chapters/1/fig1/vaddr_paddr_virt}
+    \includegraphics[scale=.5]{chapters/1/fig1/vaddr_paddr_virt}
     \caption{Translation adresse virtuelle - adresse physique (environnement virtualisé)}
     \label{fig:vaddr_paddr_virt}
 \end{figure}
@@ -192,10 +192,10 @@ Ici, deux approches ou mécanismes de translation sont utilisées : \textit{\tex
 
 \subsubsection{Translation Lookaside Buffer (TLB)}
 La TLB est une mémoire cache utilisée pour réduire le temps d'accès à la mémoire centrale \cite{article7, book2}. Elle enregistre les données récentes des tables de pages, à savoir les translations d'adresses récentes \textit{\textbf{\acs{Vaddr} --> hPA}}.\\
-Il existe une entrée de table de page pour l'intégralité de l'espace d'adressage de chaque programme. Mais étant donné que la table de pages est en mémoire centrale, cela ralentirait le processeur d'aller chercher chaque adresse virtuelle en mémoire centrale. Ainsi la TLB contient les données les plus récemment chargées à partir des tables de pages à l'intérieur du processeur lui-même. Si l'adresse recherchée est trouvée dans la TLB, le processeur peut directement aller à l'emplacement mémoire correspondant. Dans le cas contraire on parle de \textit{\textbf{TLB miss}}. Le processeur doit aller en mémoire trouver la table de pages et charger dans la TLB l'entrée de la table correspondant à l'adresse recherchée. La figure \ref{fig:tlb} présente le fonctionnement global de la TLB.
+Il existe une entrée de table de page pour l'intégralité de l'espace d'adressage de chaque programme. Mais étant donné que la table de pages est en mémoire centrale, cela ralentirait le processeur d'aller chercher chaque adresse virtuelle en mémoire centrale. Ainsi la TLB contient les données les plus récemment chargées à partir des tables de pages à l'intérieur du processeur lui-même. Si l'adresse recherchée est trouvée dans la TLB, le processeur peut directement aller à l'emplacement mémoire correspondant. Dans le cas contraire on parle de \textit{\textbf{TLB miss}}. Le processeur doit donc aller en mémoire trouver la table de pages et charger dans la TLB l'entrée de la table correspondant à l'adresse recherchée. La figure \ref{fig:tlb} présente le fonctionnement global de la TLB.
 \begin{figure}[htp]
     \centering
-    \includegraphics[width=1\linewidth]{chapters/1/fig1/tlb}
+    \includegraphics[scale=.7]{chapters/1/fig1/tlb}
     \caption{Fonctionnement global de la TLB}
     \label{fig:tlb}
 \end{figure}
@@ -208,7 +208,7 @@ Il existe une entrée de table de page pour l'intégralité de l'espace d'adress
     A chaque tentative de la VM de mettre sa table de page, l'hyperviseur capture les translations \textbf{\acs{gVA} --> \acs{gPA}} et \textbf{\acs{gPA} --> \acs{hPA}} pour construire le shadow page table. En cas de TLB miss, le processeur n'a plus qu'à effectuer un parcours 1D (une dimension) de cette table de page pour trouver l'adresse virtuelle correspondante. La figure \ref{fig:shadow} résume ce mécanisme.
     \begin{figure}[htp]
         \centering
-        \includegraphics[scale=.65]{chapters/1/fig1/shadow}
+        \includegraphics[scale=.6]{chapters/1/fig1/shadow}
         \caption{Mécanisme du shadow paging}
         \label{fig:shadow}
         \centering \bfseries Source : (ISCA'16 \cite{article6})
@@ -242,7 +242,7 @@ Il existe une entrée de table de page pour l'intégralité de l'espace d'adress
     La figure \ref{fig:parcours_2D} décrit le parcours 2D (2 dimensions) d'une table de page imbriquée (\textit{nested page table}).
     \begin{figure}[htp]
         \centering
-        \includegraphics[scale=.65]{chapters/1/fig1/nested_paging}
+        \includegraphics[scale=.5]{chapters/1/fig1/nested_paging}
         \caption{Mécanisme du nested paging}
         \label{fig:parcours_2D}
     \end{figure}
@@ -255,16 +255,18 @@ Il existe une entrée de table de page pour l'intégralité de l'espace d'adress
 %%%%%%%%%%%%%%%%%%%%%%%%%SECTION PML%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Page Modification Logging (PML)}
 \subsection{Intel VT-x}
+\label{subsubsection:intel_vtx}
 Pour mieux comprendre ce qu'est le PML, il est nécessaire de connaître certaines notions relatives aux supports matériels des processeurs Intel pour la virtualisation.\\
 Dans le cadre de la virtualisation assistée par le matériel (sous-section \ref{subsubsection:hvm}), la virtualisation s'étend à la mémoire et au processeur.  Dans la sous-section \ref{subsubsection:nested_paging}, nous avons avons fait allusion à l'EPT qui est la technologie introduite par Intel pour la virtualisation de la mémoire. En ce qui concerne la virtualisation du CPU (processeur), Intel a introduit les \acs{VT-x} (\acl{VT-x}).\\
 Les extensions \acs{VT-x} dupliquent entièrement l'état architectural visible du processeur et introduisent un nouveau mode d'exécution, le \textbf{\textit{mode root}}. Ainsi, l'hyperviseur et l'\acs{OS} hôte s'exécutent en mode root (avec tous les droits et privilèges), et les autres VMs en \textit{mode no-root} (avec des accès restreints).\\
-Avec les VT-x, chaque VM a une structure de données en mémoire centrale, gérée par la \acs{VMM} et appelée \textit{\textbf{\ac{VMCS}.}} Cette structure de contrôle sert à sauvegarder l'état de la VM. Lorsque l'état de la VM est chargée, cette dernière s'exécute en mode non-root jusqu'à ce qu'elle génère une exception qui doive être gérée par l'hyperviseur : cette transition (la main passe de la VM à l'hyperviseur qui doit gérer l'exception) du mode non-root au mode root est appelée \textit{\textbf{vmexit}}.
+Avec les VT-x, chaque VM a une structure de données en mémoire centrale, gérée par la \acs{VMM} et appelée \textit{\textbf{\ac{VMCS}.}} Cette structure de contrôle sert à sauvegarder l'état de la VM. Lorsque l'état de la VM est chargée, cette dernière s'exécute en mode non-root jusqu'à ce qu'elle génère une exception qui doive être gérée par l'hyperviseur : cette transition (la main passe de la VM à l'hyperviseur qui doit gérer l'exception) du mode non-root au mode root est appelée \textit{\textbf{VMExit}}.
 
 \subsection{Description du PML}
+\label{subsubsection:description_pml}
 Le \acs{PML} est utilisé dans le cadre la virtualisation. C'est une amélioration de la technologie \textit{\ac{Intel VT}}. Il étend les capacités des VMM qui utilisent le mécanisme d'\acs{EPT}, en leur donnant la possibilité de traquer les pages mémoires modifiées par les \acs{VMs} (\textit{guest-physical pages}) durant leur exécution \cite{online5}.\\
 Intel a inclu dans ses processeurs récents des bits \ac{A/D} \footnote{Lorsqu'un processus accède à une page mémoire, pendant la translation d'adresse lors du parcours de l'EPT, le bit \textit{accessed} correspondant est mis à 1. De même le bit \textit{dirty} est mis à 1 pour signifier que la page a été modifiée.} pour l'\acs{EPT} \cite{book3}. Etant donné que ces bits sont définis ou mis à jour sans invoquer la VMM, elle n'a aucun moyen d'accumuler des statistiques de \textit{working set} (pages utilisées, modifiées, etc.) pendant l'exécution de la VM. Pour obtenir de telles statistiques, la VMM doit scanner à tout moment l'EPT pour collecter les informations sur les bits \textit{accessed} et \textit{dirty}, ou alors marquer les pages comme \textit{non présentes} ou \emph{en lecture seule}, de sorte que si un processus tente d'accéder à une page ou de la modifier, cela génère une exception que la VMM pourra capturer. De telles opérations imposent des coûts de latence et de performance qui sont inacceptables dans certaines circonstances.\\
 
-\par\noindent Le PML s'appuie sur la prise en charge par le processeur des bits \acs{A/D} de l'\acs{EPT} (sous-section \ref{subsubsection:nested_paging} : virtualisation complète de la mémoire). En effet, il étend le procédé qui se produit lorsque les bits \textit{dirty} sont mis à jour (quand une page mémoire est modifiée). Lorsqu'une écriture fait passer un bit \textit{dirty} de 0 à 1, le processeur enregistre l'adresse physique (\acs{gPA}) de la page mémoire \footnote{Il s'agit des \textit{guest-physical adresses}, i.e. des pages mémoire des processus s'exécutant dans la VM.} à l'origine de cet accès dans un emplacement mémoire sous le nom de \textit{page modification log}. Lorsque cette page de logs est pleine (512 entrées), le processeur génère un \textit{vmexit}. Pendant ce \textit{vmexit}, aucune adresse supplémentaire n'est enregistrée \footnote{Car pendant un vmexit, la VM est en pause étant donné que l'hyperviseur prend la main.}, et le processeur met effectivement ç jour les bits dirty des adresses correspondantes dans la table de page de l'OS hôte.\\
+\par\noindent Le PML s'appuie sur la prise en charge par le processeur des bits \acs{A/D} de l'\acs{EPT} (sous-section \ref{subsubsection:nested_paging} : virtualisation complète de la mémoire). En effet, il étend le procédé qui se produit lorsque les bits \textit{dirty} sont mis à jour (quand une page mémoire est modifiée). Lorsqu'une écriture fait passer un bit \textit{dirty} de 0 à 1, le processeur enregistre l'adresse physique (\acs{gPA}) de la page mémoire \footnote{Il s'agit des \textit{guest-physical adresses}, i.e. des pages mémoire des processus s'exécutant dans la VM.} à l'origine de cet accès dans un emplacement mémoire sous le nom de \textit{page modification log}. Lorsque cette page de logs est pleine (512 entrées), le processeur génère un \textit{VMExit}. Pendant ce \textit{VMExit}, aucune adresse supplémentaire n'est enregistrée \footnote{Car pendant un VMExit, la VM est en pause étant donné que l'hyperviseur prend la main.}, et le processeur met effectivement ç jour les bits dirty des adresses correspondantes dans la table de page de l'OS hôte.\\
 
 \par\noindent L'introduction du PML a nécessité des changements spécifiques dans les \acs{VMCS}
  : 

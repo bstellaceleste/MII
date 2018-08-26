@@ -1,0 +1,28 @@
+Sur le plan algorithmique, nous proposons deux algorithmes en fonction du mécanisme, que ce soit l'actuel ou celui amélioré. Nous avons défini un algorithme exhaustif, qui serait applicable uniquement si les limites que nous avons mentionnées précédemment sont corrigées. Nous avons également élaboré un algorithme dit naïf, avec le mécanisme tel que décrit actuellement, qui permet de montrer déjà que l'estimation est bel et bien possible même si pas encore précise.
+
+\subsection{Algorithme exhaustif : Avec le PML amélioré pour l'estimation du WSS}
+Pour l'estimation du WSS, il y a deux éléments essentiels à définir :
+\begin{itemize}
+    \item La taille des logs à collecter qui renvoie à :
+        \begin{itemize}[label=\ding{90}]
+            \item La taille $M$ de la \textit{longmap} à utiliser (en Go).
+            \item Le nombre $n$ d'adresses à collecter. 
+        \end{itemize}
+    \item Le temps $T$ nécessaire pour collecter cette quantité de logs (période de collecte).
+\end{itemize}
+
+\noindent Actuellement, chaque entrée de la bitmap contient 1bit pour chacune des gPAs du log. Pour la solution que nous proposons, étant donné qu'on veut dorénavant compter le nombre de fois qu'une adresse est enregistrée, nous avons modifier l'actuelle structure de la bitmap de sorte que chaque entrée soit non plus 1bit, mais un long soit 8octets (ce qui nous permettra de pouvoir garder des nombres).\\
+Supposons qu'on ait une structure de consolidation de logs (longmap) d'une taille de $MGo$ (taille à priori du WS en giga octets). Déterminons le nombre $n$ de logs à collecter :
+\begin{itemize}[label=\ding{241}]
+    \item Chaque page de logs a une taille de $4Ko$, donc pour une longmap de $MGo$, déterminons le nombre $x$ de fois pages de logs qu'on pourra remplir : 
+    $$x=\frac{M*1024*1024*1024o}{4*1024o}=\frac{M*1024*1024}{4}$$
+    \item Chaque page de logs contenant 512 entrées, le nombre d'adresses correspondant est : 
+    $$n=\frac{x}{512}=\frac{M*1024*1024}{4*512}=512M$$
+    \item En conclusion : une longmap de $MGo \Rightarrow n=512M$ 
+\end{itemize}
+
+\noindent Une fois qu'on a $M$ et $n$, il nous faut déterminer quel est le temps $T$ nécessaire pour obtenir ce nombre d'adresses. \\
+Pour déterminer $T$, on pourra observer les variations de la taille du log en fonction du temps. Supposons qu'on ait une courbe telle que la suivante : 
+
+
+\subsection{Algorithme naïf}

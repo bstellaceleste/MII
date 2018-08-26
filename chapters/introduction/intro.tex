@@ -22,7 +22,7 @@ Le fait que les utilisateurs surdimensionnent les ressources nécessaires peut a
     \item Un gaspillage de la mémoire.
 \end{itemize}
 
-Comme solution à ce problème de consolidation, des académies de recherche et des fournisseurs d'hyperviseurs ont proposé l'overcommitment\footnote{Procédé informatique qui consiste à allouer à une machine virtuelle plus de mémoire que ce dont dispose le système réel.}. Ce procédé nécessite une estimation fréquente des besoins actuels de chaque VM. Une mauvaise estimation pourrait impacter les applications des utilisateurs, particulièrement en ce qui concerne la mémoire car elle est considérée comme la ressource critique en terme de consolidation \cite{article1}. La quantité de mémoire actuelle dont une VM a besoin pour s'exécuter est appelée \textit{\ac{WSS}}.\\
+Comme solution à ce problème de consolidation, des académies de recherche et des fournisseurs d'hyperviseurs ont proposé l'overcommitment\footnote{Procédé informatique qui consiste à allouer à une machine virtuelle plus de mémoire que ce dont dispose le système réel.}. Ce procédé nécessite une estimation fréquente des besoins actuels de chaque VM. Une mauvaise estimation pourrait impacter les applications des utilisateurs, particulièrement en ce qui concerne la mémoire car elle est considérée comme la ressource critique en terme de consolidation \cite{datacenter}. La quantité de mémoire actuelle dont une VM a besoin pour s'exécuter est appelée \textit{\ac{WSS}}.\\
 Les techniques existantes d'estimation du WSS sont toutes basées sur des solutions logicielles, ce qui induit certains inconvénients dont les plus notoires sont : 
 
 \begin{itemize}[label=\ding{42}, font=\large \color{darkorange}]
