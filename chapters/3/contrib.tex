@@ -7,7 +7,7 @@
 \minitoc
 
 \newpage  
-\section{Contributions sur le plan architectural : Réponse à Q1}
+\section{Contributions sur le plan architectural}
 
 \subsection{Design actuel du PML}
 
@@ -25,13 +25,13 @@ Lorsqu'une VM est créée, si le PML est activée pour celle-ci, alors dans sa s
 
 \begin{enumerate}[label=\textbf{(\roman*)}]
     \item Le CPU logue en mémoire centrale, dans le \textit{pml\_log}, les adresses de toute page que la VM modifie. A chaque page modifiée, le CPU ajoute une entrée dans le log.
-    \item Lorsque le \textit{pml\_log} est plein, i.e. lorsqu'il contient déjà 512 adresses loguées, le CPU sur lequel s'exécute la VM génère une exception \textit{pml buffer full} qui est gérée par l'hyperviseur.
+    \item Lorsque le \textit{pml\_log} est plein, i.e. lorsqu'il contient déjà 512 adresses loguées, le CPU sur lequel s'exécute la VM génère une exception \textit{pml buffer full} qui est prise en main par l'hyperviseur.
     \item L'hyperviseur capture cette exception et en impute le coup à la VM sous la forme d'un \textit{VMExit}.
-    \item Pendant le \textit{VMExit} :
+    \item Pendant ce \textit{VMExit} :
     
         \begin{itemize}
-            \item Etant donné que la VM ne s'exécute plus, aucune adresse supplémentaire ne sera loguée pendant le \textit{VMExit}.
-            \item Les adresses enregistrées dans le log étant des \acl{gPA}, il faut effectivement marquer comme \textit{dirty} (ou modifiées) les pages correspondantes en mémoire centrale. Le CPU va donc parcourir la bitmap associée à la VM et mettre à jour le bit correspondant à chaque gPA.
+            \item Etant donné que la VM ne s'exécute plus, aucune adresse supplémentaire n'est loguée.
+            \item Le CPU parcourt la bitmap associée à la VM et met à jour le bit correspondant à chaque gPA. Si on veut savoir quelles pages ont été modifiées, il faudrait parcourir cette bitmap et retrouver les adresses correspondant chaque bit.
             \item Et enfin le \textit{pml\_log} est vidé, i.e. la valeur de son index (\textit{PML index}) est remis à 511 \footnote{L'index du PML va de 511 à 0.}. 
         \end{itemize}
     
@@ -110,17 +110,18 @@ Ceci permettra de répondre aux limites 4\&5. En effet, comme nous l'avons expli
 \end{figure}
 
 Lorsque le \textit{pml\_log} est plein, avant de réinitialiser son index, les informations qu'il contient doivent être consignées. Actuellement ceci est fait au moyen d'une structure de données appelée \textit{bitmap}.\\
-Chaque VM a en mémoire centrale une \textit{bitmap} qui lui est rattachée. Comme son nom y fait référence, elle est constituée de bits représentant chacune une adresse. Lorsqu'une adresse est dans le \textit{pml\_log}, si le y correspondant dans la \textit{bitmap} est à 0, il est mis à 1. De cette façon, il nous est impossible d'avoir plus d'informations sur les données enregistrées telles que les adresses en question ou le nombre de fois où elles ont été modifiées. Et si nous voulions par exemple loguer également les adresses auxquelles la VM a juste accéder, il nous serait impossible de les consigner avec cette \textit{bitmap} dans sa structure actuelle. D'où les limites 3\&5 auxquelles cette modification vient remédier.\\
+Chaque VM a en mémoire centrale une \textit{bitmap} qui lui est rattachée. Comme son nom y fait référence, elle est constituée de bits représentant chacune une adresse. Lorsqu'une adresse est dans le \textit{pml\_log}, si le bit y correspondant dans la \textit{bitmap} est à 0, il est mis à 1. De cette façon, il nous est difficile d'avoir plus d'informations sur les données enregistrées telles que les adresses en question ou le nombre de fois où elles ont été modifiées. Et si nous voulions par exemple loguer également les adresses auxquelles la VM a juste accéder, il nous serait impossible de les consigner avec cette \textit{bitmap} dans sa structure actuelle. D'où les limites 3\&5 auxquelles cette modification vient remédier.\\
 Nous proposons de modifier l'actuelle \textit{bitmap} de sorte que ses feuilles terminales puissent contenir les informations suivantes :
 \begin{itemize}
     \item Les gPAs loguées dans le \textit{pml\_log} : ainsi, lorsque le \textit{pml\_log} sera plein, chacune des adresses qu'il contient sera reportée dans la structure de données.
     \item Un compteur pour chaque gPA : qui représentera le nombre de fois où l'adresse a été modifiée ou accédée. Ainsi, à chaque événement \textit{pml buffer full}, le compteur de chaque adresse présente dans le \textit{pml\_log} sera incrémentée. Ceci nous permettra de connaître la chaleur des pages.
 \end{itemize}
 
-\noindent Ainsi, la structure de données de consolidation des logs ne sera plus constituée de bits mais nombres sous forme de \textit{long} (Le type long, comme integer, ou double.), d'où la nouvelle appellation \textit{longmap} comme sur la figure \ref{fig:bitmap}.
+\noindent Ainsi, la structure de données de consolidation des logs ne sera plus constituée de bits mais nombres sous forme de \textit{long} \footnote{Le type long, comme integer, ou double.}, d'où la nouvelle appellation \textit{longmap} comme sur la figure \ref{fig:bitmap}.
 
-\section{Algorithmique d'estimation : Réponse à Q2}
-\begin{figure}[htp]
+\section{Algorithmique d'estimation}
+\label{section:contrib_algo}
+\begin{figure}[H]
     \centering
     \includegraphics[scale=.5]{chapters/3/fig3/courbe_wss_1}
     \caption{Variation de la taille de logs en fonction du temps}
@@ -145,3 +146,15 @@ Avec le mécanisme de PML, l'algorithme consiste à collecter les logs de la VM,
 \noindent Le \textit{working set} de la VM peut être très variable (comme sur la figure \ref{fig:courbe_wss_var}) ou même périodique. Dans la majeure partie des cas, des algorithmes de \textit{machine learning} seront nécessaires pour apprendre le comportement de la VM et savoir quand et comment ajuster sa mémoire.
 
 \noindent Sur la figure \ref{fig:courbe_wss_var}, en se basant sur l'algorithme naïf présenté ci-haut, on arrêterait la collecte à $t1$ et on estimerait le WSS de la VM à $wss1$, ce qui est loin d'être sa valeur exacte. Et en réajustant la VM à cette quantité de mémoire, on la mettrait dans un état de souffrance (la VM sera compressée ce qui conduira à trop de swaps et de défauts de pages).
+
+\section{Avantages de la solution proposée}
+Nous avons vu dans le chapitre précédent que toute solution d'estimation du WSS devait répondre à deux questions : 
+\begin{itemize}
+    \item \textbf{(Q1) : comment observer la VM et collecter les informations sur son \break activité?}\\
+    La description du mécanisme du PML répond à cette question. Ici, c'est la matériel lui même qui se charge de collecter pour nous les informations sur l'activité mémoire de la VM, en traquant et les pages utilisées par la VM et en consignant les adresses de celles-ci dans le \textit{pml\_log}. Ce qui rend donc notre solution totalement \textbf{transparente} du point de vue de la VM, i.e. \textbf{non intrusive et non active}.\\
+    Actuellement, le coût facturé à la VM concerne l'ensemble des \textit{VMExits} qui lui sont imposés lorsque le \textit{pml\_log} est plein. La solution architecturale que nous proposons vient palier cette limite en redirigeant ces interruptions vers le dom0, donc \textbf{aucune surcharge n'est imposée ni à la VM ni à l'hyperviseur}.
+    
+    \item \textbf{(Q2) : comment estimer le \textit{working set} de la VM à partir des données collectées?}\\
+    Une fois que l'on connaît toutes les pages utilisées par la VM, il nous suffit de les compter et connaissant la taille \footnote{Elle peut dépendre de l'architecture de la machine hôte.} d'une page, il n'y a plus qu'à effectuer le calcul présenté à la section \ref{section:contrib_algo} précédente.\\
+    Etant donné que c'est le matériel lui-même qui se charge de récupérer les adresses des pages utilisées par la VM, on peut être sûr qu'aucune adresse ne sera manquée, et donc de la précision de l'estimation. Pour l'instant, cette précision de calcul ne peut être vérifiée car il faudrait d'abord que la nouvelle architecture soit mise sur pied.
+\end{itemize}

@@ -10,6 +10,8 @@
 \usepackage{tikz}
 \usepackage{adjustbox}
 \usepackage{hyperref}
+\usepackage{listings}
+\usepackage[bottom]{footmisc}
 \usetikzlibrary{arrows,shapes,decorations,
 		       automata,backgrounds,
 		       petri,topaths}%geometric/algebraic description.
@@ -75,8 +77,33 @@
 \definecolor{darkorange}{RGB}{165,42,42}
 \definecolor{darkred}{RGB}{80,0,0}
 \definecolor{shadecolor}{rgb}{0.97,0.97,0.97}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 \usepackage{fourier-orns}
 \usepackage[T1]{fontenc}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
 \def\headrule{{\color{darkorange}\raisebox{-2.1pt}[10pt][10pt]{\leafright} \hrulefill \raisebox{-2.1pt}[10pt][10pt]{~~~\decofourleft \decotwo\decofourright~~~} \hrulefill \raisebox{-2.1pt}[10pt][10pt]{ \leafleft}}}
@@ -404,9 +431,13 @@ expansion=true]{microtype}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \addto\captionsenglish{%
-   \renewcommand\listfigurename{Liste des figures}}   
+   \renewcommand\listfigurename{Figures}}   
 \addto\captionsenglish{%
-   \renewcommand\listtablename{List des tableaux}}
+   \renewcommand\listtablename{Tableaux}}  
+\addto\captionsenglish{%
+   \renewcommand\lstlistlistingname{Codes}}
+\addto\captionsenglish{%
+   \renewcommand\lstlistingname{Code}}
  
 \renewcommand{\baselinestretch}{1.5}
 
@@ -441,6 +472,7 @@ expansion=true]{microtype}
 \listoftables*
 \addstarredchapter{\listtablename}
 \addtocontents{lot}{\par\nobreak\textbf{{\scshape Tableau} \hfill Page}\par\nobreak}
+\lstlistoflistings
 \clearemptydoublepage
 %
 \listoffigures*
@@ -449,7 +481,7 @@ expansion=true]{microtype}
 \cleardoublepage
 %
 \renewcommand{\contentsname}{Table des matières}
-\maxtocdepth{subsubsection}
+\maxtocdepth{subsection}
 
 %\dominitoc
 \tableofcontents*
@@ -469,6 +501,8 @@ expansion=true]{microtype}
 \clearemptydoublepage
 \import{chapters/4/}{implem_evals.tex}
 \clearemptydoublepage
+\import{chapters/5/}{conclusion.tex}
+\clearemptydoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \backmatter
 %\bibliographystyle{mla}
@@ -482,8 +516,7 @@ expansion=true]{microtype}
 %%\printbibliography[heading=subbibintoc,type=online,title={Webographie}]
 \clearemptydoublepage
 \appendix
-\import{chapters/appendices/}{app0A.tex}
-\clearemptydoublepage
+\import{chapters/annexes/}{annexes.tex}
 \clearemptydoublepage
 %
 \glsaddall

@@ -58,7 +58,7 @@ Dans cette section nous abordons les principales techniques proposées par des c
 \subsubsection{Description}
 Le self-balloonig \cite{online6} repose essentiellement sur la VM, particulièrement sur son \acs{OS}.  
 \par{\textbf{Réponse à Q1.}} Cette technique considère que le \acs{WSS} de la VM est donné par les statistiques du noyau, à l'occurrence le \textit{Committed\_As}\cite{online7, online8} \footnote{Quantité de mémoire, en kilooctets, nécessaire à la VM pour exécuter sa charge de travail. Elle représente la valeur du scénario le plus défavorable, incluant les défauts de page.} (\textit{cat /proc/mem/info}). Donc c'est l'OS lui même qui observe la VM et gère les appels d'allocation mémoire (\textit{malloc, etc.}), et calcule la mémoire totale allouée à tous les processus.
-\par{\textbf{Réponse à Q2.}} L'OS décrémente le \textit{Committed\_As} chaque fois que des pages mémoire allouées sont libérées. Par exmple, considérons le processus qui exécute le programme C à la figure \ref{fig:exempl_prog_c} : après l'exécution de la ligne 2, la valeur du \textit{Committed\_As} est incrémenté de 2GB, même si uniquement 1octet effectivement utilié.
+\par{\textbf{Réponse à Q2.}} L'OS décrémente le \textit{Committed\_As} chaque fois que des pages mémoire allouées sont libérées. Par exmple, considérons le processus qui exécute le programme C à la figure \ref{fig:exempl_prog_c} : après l'exécution de la ligne 2, la valeur du \textit{Committed\_As} est incrémenté de 2GB, même si uniquement 1octet est effectivement utilisé.
 
 \begin{figure}[htp]
     \centering

@@ -1,10 +1,132 @@
 \let\textcircled=\pgftextcircled
 \chapter{Implémentation et Evaluations}
-\label{chap:contrib}
+\label{chap:implem_eval}
 
 \initial{C}\textit{e chapitre présente quelques détails d’implémentation et les évaluations que nous avons effectuées pour valider l’intérêt de notre solution.}
 
 \minitoc
 
 \newpage  
-\section{test}
+\section{Implémentation}
+\subsection{Environnement d'implémentation}
+
+\subsubsection{Hyperviseur}
+
+Plusieurs systèmes de virtualisation existent sur le marché. Nous nous sommes donc appuyés sur un certain nombre de critères pour choisir celui que nous allions utiliser dans notre travail. Il s'agit :
+\begin{itemize}[label=\ding{43}]
+    \item Du \textbf{support para-virtualisation.} La solution que nous proposons concorde avec les principes de la para-virtualisation car elle exige des modifications dans les systèmes d'exploitation invités.
+    \item Du \textbf{droit de modification des sources.} L'hyperviseur choisi doit être \textit{open source} afin de pouvoir en obtenir le code source et de pouvoir le modifier sans contrainte.
+    \item De la \textbf{communauté informatique travaillant sur le système.} À cause de la documentation disponible et du support à la résolution des bogues.
+\end{itemize}
+\noindent Sur la base de ces critères, nous avons opté pour l'utilisation de l'hyperviseur \emph{XEN} \cite{article2} car c'est celui qui correspondait le mieux à nos besoins.
+
+\subsubsection{Système d'exploitation}
+Les critères de choix du système d'exploitation sont les mêmes que ceux utilisés pour le choix de l'hyperviseur, avec en plus la contrainte de compatibilité entre les deux. Le choix n'a donc pas été difficile, nous avons opté pour le système d'exploitation \emph{Linux} car:
+\begin{itemize}[label=\ding{43}]
+    \item Linux est le seul système d'exploitation qui supporte la para-virtualisation avec l'hyperviseur Xen;
+    \item Linux est \textit{open source} : son code source est disponible et sa modification n'est pas interdite;
+    \item Il y a une grande communauté qui travaille sur ce système. En cas de problème, il y a assez de documentations et de forums qui pourront permettre de trouver des solutions aux problèmes rencontrés.
+\end{itemize}
+
+\subsubsection{Langage de programmation}
+Les mécanismes que nous voulons implémenter nécessitent d'interagir avec le matériel. Il est  donc important d'utiliser un langage de bas niveau. De plus, il s'agit essentiellement de modifier les codes sources de l'hyperviseur et du système d'exploitation, qui sont tous les deux écrits en langage C. C'est la raison pour laquelle nous avons utilisé le C comme langage de programmation.
+
+\subsubsection{Outils de développement}
+\paragraph{\textbf{Le compilateur}}
+\par\noindent
+\par\noindent Le noyau Linux et l'hyperviseur XEN sont écrits dans le langage de programmation C, avec certaines parties du code en langage assembleur. Pour les compiler, il faut utiliser la suite de compilateurs \emph{GCC} (GNU Compiler Collection). GCC est un ensemble de compilateurs créés par le projet GNU \cite{gnu}. GCC est un logiciel libre capable de compiler divers langages de programmation, dont C, C++, Objective-C, Java, Ada et Fortran. \\
+On a besoin en outre de l'outil \emph{make} qui est un programme permettant de parcourir le code source et de déterminer quels sont les fichiers qui ont besoin d'être compilés, afin d'appeler le compilateur GCC pour faire le reste du travail.
+
+\paragraph{\textbf{L'éditeur}}
+\par\noindent
+\par\noindent Lorsqu'on développe sur des projets contenant des millions de lignes de code comme ceux de Linux (environ 16 millions de lignes de code réparties dans 45 mille fichiers) \cite{linux} et XEN (environ 600 mille lignes de code réparties dans 7 mille fichiers), il est nécessaire d'utiliser un bon éditeur pour faciliter la navigation entre les fichiers. Nous avons opté pour les éditeurs \emph{VS Code, Visual Studio Code} et \emph{Sublime Text}.\\
+
+\emph{VS Code} est un éditeur multi-plateforme, \textit{open source} et gratuit supportant une dizaine de langages. C'est un éditeur de code extensible développé par Microsoft pour Windows, Linux et macOS.\\
+VS Code combine la simplicité d'un éditeur de code avec ce dont les développeurs ont besoin pour leur cycle de base édition-compilation-débogage. Le code fournit une prise en charge complète de l'édition et du débogage, un modèle d'extensibilité et une intégration légère aux outils existants. Il permet aussi, entre autres fonctionnalités, de retrouver la définition d'une fonction à partir de l'endroit où elle est appelée et de rechercher et remplacer des chaînes de caractères sur la base d'expression régulières.\\
+ VS Code est mis à jour tous les mois avec de nouvelles fonctionnalités et corrections de bugs.
+
+\emph{Sublime Text} est un éditeur de texte générique codé en C++ et Python, disponible sur Windows, Mac et Linux. Le logiciel a été conçu tout d'abord comme une extension pour Vim, riche en fonctionnalités. Cet éditeur prend en charge plus de 44 langages de programmation majeurs, et des plugins sont souvent disponibles pour les langages plus rares. Sur son interface graphique, il intègre la plupart des fonctionnalités de base d'un éditeur de texte, dont la coloration syntaxique personnalisable et l’auto complétion. Tout comme VS Code, il permet également de retrouver la définition d'une fonction à partir de l'endroit où elle est appelée et de rechercher et remplacer des chaînes de caractères sur la base d'expression régulières.
+
+\subsection{Détails d'implémentation}
+\subsubsection{Définition des hypercalls pour activer et désactiver le PML pour une VM donnée}
+Le mécanisme du PML n'est pas activé par défaut, même s'il est supporté par le processeur. Certains hyperviseurs tels que VMWare et XEN ont déjà modifié leur code source pour y intégré ce mécanisme, notamment son activation et son utilisation.\\  XEN dans son code source a intégré le PML, mais uniquement dans le cadre de la migration des machines virtuelles \cite{xen_pml}. En effet, pendant la migration d'une VM, XEN utilise le mécanisme du PML pour traquer les pages chaudes qui doivent être déplacées.\\
+Or dans le cadre de notre travail, nous devons être capables d'activer le PML hors de ce contexte, i.e. chaque fois que nous avons besoin d'estimer le WSS d'une VM. Dans XEN, la figure \ref{fig:appel_fonction} présente la file d'appels des fonctions liées à l'activation du PML pour une VM : 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6]{chapters/4/fig4/appel_fonction}
+    \caption{File d'appels des fonctions liées à l'activation du PML}
+    \label{fig:appel_fonction}
+\end{figure}
+
+\noindent Comme nous le montre cette file d'appels, le but est d'activer le PML pour les processeurs sur lesquels s'exécutent la VM. Mais tout part de l'activation du mode \textit{log dirty} pour les pages de la VM. C'est ce mode qui va permettre de traquer les pages mémoire utiliser par la machine virtuelle.\\
+L'activation du mode \textit{log dirty} dans XEN se fait depuis les tools. Nous avons donc défini des hypercalls à travers les commandes suivantes : $«xl \quad enable-log-dirty» \quad \& \quad  «xl \quad disable-log-dirty»$.
+
+\noindent Un aperçu des lignes de code liées à la définition de ces hypercalls se trouve en annexes \ref{section:enable_disable_logdirty}, codes \ref{lst:enable_logdirty} et \ref{lst:disable_logdirty}.
+
+\subsubsection{Modification de la structure de données bitmap}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6,width=1\linewidth]{chapters/4/fig4/bitmap}
+    \caption{Radix tree représentant la bitmap}
+    \label{fig:bitmap}
+\end{figure}
+
+Actuellement la structure de données qui représente la bitmpa est un \textit{radix tree} dont chaque branche est constituée de 4 niveaux tels que matérialisés par la figure \ref{fig:bitmap}:
+\begin{itemize}
+    \item 3 noeuds intermédiaires : dans chaque noeud, une entrée est un pointeur vers une entrée dans le noeud suivant.
+    \item 1 feuille terminale : ses entrées quant à elle sont des bits dont chacun représente une adresse du log.
+\end{itemize}
+
+Chaque noeud de l'arbre est une page de $4Ko$, y compris les feuilles terminales. Étant donné que les entrées d'une feuille sont des bits on peut déterminer le nombre d'entrées dans une feuille. En effet : $$1octet \quad = \quad 2^{3} bits$$ 
+$$\Rightarrow 1Ko \quad = \quad 2^{10}*2^{3} bits$$
+$$\Rightarrow 4Ko \quad = \quad 2^{2}*2^{10}*2^{3} bits \quad = \quad 2^{15} bits$$
+Donc on a $2^{15}$ entrées dans une feuille. Maintenant nous devons garder pour une feuille le même nombre d'entrées mais de type $long$ \footnote{UL : unsigned long} et non plus $bit$. Pour celà nous devons déterminer le nombre $X$ de pages de $4Ko$ dont a besoin pour contenir $2^{15}$ entrées de type $long$ : 
+$$X \quad = \quad \frac{taille\_des\_entrees}{taille\_page}$$
+$$\quad = \quad \frac{2^{15}*sizeof(UL)}{4Ko}$$
+$$ \quad\quad= \quad \frac{2^{15}*sizeof(UL) \footnote{Taille d'un unsigned long}}{2^{2}*2^{10}}$$
+$$\quad = \quad 2^{3}*sizeof(UL)$$
+$$= \quad 8sizeof(UL)$$
+
+\noindent Sur la base de ces calculs, nous avons rajouté un niveau $L0$. Le \textit{radix tree} est donc modifié de sorte que les entrées du niveau $L1$ actuel soient non plus des bits mais des adresses qui pointent chacune vers une page $L0$, qui elle contiendra les informations loguées i.e. adresses et occurrences.\\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6,width=1\linewidth]{chapters/4/fig4/longmap}
+    \caption{Radix tree représentant la longmap}
+    \label{fig:longmap}
+\end{figure}
+
+\noindent La méthode qui permettait de générer une feuille $L1$ a été modifiée telle que présentée dans les codes \ref{lst:leaf_bit} et \ref{lst:leaf_UL} en annexe \ref{section:bitmap}. Et la nouvelle structure est matérialisée par la figure \ref{fig:longmap}.
+
+\subsubsection{Modification du traitant \textit{pml buffer full}}
+Nous avons modifié le comportement du mécanisme lorsque le \textit{pml\_log} est plein en accord avec la modification de la structure de consolidation de logs telle que présentée au paragraphe précédent. Ainsi, au moment de vider le buffer, l'algorithme parcours la nouvelle structure de données, et s'il existe déjà une entrée pour l'adresse à enregistrée, son compteur incrémenté. Sinon, une nouvelle entrée est crée et le compteur est initialisé à 1 pour cette adresse.\\
+Les modifications effectuées sont dans les codes \ref{lst:pml_buffer_full_avant} et \ref{lst:pml_buffer_full_apres} en annexe \ref{section:pml_buffer_full}.
+
+\subsubsection{Mise en place du mécanisme (hypercall) de copie des logs consolidés de l'hyperviseur vers le dom0}
+Pour éviter d'imposer des coûts de surcharge à l'hyperviseur, nous implémentons les algos de calcul dans le dom0. Pour celà, il faut copier les logs depuis la longmap dans l'hyperviseur, vers le dom0 (figure \ref{fig:collect-dirty-logs}). Ceci ne peut se faire qu'à l'aide d'un hypercall que nous avons donc défini : $«xl \quad collect-dirty-logs»$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.8]{chapters/4/fig4/collect-dirty-logs}
+    \caption{Copie des logs de l'hyperviseur vers le dom0}
+    \label{fig:collect-dirty-logs}
+\end{figure}
+
+\noindent Cet hypercall est appelé avec l'$id$ de la VM en paramètre. Ainsi, dès qu'on fait un $xl \quad collect-dirty-logs \quad id\_vm$, la chaîne d'appel de fonctions de l'hypercall  est la suivante :
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.6]{chapters/4/fig4/collect-dirty-logs_appel_fonction}
+    \caption{Copie des logs de l'hyperviseur vers le dom0 : chaîne d'appel de fonctions}
+    \label{fig:collect-dirty-logs_appel_fonction}
+\end{figure}
+
+\noindent Cette dernière méthode $paging\_log\_dirty\_op$ , nous l'avons modifiée pour remonter les logs vers le dom0. L'algorithme implémenté dans cette méthode consiste à copier dans les logs de XEN, le contenu de la $longmap$ et compter le nombre total de pages différentes.\\
+La définition de la commande $xl$ pour la collecte est en annexe \ref{section:copie_logs}, code \ref{lst:xl}, et celle  de la fonction $xc\_domain\_collect\_dirty\_logs$ code \ref{fig:xc_domain_collect_dirty_logs}.
+
+\subsubsection{Implémentation de la version 0 de l'algorithme d'estimation du WSS}
+Enfin, nous avons implémenter une première version de l'algorithme que nous présentons au chapitre précédent. Cette version ne prend en compte que les parties de l'architecture proposée que nous avons pu implémenter, les autres nécessitant une modification du matériel (modification du processeur).\\
+Nous avons écrit un script (voir code \ref{lst:script_collect}) qui permet de collecter les logs d'une VM sur une période $T$, ceci toutes $x$ les secondes ($T$ et $x$ donnés en paramètre du script). Le script trace au fur et à mesure de la collecte, une courbe représentant la variation du nombre total d'adresses enregistrées en fonction du temps. Lorsque cette variation se stabilise, i.e. lorsque la courbe devient constante, l'algorithme s'arrête et l'estimation est faite. \\
+Des exemples d'application de cet algorithme et des graphes générés sont présentés ci-après dans la section \textit{Évaluations}.
+
+\section{Évaluations}
+
