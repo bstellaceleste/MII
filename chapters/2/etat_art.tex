@@ -161,7 +161,7 @@ Le \textit{Dynamic MPA \footnote{Dynamic Memory Pressure Aware} ballooning} \cit
     \item Elevé : le nombre de pages mémoire de toutes les VMs est supérieur à la mémoire physique totale de l'hôte.
 \end{itemize}
 
-\par{\textbf{Réponse à Q1.}} En fonction de l'état de pression de la mémoire, l'OS adopte une politique de gestion différente : 
+\noindent En fonction de l'état de pression de la mémoire, l'OS adopte une politique de gestion différente : 
 \begin{itemize}
     \item Dans le cas d'un niveau de pression bas, cette technique divise la mémoire disponible dans l'hyperviseur en ($nb_VMs + 2$) parts. Chaque part est assignée à une VM comme mémoire réservée et les deux autres sont maintenues par l'hyperviseur en cas de demande soudaine. Chaque part est vue comme le cache exclusif dans la méthode \textit{Hypervisor Exclusive Cache}.
     \item Dans le cas d'un niveau de pression moyen, l'hyperviseur réclame les pages inactives à toutes les VMs et les rééquilibre en ($nb_VMs + 1$) parts.

@@ -48,6 +48,7 @@ Lorsqu'une VM est créée, si le PML est activée pour celle-ci, alors dans sa s
 \noindent L'architecture telle que présentée s'est déjà avérée adéquate pour les deux premiers points, mais en ce qui concerne le \textit{working set}, elle présente certaines limites.
 
 \subsubsection{Limites de l'architecture actuelle}
+\label{subsubsection:limites_pml_actuel}
 Nous présentons ici les principales contraintes auxquelles nous avons fait face avec l'architecture actuelle du PML, et qui l'empêchent d'être efficace à 100\% pour l'estimation du WSS.
 
 \paragraph{\textbullet\ \textbf{Limite 1 : Le VMExit lors de l'interruption \textit{pml buffer full} ne devrait pas être géré par le CPU sur lequel s'exécute la VM dont on estime le WSS}}
@@ -101,7 +102,7 @@ En outre, cette nouvelle configuration vient en appoint à la première (redirec
 \subsubsection{Remettre à 0 le bit \textit{dirty} des pages après avoir vidé la page de logs}
 Ceci permettra de répondre aux limites 4\&5. En effet, comme nous l'avons expliqué dans la limite 5, une fois que le bit dirty d'une page passe de 0 à 1, le matériel ne le remet pas à 0. Une solution naïve serait de parcourir la table de pages et remettre le bit \textit{dirty} à 0, mais ceci est une opération très couteuse. Nous proposons donc une amélioration qui consisterait à loguer par le matériel l'entrée de la table de pages où la page modifiée a été trouvée. En ayant cette information, il sera aisé de remettre à 0 les bits des pages en évitant les pages de la table de pages (ce qui répond à la limite 4). Pour identifier celles-ci, nous proposons d'utiliser un des bits réservés des tables de pages. Ce bit sera positionné à 1 chaque qu'il y aura un défaut de page concernant une page de la table de pages.
 
-\subsubsection{Modification de la structure de données \textit{bitmap} \footnote{Elle est matérialisée par un \textit{radix tree}, un arbre dont chaque a trois noeuds et une feuille terminale. Ce sont les feuilles terminales qui contiennent les bits.}}
+\subsubsection{Modification de la structure de données \textit{bitmap}}
 \begin{figure}[htp]
     \centering
     \includegraphics[scale=.8]{chapters/3/fig3/PMLOverview3}
@@ -109,7 +110,7 @@ Ceci permettra de répondre aux limites 4\&5. En effet, comme nous l'avons expli
     \label{fig:bitmap}
 \end{figure}
 
-Lorsque le \textit{pml\_log} est plein, avant de réinitialiser son index, les informations qu'il contient doivent être consignées. Actuellement ceci est fait au moyen d'une structure de données appelée \textit{bitmap}.\\
+\noindent Lorsque le \textit{pml\_log} est plein, avant de réinitialiser son index, les informations qu'il contient doivent être consignées. Actuellement ceci est fait au moyen d'une structure de données appelée \textit{bitmap}  \footnote{Elle est matérialisée par un \textit{radix tree}, un arbre dont chaque a trois noeuds et une feuille terminale. Ce sont les feuilles terminales qui contiennent les bits.}.\\
 Chaque VM a en mémoire centrale une \textit{bitmap} qui lui est rattachée. Comme son nom y fait référence, elle est constituée de bits représentant chacune une adresse. Lorsqu'une adresse est dans le \textit{pml\_log}, si le bit y correspondant dans la \textit{bitmap} est à 0, il est mis à 1. De cette façon, il nous est difficile d'avoir plus d'informations sur les données enregistrées telles que les adresses en question ou le nombre de fois où elles ont été modifiées. Et si nous voulions par exemple loguer également les adresses auxquelles la VM a juste accéder, il nous serait impossible de les consigner avec cette \textit{bitmap} dans sa structure actuelle. D'où les limites 3\&5 auxquelles cette modification vient remédier.\\
 Nous proposons de modifier l'actuelle \textit{bitmap} de sorte que ses feuilles terminales puissent contenir les informations suivantes :
 \begin{itemize}

@@ -118,9 +118,9 @@ spacing=on,
 kerning=on,
 expansion=true]{microtype}
 
-\newcommand{\ornamento}{\vspace{-2em} \noindent \textcolor{darkorange}{\hrulefill \raisebox{-2.5pt}[10pt][10pt]{\leafright \decofourleft \decothreeleft  \aldineright \decotwo \floweroneleft \decoone   \floweroneright \decotwo \aldineleft\decothreeright \decofourright \leafleft} \hrulefill}}
-\newcommand{\ornpar}{\noindent \textcolor{darkorange}{\hrulefill \raisebox{-1.9pt}[10pt][10pt]{}}}
-\newcommand{\ornimpar}{\textcolor{darkorange}{\raisebox{-1.9pt}[10pt][10pt]{} \hrulefill \raisebox{-1.9pt}[10pt][10pt]{}}}
+\newcommand{\ornamento}{\vspace{-2em} \noindent \textcolor{darkorange}{\hrulefill~ \raisebox{-2.5pt}[10pt][10pt]{\leafright \decofourleft \decothreeleft  \aldineright \decotwo \floweroneleft \decoone   \floweroneright \decotwo \aldineleft\decothreeright \decofourright \leafleft} ~  \hrulefill}}
+\newcommand{\ornpar}{\noindent \textcolor{darkorange}{ \raisebox{-1.9pt}[10pt][10pt]{\leafright} \hrulefill \raisebox{-1.9pt}[10pt][10pt]{\leafright \decofourleft \decothreeleft  \aldineright \decotwo \floweroneleft \decoone}}}
+\newcommand{\ornimpar}{\textcolor{darkorange}{\raisebox{-1.9pt}[10pt][10pt]{\decoone \floweroneright \decotwo \aldineleft \decothreeright \decofourright \leafleft} \hrulefill \raisebox{-1.9pt}[10pt][10pt]{\leafleft}}}
 
 \OnehalfSpacing 
 %
@@ -161,33 +161,35 @@ expansion=true]{microtype}
 } 
 \makeatother 
 
-%\renewcommand\refname{\textbf{Reference}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ùùùù
 \chapterstyle{daleifmodif}
-%
-% UoB guidelines:
-%
-% The pages should be numbered consecutively at the bottom centre of the
-% page.
-\renewcommand{\sectionmark}[1]{\markright{\thesection~- ~#1}}
-\renewcommand{\chaptermark}[1]{\markboth{\chaptername~\thechapter~-~ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection - #1}}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername~\thechapter- #1}{}}
 
 \makepagestyle{myvf} 
-\makeoddfoot{myvf}{}{\ornimpar \\ \large \hfill \sffamily\bf \textcolor{black}{\thepage}
-}{} 
-\makeevenfoot{myvf}{}{\ornpar   \\ \large  \sffamily\bf \textcolor{black}{\thepage}  \hfill}{} 
-%\makeheadrule{myvf}{\textwidth}{\normalrulethickness} 
-\makeevenhead{myvf}{\leftmark}{\ornamento}{\rightmark} 
-\makeoddhead{myvf}{\leftmark}{\ornamento}{\rightmark}
+    \makeoddfoot{myvf}{}{
+        \color{darkorange}\raisebox{-2.1pt}[10pt][10pt]{\leafright}%
+          \hrulefill%
+          \raisebox{-2.1pt}[10pt][10pt]{~~~\decofourleft%
+            \decotwo\decofourright~~~} \hrulefill%
+          \raisebox{-2.1pt}[10pt][10pt]{ \leafleft}%
+          \\
+          \textcolor{black}{\tiny\thepage}%
+          \vskip-24pt
+    }{} 
+    \makeevenfoot{myvf}{}{\ornpar  \\ \large \sffamily\bf \textcolor{black}{\thepage ~~~ \reflectbox{\leafNE}}  \hfill}{} 
+    %\makeheadrule{myvf}{\textwidth}{\normalrulethickness} 
+    \makeevenhead{myvf}{\leftmark}{\ornamento}{\rightmark} 
+    \makeoddhead{myvf}{\leftmark}{\ornamento}{\rightmark}
 \pagestyle{myvf}
 
 \newcommand{\clearemptydoublepage}{\newpage{\thispagestyle{empty}\cleardoublepage}}
-%
-% Creates indexes for Table of Contents, List of Figures, List of Tables and Index
 \makeindex
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{import}
 \usepackage{lipsum}					%Needed to create dummy text
 \usepackage{subcaption}
+\usepackage[font=scriptsize, justification=centering]{caption}
 \usepackage{amsfonts} 					%Calls Amer. Math. Soc. (AMS) fonts
 \usepackage[centertags]{amsmath}			%Writes maths centred down
 \usepackage{stmaryrd}					%New AMS symbols
@@ -438,6 +440,10 @@ expansion=true]{microtype}
    \renewcommand\lstlistlistingname{Codes}}
 \addto\captionsenglish{%
    \renewcommand\lstlistingname{Code}}
+\addto\captionsenglish{%
+   \renewcommand{\contentsname}{Table des matières}}
+
+\maxtocdepth{subsection}
  
 \renewcommand{\baselinestretch}{1.5}
 
@@ -450,10 +456,11 @@ expansion=true]{microtype}
 \pagenumbering{roman}
 %
 \input{frontmatter/title}
-\cleardoublepage
+\clearemptydoublepage
 %
 \input{frontmatter/title2}
-\cleardoublepage
+\clearemptydoublepage
+%
 \input{frontmatter/dedication}
 \clearemptydoublepage
 %
@@ -469,23 +476,20 @@ expansion=true]{microtype}
 \input{frontmatter/abstract}
 \clearemptydoublepage
 %
-\listoftables*
-\addstarredchapter{\listtablename}
-\addtocontents{lot}{\par\nobreak\textbf{{\scshape Tableau} \hfill Page}\par\nobreak}
+\listoftables
+%\addstarredchapter{\listtablename}
 \lstlistoflistings
 \clearemptydoublepage
 %
-\listoffigures*
-\addstarredchapter{\listfigurename}
-\addtocontents{lof}{\par\nobreak\textbf{{\scshape Figure} \hfill Page}\par\nobreak}
-\cleardoublepage
+\listoffigures
+%\addstarredchapter{\listfigurename}
+\markboth{Figures}{}
+\clearemptydoublepage
 %
-\renewcommand{\contentsname}{Table des matières}
-\maxtocdepth{subsection}
 
 %\dominitoc
 \tableofcontents*
-\markboth{TABLE OF CONTENTS}{}
+\markboth{Table des matières}{}
 \clearemptydoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mainmatter
@@ -507,14 +511,11 @@ expansion=true]{microtype}
 \backmatter
 %\bibliographystyle{mla}
 %\bibliography{frontmatter/bibtex}
-\clearemptydoublepage
-\let\textcircled=\pgftextcircled
-\chapter*{Références}
-\addstarredchapter{Références}
-\markboth{Références}{}
 \printbibliography%%[heading=subbibintoc,filter=papers,title={Bibliographie}]
 %%\printbibliography[heading=subbibintoc,type=online,title={Webographie}]
+\markboth{Références}{}
 \clearemptydoublepage
+%
 \appendix
 \import{chapters/annexes/}{annexes.tex}
 \clearemptydoublepage
