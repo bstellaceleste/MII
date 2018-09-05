@@ -1,6 +1,8 @@
 \let\textcircled=\pgftextcircled
 \chapter{Contributions}
 \label{chap:contrib}
+%\mtcaddchapter
+%\adjustmtc
 
 \initial{C}\textit{e chapitre présente notre contribution à la résolution du problème ci-dessus présenté. Nous montrons au travers de cette contribution comment nous répondons aux questions Q1 et Q2 énoncées au chapitre précédent.}
 
@@ -10,9 +12,10 @@
 \section{Contributions sur le plan architectural}
 
 \subsection{Design actuel du PML}
+\label{subsection:design_actuel_pml}
 
 \subsubsection{Architecture}
-L'architecture actuelle duu PML se présente telle que sur la figure \ref{fig:pml_actuel} suivante :
+L'architecture actuelle du PML se présente telle que sur la figure \ref{fig:pml_actuel} suivante :
 \begin{figure}[H]
     \centering
     \includegraphics[scale=.8]{chapters/3/fig3/PMLactual3}
@@ -20,7 +23,7 @@ L'architecture actuelle duu PML se présente telle que sur la figure \ref{fig:pm
     \label{fig:pml_actuel}
 \end{figure}
 
-Considérons deux VMs \textit{domU1} et \textit{domU2} \footnote{domU pour \textit{domain Unprivileged} en opposition au dom0 qui est l'OS hôte avec tous les droits et accès.} comme présentées sur la figure précédente. Chacune de ces VMs s'exécute sur des processeurs virtuels, \ac{vCPU}, rattachés à des processeurs physiques (\acs{CPU}).\\
+\noindent Considérons deux VMs \textit{domU1} et \textit{domU2} \footnote{domU pour \textit{domain Unprivileged} en opposition au dom0 qui est l'OS hôte avec tous les droits et accès.} comme présentées sur la figure précédente. Chacune de ces VMs s'exécute sur des processeurs virtuels, \ac{vCPU}, rattachés à des processeurs physiques (\acs{CPU}).\\
 Lorsqu'une VM est créée, si le PML est activée pour celle-ci, alors dans sa structure de contrôle \ac{VMCS}, l'adresse et l'index du PML sont initialisés (voir \ref{subsubsection:description_pml}). Pendant son exécution :
 
 \begin{enumerate}[label=\textbf{(\roman*)}]
@@ -49,7 +52,7 @@ Lorsqu'une VM est créée, si le PML est activée pour celle-ci, alors dans sa s
 
 \subsubsection{Limites de l'architecture actuelle}
 \label{subsubsection:limites_pml_actuel}
-Nous présentons ici les principales contraintes auxquelles nous avons fait face avec l'architecture actuelle du PML, et qui l'empêchent d'être efficace à 100\% pour l'estimation du WSS.
+Nous présentons ici les principales contraintes auxquelles nous avons fait face avec l'architecture actuelle du PML, et qui l'empêchent d'être efficace pour l'estimation du WSS.
 
 \paragraph{\textbullet\ \textbf{Limite 1 : Le VMExit lors de l'interruption \textit{pml buffer full} ne devrait pas être géré par le CPU sur lequel s'exécute la VM dont on estime le WSS}}
 \par\noindent
@@ -80,30 +83,33 @@ Ceci n'est pas un problème pour les autres scénarios car pour la migration on 
 En fonction des limites évoquées plus haut, nous avons pensé un nouveau design architectural dans le but d'améliorer le mécanisme actuel du PML afin qu'il réponde mieux aux besoins d'estimation du WSS. Ainsi l'architecture que nous proposons se décline à travers les étapes suivantes.
 
 \subsubsection{Redirection des \textit{VMExits} vers le dom0}
-\begin{figure}[htp]
+Cette amélioration permettra de palier la limite 1. Comme mentionné dans l'énoncé de cette limite, le coût lié à l'évènement \textit{pml buffer full} ne devrait pas être imputé à la VM (sous le forme d'un \textit{VMExit} comme c'est le cas actuellement).\\
+Ainsi, lorsque que le \textit{pml\_log} est plein, nous proposons que le envoie un signal non plus à l'hyperviseur mais au dom0 qui se chargera de traiter cette interruption (Voir figure \ref{fig:redirection_vmexit}).
+
+\begin{figure}[H]
     \centering
     \includegraphics[scale=.8]{chapters/3/fig3/PMLOverview1}
     \caption{Proposition d'une architecture améliorée du PML pour l'estimation du WSS : Redirection des VMExits vers le dom0}
     \label{fig:redirection_vmexit}
 \end{figure}
-Cette amélioration permettra de palier la limite 1. Comme mentionné dans l'énoncé de cette limite, le coût lié à l'évènement \textit{pml buffer full} ne devrait pas être imputé à la VM (sous le forme d'un \textit{VMExit} comme c'est le cas actuellement).\\
-Ainsi, lorsque que le \textit{pml\_log} est plein, nous proposons que le envoie un signal non plus à l'hyperviseur mais au dom0 qui se chargera de traiter cette interruption (Voir figure \ref{fig:redirection_vmexit}).
 
 \subsubsection{Introduction d'une deuxième page de log (\textit{page modification log})}
-\begin{figure}[htp]
+
+La figure \ref{fig:double_log} illustre cette deuxième amélioration qui répond à la limite 2, à savoir la taille insuffisante du \textit{page modification log}.\\
+En outre, cette nouvelle configuration vient en appoint à la première (redirection des \textit{VMExits} vers le dom0). En effet, lorsque le \textit{pml\_log} sera plein, la VM ne va plus arrêter son exécution, or comme nous l'avons mentionné dans la description du mécanisme actuel, lorsque le \textit{pml\_log} est plein aucune adresse supplémentaire ne peut être loguée dans ce dernier. Ainsi, pour éviter de perdre des adresses nous proposons de rajouter un deuxième \textit{page modification log}, qui pourra continuer d'enregistrer des logs pendant que le premier est vidé. De cette façon, lorsque ce deuxième buffer sera plein, il passera de nouveau la main au premier et ainsi de suite. La VM n'aura donc plus à arrêter son exécution dû à l'évaluation de son WSS, ceci sans empêcher de collecter les statistiques nécessaire à l'estimation.
+
+\begin{figure}[H]
     \centering
     \includegraphics[scale=.8]{chapters/3/fig3/PMLOverview2}
     \caption{Proposition d'une architecture améliorée du PML pour l'estimation du WSS : Introduction d'un deuxième buffer \textit{pml\_log}}
     \label{fig:double_log}
 \end{figure}
-La figure \ref{fig:double_log} illustre cette deuxième amélioration qui répond à la limite 2, à savoir la taille insuffisante du \textit{page modification log}.\\
-En outre, cette nouvelle configuration vient en appoint à la première (redirection des \textit{VMExits} vers le dom0). En effet, lorsque le \textit{pml\_log} sera plein, la VM ne va plus arrêter son exécution, or comme nous l'avons mentionné dans la description du mécanisme actuel, lorsque le \textit{pml\_log} est plein aucune adresse supplémentaire ne peut être loguée dans ce dernier. Ainsi, pour éviter de perdre des adresses nous proposons de rajouter un deuxième \textit{page modification log}, qui pourra continuer d'enregistrer des logs pendant que le premier est vidé. De cette façon, lorsque ce deuxième buffer sera plein, il passera de nouveau la main au premier et ainsi de suite. La VM n'aura donc plus à arrêter son exécution dû à l'évaluation de son WSS, ceci sans empêcher de collecter les statistiques nécessaire à l'estimation.
 
 \subsubsection{Remettre à 0 le bit \textit{dirty} des pages après avoir vidé la page de logs}
 Ceci permettra de répondre aux limites 4\&5. En effet, comme nous l'avons expliqué dans la limite 5, une fois que le bit dirty d'une page passe de 0 à 1, le matériel ne le remet pas à 0. Une solution naïve serait de parcourir la table de pages et remettre le bit \textit{dirty} à 0, mais ceci est une opération très couteuse. Nous proposons donc une amélioration qui consisterait à loguer par le matériel l'entrée de la table de pages où la page modifiée a été trouvée. En ayant cette information, il sera aisé de remettre à 0 les bits des pages en évitant les pages de la table de pages (ce qui répond à la limite 4). Pour identifier celles-ci, nous proposons d'utiliser un des bits réservés des tables de pages. Ce bit sera positionné à 1 chaque qu'il y aura un défaut de page concernant une page de la table de pages.
 
 \subsubsection{Modification de la structure de données \textit{bitmap}}
-\begin{figure}[htp]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=.8]{chapters/3/fig3/PMLOverview3}
     \caption{Proposition d'une architecture améliorée du PML pour l'estimation du WSS : Modification de la structure de données \textit{bitmap}}
@@ -124,7 +130,7 @@ Nous proposons de modifier l'actuelle \textit{bitmap} de sorte que ses feuilles 
 \label{section:contrib_algo}
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=.5]{chapters/3/fig3/courbe_wss_1}
+    \includegraphics[scale=.6]{chapters/3/fig3/courbe_wss_1}
     \caption{Variation de la taille de logs en fonction du temps}
     \label{fig:courbe_wss_cst}
 \end{figure}

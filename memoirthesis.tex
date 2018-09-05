@@ -62,7 +62,7 @@
 \frenchspacing
 % Font with math support: New Century Schoolbook
 \usepackage{fouriernc}
-\usepackage[french]{minitoc}
+\usepackage[nohints]{minitoc}
 \setcounter{secnumdepth}{4}
 \setcounter{tocdepth}{4}
 \setcounter{minitocdepth}{2}
@@ -171,13 +171,13 @@ expansion=true]{microtype}
         \color{darkorange}\raisebox{-2.1pt}[10pt][10pt]{\leafright}%
           \hrulefill%
           \raisebox{-2.1pt}[10pt][10pt]{~~~\decofourleft%
-            \decotwo\decofourright~~~} \hrulefill%
-          \raisebox{-2.1pt}[10pt][10pt]{ \leafleft}%
+            \decotwo\decofourright~~~}\hrulefill%
+          \raisebox{-2.1pt}[10pt][10pt]{\leafleft}%
           \\
           \textcolor{black}{\tiny\thepage}%
           \vskip-24pt
     }{} 
-    \makeevenfoot{myvf}{}{\ornpar  \\ \large \sffamily\bf \textcolor{black}{\thepage ~~~ \reflectbox{\leafNE}}  \hfill}{} 
+    \makeevenfoot{myvf}{}{\ornpar \\ \sffamily\bf \textcolor{black}{\thepage ~~~ \reflectbox{\leafNE}}  \hfill}{} 
     %\makeheadrule{myvf}{\textwidth}{\normalrulethickness} 
     \makeevenhead{myvf}{\leftmark}{\ornamento}{\rightmark} 
     \makeoddhead{myvf}{\leftmark}{\ornamento}{\rightmark}
@@ -449,6 +449,7 @@ expansion=true]{microtype}
 
 \defbibfilter{papers}{type=article  or   type=book}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
 \sloppy
 
@@ -467,6 +468,13 @@ expansion=true]{microtype}
 \input{frontmatter/declaration}
 \clearemptydoublepage
 %
+\dominitoc
+\tableofcontents*
+\mtcaddchapter
+\adjustmtc
+%\markboth{Table des matières}{}
+\clearemptydoublepage
+%
 \input{frontmatter/glossaries}
 \clearemptydoublepage
 %
@@ -477,23 +485,19 @@ expansion=true]{microtype}
 \clearemptydoublepage
 %
 \listoftables
+\mtcaddchapter
 %\addstarredchapter{\listtablename}
 \lstlistoflistings
 \clearemptydoublepage
 %
 \listoffigures
+\mtcaddchapter
 %\addstarredchapter{\listfigurename}
 \markboth{Figures}{}
 \clearemptydoublepage
 %
-
-%\dominitoc
-\tableofcontents*
-\markboth{Table des matières}{}
-\clearemptydoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mainmatter
-%
 \clearemptydoublepage
 \import{chapters/introduction/}{intro.tex}
 \clearemptydoublepage
@@ -509,14 +513,10 @@ expansion=true]{microtype}
 \clearemptydoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \backmatter
-%\bibliographystyle{mla}
-%\bibliography{frontmatter/bibtex}
-\printbibliography%%[heading=subbibintoc,filter=papers,title={Bibliographie}]
-%%\printbibliography[heading=subbibintoc,type=online,title={Webographie}]
-\markboth{Références}{}
+\printbibliography
 \clearemptydoublepage
 %
-\appendix
+%\appendix
 \import{chapters/annexes/}{annexes.tex}
 \clearemptydoublepage
 %

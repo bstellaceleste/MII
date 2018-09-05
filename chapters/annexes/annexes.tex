@@ -4,10 +4,12 @@
 % description: Briefly describes properties of the local operator.
 %
 
-\chapter{Annexes}
+\chapter*{Annexes}
 \label{chap:annex}
+\addstarredchapter{Annexes}
+\markboth{Annexes}{}
 
-\section{Annexe 1 : Description des structures d'accueil IRIT et LaBRI}
+\section*{Annexe 1 : Description des structures d'accueil IRIT et LaBRI}
 \initial{L}e travail présenté dans ce document a été réalisé en collaboration avec les laboratoires \acs{IRIT} (\acl{IRIT}) et \acs{LaBRI} (\acl{LaBRI}).\\
 L'IRIT est l'une des plus imposantes Unités Mixtes de Recherche (UMR) au niveau national (français), et l’un des piliers de la recherche en Midi-Pyrénées avec ses 700 membres permanents et non-permanents. De par son caractère multi-tutelle (CNRS, \acs{INPT}, Universités toulousaines), son impact scientifique et ses interactions avec les autres domaines, l'IRIT constitue une des forces structurantes du paysage de l’informatique et de ses applications dans le monde du numérique, tant au niveau régional que national.\\
 Cette unité est, depuis 2003, structurée en 7 thèmes de recherche qui regroupent les 21 équipes du laboratoire :
@@ -39,7 +41,7 @@ Cette unité est, depuis 2003, structurée en 7 thèmes de recherche qui regroup
 
 \noindent Les chercheurs et enseignants-chercheurs du LaBRI participent à la formation initiale et continue dans différents établissements de plus de 1300 étudiants inscrits dans les spécialités informatiques du L (Licence), M (Master) et D (Doctorat) mis en place à la rentrée 2003. A travers des réseaux et structures variés, le LaBRI collabore activement, sur les plans internationaux, européens et français, avec de nombreux laboratoires et entreprises. 
 
-\section{Annexe 2 : Hypercalls d'activation et de désactivation du PML}
+\section*{Annexe 2 : Hypercalls d'activation et de désactivation du PML}
 \label{section:enable_disable_logdirty}
 
 \begin{lstlisting}[language=C, caption=xl enable-log-dirty, label={lst:enable_logdirty}]
@@ -62,7 +64,7 @@ int main_disable_log_dirty(int argc, char **argv)
 }
 \end{lstlisting}
 
-\section{Annexe 3 : Modification de la structure de données bitmap}
+\section*{Annexe 3 : Modification de la structure de données bitmap}
 \label{section:bitmap}
 
 \begin{lstlisting}[language=C, caption=Méthode appelée générer une feuille L1 avant modification de la bitmap, label={lst:leaf_bit}]
@@ -97,7 +99,7 @@ static mfn_t paging_new_log_dirty_leaf_long(struct domain *d)
 }
 \end{lstlisting}
 
-\section{Annexe 4 : Modification du traitant \textit{pml buffer full}}
+\section*{Annexe 4 : Modification du traitant \textit{pml buffer full}}
 \label{section:pml_buffer_full}
 
 \begin{lstlisting}[language=C, caption=Méthode appelée lors de l'évènement \textit{pml buffer full} avant modification, label={lst:pml_buffer_full_avant}]
@@ -240,7 +242,7 @@ void paging_mark_gfn_dirty(struct domain *d, unsigned long pfn)
 }
 \end{lstlisting}
 
-\section{Annexe 5 : Mécanisme (hypercall) de copie des logs consolidés de l'hyperviseur vers le dom0}
+\section*{Annexe 5 : Mécanisme (hypercall) de copie des logs consolidés de l'hyperviseur vers le dom0}
 \label{section:copie_logs}
 
 \begin{lstlisting}[language=C, caption=xl collect-dirty-logs, label={lst:xl}]
@@ -358,7 +360,7 @@ static int paging_log_dirty_op(struct domain *d,
 }
 \end{lstlisting}
 
-\section{Annexe 6 : Version 0 de l'algorithme d'estimation du WSS}
+\section*{Annexe 6 : Version 0 de l'algorithme d'estimation du WSS}
 \label{section:algo_v0}
 \begin{lstlisting}[language=bash, caption=Script de collecte des logs, label={lst:script_collect}]
 #!/bin/bash

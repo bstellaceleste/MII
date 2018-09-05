@@ -1,0 +1,44 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax
+\select@language {english}
+\addvspace {10pt}
+\contentsline {xchapter}{}{4}{chapter.1}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Architecture d'un syst\IeC {\`e}me virtualis\IeC {\'e}\relax }}{5}{figure.caption.22}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Architecture Virtualisation avec hyperviseur XEN\relax }}{7}{figure.caption.25}
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Architecture Virtualisation niveau OS\relax }}{7}{figure.caption.26}
+\contentsline {figure}{\numberline {1.4}{\ignorespaces Architecture Noyau en espace utilisateur\relax }}{8}{figure.caption.27}
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Architecture Virtualisation compl\IeC {\`e}te\relax }}{9}{figure.caption.28}
+\contentsline {figure}{\numberline {1.6}{\ignorespaces Architecture Para-virtualisation\relax }}{10}{figure.caption.29}
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Translation adresse virtuelle - adresse physique (environnement natif)\relax }}{12}{figure.caption.31}
+\contentsline {figure}{\numberline {1.8}{\ignorespaces Parcours table de page 1D (une dimension)\relax }}{12}{figure.caption.32}
+\contentsline {figure}{\numberline {1.9}{\ignorespaces Translation adresse virtuelle - adresse physique (environnement virtualis\IeC {\'e})\relax }}{13}{figure.caption.36}
+\contentsline {figure}{\numberline {1.10}{\ignorespaces Fonctionnement global de la TLB\relax }}{14}{figure.caption.37}
+\contentsline {figure}{\numberline {1.11}{\ignorespaces M\IeC {\'e}canisme du shadow paging\relax }}{15}{figure.caption.38}
+\contentsline {figure}{\numberline {1.12}{\ignorespaces M\IeC {\'e}canisme du nested paging\relax }}{16}{figure.caption.41}
+\addvspace {10pt}
+\contentsline {xchapter}{}{20}{chapter.2}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Augmentation de la valeur du \textit {Committed\_As} avec l'instruction \textit {malloc} m\IeC {\^e}me si ne correspondant pas \IeC {\`a} la valeur de la m\IeC {\^e}moire physique utilis\IeC {\'e}e\relax }}{24}{figure.caption.45}
+\addvspace {10pt}
+\contentsline {xchapter}{}{32}{chapter.3}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Architecture actuelle du PML\relax }}{33}{figure.caption.46}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Proposition d'une architecture am\IeC {\'e}lior\IeC {\'e}e du PML pour l'estimation du WSS : Redirection des VMExits vers le dom0\relax }}{38}{figure.caption.53}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Proposition d'une architecture am\IeC {\'e}lior\IeC {\'e}e du PML pour l'estimation du WSS : Introduction d'un deuxi\IeC {\`e}me buffer \textit {pml\_log}\relax }}{39}{figure.caption.54}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Proposition d'une architecture am\IeC {\'e}lior\IeC {\'e}e du PML pour l'estimation du WSS : Modification de la structure de donn\IeC {\'e}es \textit {bitmap}\relax }}{40}{figure.caption.55}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Variation de la taille de logs en fonction du temps\relax }}{41}{figure.caption.56}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Variation de la taille de logs en fonction du temps\relax }}{42}{figure.caption.57}
+\addvspace {10pt}
+\contentsline {xchapter}{}{44}{chapter.4}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces File d'appels des fonctions li\IeC {\'e}es \IeC {\`a} l'activation du PML\relax }}{48}{figure.caption.60}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Radix tree repr\IeC {\'e}sentant la bitmap\relax }}{49}{figure.caption.61}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Radix tree repr\IeC {\'e}sentant la longmap\relax }}{50}{figure.caption.62}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Copie des logs de l'hyperviseur vers le dom0\relax }}{51}{figure.caption.63}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Copie des logs de l'hyperviseur vers le dom0 : cha\IeC {\^\i }ne d'appel de fonctions\relax }}{52}{figure.caption.64}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Ensemble des charges de travail synth\IeC {\'e}tiques\relax }}{53}{figure.caption.66}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces R\IeC {\'e}sultats d'\IeC {\'e}valuations de la premi\IeC {\`e}re charge synth\IeC {\'e}tique avec les techniques existantes \let \GenericError { }{LaTeX Error: There's no line here to end}{See the LaTeX manual or LaTeX Companion for explanation.}{Your command was ignored.\MessageBreak Type I <command> <return> to replace it with another command,\MessageBreak or <return> to continue without it.}\par \let \reserved@d = *\def \par }}{54}{figure.caption.67}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces R\IeC {\'e}sultats d'\IeC {\'e}valuations de la premi\IeC {\`e}re charge synth\IeC {\'e}tique avec la technique impl\IeC {\'e}ment\IeC {\'e}e. $W^o$ : WSS escompt\IeC {\'e} -- $W^e$ WSS : estim\IeC {\'e}\relax }}{55}{figure.caption.68}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces R\IeC {\'e}sultats d'\IeC {\'e}valuations des charges variables avec le PML. $W^o_{ss}$ : WSS escompt\IeC {\'e} -- $W^e_{ss}$ WSS : estim\IeC {\'e}\relax }}{55}{figure.caption.69}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces R\IeC {\'e}sultats d'\IeC {\'e}valuations des charges variables avec les techniques existantes. $W^o_{ss}$ : WSS escompt\IeC {\'e} -- $W^e_{ss}$ WSS estim\IeC {\'e}\relax }}{56}{figure.caption.70}
+\addvspace {10pt}
+\contentsline {xchapter}{}{57}{chapter.5}
+\addvspace {10pt}
+\contentsline {xchapter}{}{58}{appendix*.71}
+\contentsfinish

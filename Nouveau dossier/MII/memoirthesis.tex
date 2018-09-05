@@ -1,0 +1,525 @@
+%\title{University of Bristol Thesis Template}
+\RequirePackage[l2tabu]{nag}		
+\RequirePackage{etex}
+\documentclass[a4paper,12pt,leqno,oneside]{memoir} 
+
+\usepackage[T1]{fontenc}
+\usepackage{morewrites}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{calligra}
+\usepackage{tikz}
+\usepackage{adjustbox}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage[bottom]{footmisc}
+\usetikzlibrary{arrows,shapes,decorations,
+		       automata,backgrounds,
+		       petri,topaths}%geometric/algebraic description.
+%\usepackage[version=0.96]{pgf}			%PGF/TikZ is a tandem of languages for producing vector graphics from a 
+
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{pifont}
+\tcbuselibrary{skins}
+\usepackage{psvectorian}
+\renewcommand*{\psvectorianDefaultColor}{Blue}%
+\usepackage{datetime}
+
+% When draft option is on. 
+\ifdraftdoc 
+	\usepackage{draftwatermark}				%Sets watermarks up.
+	\SetWatermarkScale{0.3}
+	\SetWatermarkText{\bf Draft: \today}
+\fi
+%
+% Declare figure/table as a subfloat.
+\newsubfloat{figure}
+\newsubfloat{table}
+\usepackage{booktabs}
+\usepackage{siunitx}
+
+\usetikzlibrary{chains}
+\usepackage{multirow}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+% Better page layout for A4 paper, see memoir manual.
+\settrimmedsize{297mm}{210mm}{*}
+\setlength{\trimtop}{0pt} 
+\setlength{\trimedge}{\stockwidth} 
+\addtolength{\trimedge}{-\paperwidth} 
+\settypeblocksize{634pt}{448.13pt}{*} 
+\setulmargins{4cm}{*}{*} 
+\setlrmargins{*}{*}{1.5} 
+\setmarginnotes{17pt}{51pt}{\onelineskip} 
+\setheadfoot{\onelineskip}{2\onelineskip} 
+\setheaderspaces{*}{2\onelineskip}{*} 
+\checkandfixthelayout
+%
+\frenchspacing
+% Font with math support: New Century Schoolbook
+\usepackage{fouriernc}
+\usepackage[french]{minitoc}
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\setcounter{minitocdepth}{2}
+\usepackage{fancybox}
+\usepackage{makeidx}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{marron}{RGB}{60,30,10}
+\definecolor{darkblue}{RGB}{0,0,80}
+\definecolor{lightblue}{RGB}{80,80,80}
+\definecolor{darkgreen}{RGB}{0,80,0}
+\definecolor{darkgray}{RGB}{0,80,0}
+\definecolor{darkorange}{RGB}{165,42,42}
+\definecolor{darkred}{RGB}{80,0,0}
+\definecolor{shadecolor}{rgb}{0.97,0.97,0.97}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\usepackage{fourier-orns}
+\usepackage[T1]{fontenc}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\def\headrule{{\color{darkorange}\raisebox{-2.1pt}[10pt][10pt]{\leafright} \hrulefill \raisebox{-2.1pt}[10pt][10pt]{~~~\decofourleft \decotwo\decofourright~~~} \hrulefill \raisebox{-2.1pt}[10pt][10pt]{ \leafleft}}}
+\makeatother
+
+\usepackage[
+final,
+stretch=10,
+protrusion=true,
+tracking=true,
+spacing=on,
+kerning=on,
+expansion=true]{microtype}
+
+\newcommand{\ornamento}{\vspace{-2em} \noindent \textcolor{darkorange}{\hrulefill~ \raisebox{-2.5pt}[10pt][10pt]{\leafright \decofourleft \decothreeleft  \aldineright \decotwo \floweroneleft \decoone   \floweroneright \decotwo \aldineleft\decothreeright \decofourright \leafleft} ~  \hrulefill}}
+\newcommand{\ornpar}{\noindent \textcolor{darkorange}{ \raisebox{-1.9pt}[10pt][10pt]{\leafright} \hrulefill \raisebox{-1.9pt}[10pt][10pt]{\leafright \decofourleft \decothreeleft  \aldineright \decotwo \floweroneleft \decoone}}}
+\newcommand{\ornimpar}{\textcolor{darkorange}{\raisebox{-1.9pt}[10pt][10pt]{\decoone \floweroneright \decotwo \aldineleft \decothreeright \decofourright \leafleft} \hrulefill \raisebox{-1.9pt}[10pt][10pt]{\leafleft}}}
+
+\OnehalfSpacing 
+%
+% Sets numbering division level
+\setsecnumdepth{subsection} 
+\maxsecnumdepth{subsubsection}
+%
+% Chapter style (taken and slightly modified from Lars Madsen Memoir Chapter 
+% Styles document
+\usepackage{calc,soul,fourier}
+\makeatletter 
+\newlength\dlf@normtxtw 
+\setlength\dlf@normtxtw{\textwidth} 
+\newsavebox{\feline@chapter} 
+\newcommand\feline@chapter@marker[1][4cm]{%
+	\sbox\feline@chapter{% 
+		\resizebox{!}{#1}{\fboxsep=1pt%
+			\colorbox{darkorange}{\color{white}\thechapter}% 
+		}}%
+		\rotatebox{90}{% 
+			\resizebox{%
+				\heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}% 
+			{!}{\scshape\so\@chapapp}}\quad%
+		\raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+} 
+\newcommand\feline@chm[1][4cm]{%
+	\sbox\feline@chapter{\feline@chapter@marker[#1]}% 
+	\makebox[0pt][c]{% aka \rlap
+		\makebox[1cm][r]{\usebox\feline@chapter}%
+	}}
+\makechapterstyle{daleifmodif}{
+	\renewcommand\chapnamefont{\normalfont\LARGE\scshape\raggedleft\so} 
+	\renewcommand\chaptitlefont{\normalfont\LARGE\bfseries\scshape} 
+	\renewcommand\chapternamenum{} \renewcommand\printchaptername{} 
+	\renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par} 
+	\renewcommand\afterchapternum{\par\vskip\midchapskip} 
+	\renewcommand\printchaptertitle[1]{\color{darkorange}\chaptitlefont\raggedleft ##1\par}
+} 
+\makeatother 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ùùùù
+\chapterstyle{daleifmodif}
+\renewcommand{\sectionmark}[1]{\markright{\thesection - #1}}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername~\thechapter- #1}{}}
+
+\makepagestyle{myvf} 
+    \makeoddfoot{myvf}{}{
+        \color{darkorange}\raisebox{-2.1pt}[10pt][10pt]{\leafright}%
+          \hrulefill%
+          \raisebox{-2.1pt}[10pt][10pt]{~~~\decofourleft%
+            \decotwo\decofourright~~~} \hrulefill%
+          \raisebox{-2.1pt}[10pt][10pt]{ \leafleft}%
+          \\
+          \textcolor{black}{\tiny\thepage}%
+          \vskip-24pt
+    }{} 
+    \makeevenfoot{myvf}{}{\ornpar  \\ \large \sffamily\bf \textcolor{black}{\thepage ~~~ \reflectbox{\leafNE}}  \hfill}{} 
+    %\makeheadrule{myvf}{\textwidth}{\normalrulethickness} 
+    \makeevenhead{myvf}{\leftmark}{\ornamento}{\rightmark} 
+    \makeoddhead{myvf}{\leftmark}{\ornamento}{\rightmark}
+\pagestyle{myvf}
+
+\newcommand{\clearemptydoublepage}{\newpage{\thispagestyle{empty}\cleardoublepage}}
+\makeindex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{import}
+\usepackage{lipsum}					%Needed to create dummy text
+\usepackage{subcaption}
+\usepackage[font=scriptsize, justification=centering]{caption}
+\usepackage{amsfonts} 					%Calls Amer. Math. Soc. (AMS) fonts
+\usepackage[centertags]{amsmath}			%Writes maths centred down
+\usepackage{stmaryrd}					%New AMS symbols
+\usepackage{pgfplots}
+\pgfplotsset{yticklabel style={text width=3em,align=right}}
+
+\usepackage{amssymb}					%Calls AMS symbols
+\usepackage{amsthm}					%Calls AMS theorem environment
+\usepackage{newlfont}					%Helpful package for fonts and symbols
+\usepackage{layouts}					%Layout diagrams
+\usepackage{graphicx}					%Calls figure environment
+\usepackage{longtable,rotating}			%Long tab environments including rotation. 
+\usepackage[applemac, utf8]{inputenc}			%Needed to encode non-english characters 
+\usepackage{color}
+\usepackage{colortbl}					%Makes coloured tables
+\usepackage{wasysym}					%More math symbols
+\usepackage{mathrsfs}					%Even more math symbols
+\usepackage{float}						%Helps to place figures, tables, etc. 
+\usepackage{verbatim}					%Permits pre-formated text insertion
+\usepackage{upgreek }					%Calls other kind of greek alphabet
+\usepackage{latexsym}					%Extra symbols
+%\usepackage{natbib}
+%\usepackage[maxnames=1]{apalike}
+\usepackage{biblatex}
+\addbibresource{frontmatter/bibtex.bib}   
+\usepackage[spanish,english]{babel}		%For languages characters and hyphenation
+\usepackage{memhfixc}					
+\usepackage{color}     
+\usepackage{enumerate}					%For enumeration counter
+\usepackage{footnote}					%For footnotes
+\usepackage{afterpage}
+\usepackage[object=vectorian]{pgfornament}
+\usetikzlibrary{shapes.geometric,calc}
+\definecolor{fondpaille}{cmyk}{0,0,0.1,0}
+\usepackage{pagecolor}
+\usepackage{microtype}					%Makes pdf look better.
+\usepackage{rotfloat}					%For rotating and float environments as tables, 
+\usepackage{alltt}						%LaTeX commands are not disabled in 
+\usepackage[acronym]{glossaries}
+\usepackage{acronym}
+\usepackage{chngcntr}
+\usepackage[section]{placeins}  
+\usepackage{titletoc}
+\usepackage{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcbset{
+    Baystyle/.style={
+        sharp corners,
+        enhanced,
+        boxrule=6pt,
+        colframe=OliveGreen,
+        height=600pt,
+        width=500pt,
+        borderline={8pt}{-11pt}{},
+    }
+}
+
+
+%							
+%Reduce widows  (the last line of a paragraph at the start of a page) and orphans 
+% (the first line of paragraph at the end of a page)
+\widowpenalty=1000
+\clubpenalty=1000
+%
+% New command definitions for my thesis
+%
+\newcommand{\keywords}[1]{\par\noindent{\small{\bf Keywords:} #1}} %Defines keywords small section
+\newcommand{\parcial}[2]{\frac{\partial#1}{\partial#2}}                             %Defines a partial operator
+\newcommand{\vectorr}[1]{\mathbf{#1}}                                                        %Defines a bold vector
+\newcommand{\vecol}[2]{\left(                                                                         %Defines a column vector
+	\begin{array}{c} 
+		\displaystyle#1 \\
+		\displaystyle#2
+	\end{array}\right)}
+\newcommand{\mados}[4]{\left(                                                                       %Defines a 2x2 matrix
+	\begin{array}{cc}
+		\displaystyle#1 &\displaystyle #2 \\
+		\displaystyle#3 & \displaystyle#4
+	\end{array}\right)}
+\newcommand{\pgftextcircled}[1]{                                                                    %Defines encircled text
+    \setbox0=\hbox{#1}%
+    \dimen0\wd0%
+    \divide\dimen0 by 2%
+    \begin{tikzpicture}[baseline=(a.base)]%
+        \useasboundingbox (-\the\dimen0,0pt) rectangle (\the\dimen0,1pt);
+        \node[circle,draw,outer sep=0pt,inner sep=0.1ex] (a) {#1};
+    \end{tikzpicture}
+}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\newcommand{\myrowcolour}{\rowcolor[gray]{0.925}}
+
+\newcommand{\range}[1]{\textnormal{range }#1}                                             %Defines range operator
+\newcommand{\innerp}[2]{\left\langle#1,#2\right\rangle}                                 %Defines inner product
+\newcommand{\prom}[1]{\left\langle#1\right\rangle}                                         %Defines average operator
+\newcommand{\tra}[1]{\textnormal{tra} \: #1}                                                       %Defines trace operator
+\newcommand{\sign}[1]{\textnormal{sign\,}#1}                                                   %Defines sign operator
+\newcommand{\sech}[1]{\textnormal{sech} #1}                                                  %Defines sech
+\newcommand{\diag}[1]{\textnormal{diag} #1}                                                    %Defines diag operator
+\newcommand{\arcsech}[1]{\textnormal{arcsech} #1}                                       %Defines arcsech
+\newcommand{\arctanh}[1]{\textnormal{arctanh} #1}                                         %Defines arctanh
+%Change tombstone symbol
+
+\newcommand{\blackged}{\hfill$\blacksquare$}
+\newcommand{\whiteged}{\hfill$\square$}
+\newcounter{proofcount}
+\renewenvironment{proof}[1][\proofname.]{\par
+ \ifnum \theproofcount>0 \pushQED{\whiteged} \else \pushQED{\blackged} \fi%
+ \refstepcounter{proofcount}
+ \normalfont 
+ \trivlist
+ \item[\hskip\labelsep
+       \itshape
+   {\bf\em #1}]\ignorespaces
+}{%
+ \addtocounter{proofcount}{-1}
+ \popQED\endtrivlist
+}
+%
+%
+% New definition of square root:
+% it renames \sqrt as \oldsqrt
+\let\oldsqrt\sqrt
+% it defines the new \sqrt in terms of the old one
+\def\sqrt{\mathpalette\DHLhksqrt}
+\def\DHLhksqrt#1#2{%
+\setbox0=\hbox{$#1\oldsqrt{#2\,}$}\dimen0=\ht0
+\advance\dimen0-0.2\ht0
+\setbox2=\hbox{\vrule height\ht0 depth -\dimen0}%
+{\box0\lower0.4pt\box2}}
+%
+% My caption style
+\newcommand{\mycaption}[2][\@empty]{
+	\captionnamefont{\scshape} 
+	\changecaptionwidth
+	\captionwidth{0.9\linewidth}
+	\captiondelim{.\:} 
+	\indentcaption{0.75cm}
+	\captionstyle[\centering]{}
+	\setlength{\belowcaptionskip}{10pt}
+	\ifx \@empty#1 \caption{#2}\else \caption[#1]{#2}
+}
+\newcommand*\circled[1]{\tikz[baseline]{\node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
+%
+% My subcaption style
+\newcommand{\mysubcaption}[2][\@empty]{
+	\subcaptionsize{\small}
+	\hangsubcaption
+	\subcaptionlabelfont{\rmfamily}
+	\sidecapstyle{\raggedright}
+	\setlength{\belowcaptionskip}{10pt}
+	\ifx \@empty#1 \subcaption{#2}\else \subcaption[#1]{#2}
+}
+%
+\newcommand{\sectionlinetwo}[2]{%
+  \nointerlineskip \vspace{.5\baselineskip}\hspace{\fill}
+  {\color{#1}
+    \resizebox{0.5\linewidth}{2ex}
+    {{%
+    {\begin{tikzpicture}
+    \node  (C) at (0,0) {};
+    \node (D) at (9,0) {};
+    \path (C) to [ornament=#2] (D);
+    \end{tikzpicture}}}}}%
+    \hspace{\fill}
+    \par\nointerlineskip \vspace{.5\baselineskip}
+  }
+%An initial of the very first character of the content
+\usepackage{Carrickc,ArtNouvc,Kramer,Konanur,Rothdn,Starburst}
+\usepackage{hyperref}
+\usepackage{lettrine}
+%\renewcommand\LettrineFontHook{\Rothdnfamily}
+\newcommand{\initial}[1]{%
+    \setcounter{DefaultLines}{3}%
+    \renewcommand{\rmdefault}{fnc}%
+    \renewcommand\LettrineFontHook{\Starburstfamily}%
+	\lettrine[lines=2,lhang=0.45,nindent=0.5em]{
+		\color{darkorange}
+     		{\textsc{#1}}}{}}
+     		
+\newcommand{\corner}[1]{%
+  \begin{tikzpicture}[color=darkgray,remember picture, overlay]
+    \node[anchor=north west] at (current page.north west){%
+      \pgfornament[width=2cm]{#1}};
+    \node[anchor=north east] at (current page.north east){%
+      \pgfornament[width=2cm,symmetry=v]{#1}};
+    \node[anchor=south west] at (current page.south west){%
+      \pgfornament[width=2cm,symmetry=h]{#1}};
+    \node[anchor=south east] at (current page.south east){%
+      \pgfornament[width=2cm,symmetry=c]{#1}};
+  \end{tikzpicture}%
+}
+\newcommand{\cornerplus}[2]{%
+  \begin{tikzpicture}[color=darkgray,remember picture, overlay]
+    \node[anchor=north west] at (current page.north west){%
+      \pgfornament[width=2cm]{#1}};
+    \node[anchor=north east] at (current page.north east){%
+      \pgfornament[width=2cm,symmetry=v]{#1}};
+    \node[anchor=south west] at (current page.south west){%
+      \pgfornament[width=2cm,symmetry=h]{#1}};
+    \node[anchor=south east] at (current page.south east){%
+      \pgfornament[width=2cm,symmetry=c]{#1}};
+    \node[anchor=north] at (current page.north){%
+      \pgfornament[width=6.5cm,symmetry=h]{#2}};
+    \node[anchor=south] at (current page.south){%
+      \pgfornament[width=6.5cm]{#2}};
+  \end{tikzpicture}%
+}
+\newcommand{\pt}[1]{%
+  \begin{tikzpicture}[color=darkgray,remember picture, overlay]
+    \node[anchor=north] at (current page.north){%
+      \pgfornament[symmetry=h]{#1}};
+    \node[anchor=south] at (current page.south){%
+      \pgfornament[symmetry=h]{#1}};
+  \end{tikzpicture}%
+}
+%
+% Theorem styles used in my thesis
+%
+\AtBeginDocument{\renewcommand{\bibname}{Références}}
+\AtBeginDocument{\renewcommand{\refname}{Références}}
+\AtBeginDocument{\renewcommand{\chaptername}{Chapitre}}
+\AtBeginDocument{\renewcommand{\mtctitle}{Sommaire}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theo}{Theorem}[chapter]
+\theoremstyle{plain}
+\newtheorem{prop}{Proposition}[chapter]
+\theoremstyle{plain}
+\theoremstyle{definition}
+\newtheorem{dfn}{Definition}[chapter]
+\theoremstyle{plain}
+\newtheorem{lema}{Lemma}[chapter]
+\theoremstyle{plain}
+\newtheorem{cor}{Corollary}[chapter]
+\theoremstyle{plain}
+\newtheorem{resu}{Result}[chapter]
+% Hyphenation for some words
+%
+\hyphenation{vir-tua-li-sées}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\addto\captionsenglish{%
+   \renewcommand\listfigurename{Figures}}   
+\addto\captionsenglish{%
+   \renewcommand\listtablename{Tableaux}}  
+\addto\captionsenglish{%
+   \renewcommand\lstlistlistingname{Codes}}
+\addto\captionsenglish{%
+   \renewcommand\lstlistingname{Code}}
+\addto\captionsenglish{%
+   \renewcommand{\contentsname}{Table des matières}}
+
+\maxtocdepth{subsection}
+ 
+\renewcommand{\baselinestretch}{1.5}
+
+\defbibfilter{papers}{type=article  or   type=book}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\sloppy
+
+\frontmatter
+\pagenumbering{roman}
+%
+\input{frontmatter/title}
+\clearemptydoublepage
+%
+\input{frontmatter/title2}
+\clearemptydoublepage
+%
+\input{frontmatter/dedication}
+\clearemptydoublepage
+%
+\input{frontmatter/declaration}
+\clearemptydoublepage
+%
+\input{frontmatter/glossaries}
+\clearemptydoublepage
+%
+\input{frontmatter/resume}
+\clearemptydoublepage
+%
+\input{frontmatter/abstract}
+\clearemptydoublepage
+%
+\listoftables
+%\addstarredchapter{\listtablename}
+\lstlistoflistings
+\clearemptydoublepage
+%
+\listoffigures
+%\addstarredchapter{\listfigurename}
+\markboth{Figures}{}
+\clearemptydoublepage
+%
+
+%\dominitoc
+\tableofcontents*
+\markboth{Table des matières}{}
+\clearemptydoublepage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+%
+\clearemptydoublepage
+\import{chapters/introduction/}{intro.tex}
+\clearemptydoublepage
+\import{chapters/1/}{background.tex}
+\clearemptydoublepage
+\import{chapters/2/}{etat_art.tex}
+\clearemptydoublepage
+\import{chapters/3/}{contrib.tex}
+\clearemptydoublepage
+\import{chapters/4/}{implem_evals.tex}
+\clearemptydoublepage
+\import{chapters/5/}{conclusion.tex}
+\clearemptydoublepage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\backmatter
+%\bibliographystyle{mla}
+%\bibliography{frontmatter/bibtex}
+\printbibliography%%[heading=subbibintoc,filter=papers,title={Bibliographie}]
+%%\printbibliography[heading=subbibintoc,type=online,title={Webographie}]
+\markboth{Références}{}
+\clearemptydoublepage
+%
+\appendix
+\import{chapters/annexes/}{annexes.tex}
+\clearemptydoublepage
+%
+\glsaddall
+%   
+\end{document}

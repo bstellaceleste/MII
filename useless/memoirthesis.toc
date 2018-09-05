@@ -1,0 +1,108 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax
+\select@language {english}
+\contentsline {starchapter}{D\IeC {\'e}dicace}{i}{chapter*.2}
+\contentsline {starchapter}{Remerciements}{ii}{chapter*.3}
+\contentsline {starchapter}{Sigles}{iv}{chapter*.4}
+\contentsline {starchapter}{R\IeC {\'e}sum\IeC {\'e}}{vi}{chapter*.5}
+\contentsline {paragraph}{Mots et expressions cl\IeC {\'e}s : Virtualisation, Working Set, PML, dom0.}{vi}{section*.6}
+\contentsline {starchapter}{Abstract}{vii}{chapter*.7}
+\contentsline {paragraph}{Keywords : Virtualization, Working Set, PML, dom0.}{vii}{section*.8}
+\contentsline {chapter}{Tableaux}{viii}{section*.9}
+\contentsline {chapter}{Codes}{viii}{section*.10}
+\contentsline {chapter}{Figures}{ix}{section*.11}
+\contentsline {starchapter}{Introduction}{1}{chapter*.12}
+\contentsline {chapter}{\chapternumberline {1}Background}{4}{chapter.1}
+\contentsline {section}{\numberline {1.1}G\IeC {\'e}n\IeC {\'e}ralit\IeC {\'e}s sur la Virtualisation}{5}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}D\IeC {\'e}finition}{5}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}Syst\IeC {\`e}mes de virtualisation}{6}{subsection.1.1.2}
+\contentsline {subsection}{\numberline {1.1.3}Techniques de virtualisation}{6}{subsection.1.1.3}
+\contentsline {subsubsection}{\numberline {1.1.3.1}Virtualisation niveau OS ou isolation}{7}{subsubsection.1.1.3.1}
+\contentsline {subsubsection}{\numberline {1.1.3.2}Noyau en espace utilisateur}{8}{subsubsection.1.1.3.2}
+\contentsline {subsubsection}{\numberline {1.1.3.3}Virtualisation compl\IeC {\`e}te}{8}{subsubsection.1.1.3.3}
+\contentsline {subsubsection}{\numberline {1.1.3.4}Para-virtualisation}{9}{subsubsection.1.1.3.4}
+\contentsline {subsubsection}{\numberline {1.1.3.5}Virtualisation assist\IeC {\'e}e par le mat\IeC {\'e}riel}{9}{subsubsection.1.1.3.5}
+\contentsline {subsection}{\numberline {1.1.4}Avantages de la virtualisation}{10}{subsection.1.1.4}
+\contentsline {section}{\numberline {1.2}Virtualisation de la m\IeC {\'e}moire}{11}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Environnement natif (sans virtualisation)}{11}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}Environnement virtualis\IeC {\'e}}{12}{subsection.1.2.2}
+\contentsline {subsubsection}{\numberline {1.2.2.1}Translation Lookaside Buffer (TLB)}{13}{subsubsection.1.2.2.1}
+\contentsline {subsubsection}{\numberline {1.2.2.2}Shadow paging}{13}{subsubsection.1.2.2.2}
+\contentsline {subsubsection}{\numberline {1.2.2.3}Nested paging}{15}{subsubsection.1.2.2.3}
+\contentsline {section}{\numberline {1.3}Page Modification Logging (PML)}{16}{section.1.3}
+\contentsline {subsection}{\numberline {1.3.1}Intel VT-x}{16}{subsection.1.3.1}
+\contentsline {subsection}{\numberline {1.3.2}Description du PML}{17}{subsection.1.3.2}
+\contentsline {chapter}{\chapternumberline {2}Positionnement du probl\IeC {\`e}me et Etat de l'art}{20}{chapter.2}
+\contentsline {section}{\numberline {2.1}Enonc\IeC {\'e} du probl\IeC {\`e}me}{21}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}Allocation de m\IeC {\'e}moire \IeC {\`a} la demande}{21}{subsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.1.1}R\IeC {\'e}pondre \IeC {\`a} Q1 : Comment collecter les informations sur l'activit\IeC {\'e} m\IeC {\'e}moire de la VM ?}{22}{subsubsection.2.1.1.1}
+\contentsline {subsubsection}{\numberline {2.1.1.2}R\IeC {\'e}pondre \IeC {\`a} Q2 : Comment estimer le WSS \IeC {\`a} partir des donn\IeC {\'e}es collect\IeC {\'e}es ?}{22}{subsubsection.2.1.1.2}
+\contentsline {subsection}{\numberline {2.1.2}Les m\IeC {\'e}triques de l'estimation du WSS}{23}{subsection.2.1.2}
+\contentsline {section}{\numberline {2.2}Les techniques existantes}{23}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Self-ballooning}{24}{subsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.1.1}Description}{24}{subsubsection.2.2.1.1}
+\contentsline {subsubsection}{\numberline {2.2.1.2}M\IeC {\'e}thode d'impl\IeC {\'e}mentation}{25}{subsubsection.2.2.1.2}
+\contentsline {subsubsection}{\numberline {2.2.1.3}Caract\IeC {\'e}ristiques et limites}{25}{subsubsection.2.2.1.3}
+\contentsline {subsection}{\numberline {2.2.2}Zballoond}{25}{subsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.2.1}Description}{25}{subsubsection.2.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2.2}M\IeC {\'e}thode d'impl\IeC {\'e}mentation}{26}{subsubsection.2.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.2.3}Caract\IeC {\'e}ristiques et limites}{26}{subsubsection.2.2.2.3}
+\contentsline {subsection}{\numberline {2.2.3}VMware}{26}{subsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.3.1}Description}{26}{subsubsection.2.2.3.1}
+\contentsline {subsubsection}{\numberline {2.2.3.2}M\IeC {\'e}thode d'impl\IeC {\'e}mentation}{27}{subsubsection.2.2.3.2}
+\contentsline {subsubsection}{\numberline {2.2.3.3}Caract\IeC {\'e}ristiques et limites}{27}{subsubsection.2.2.3.3}
+\contentsline {subsection}{\numberline {2.2.4}Geiger}{28}{subsection.2.2.4}
+\contentsline {subsubsection}{\numberline {2.2.4.1}Description}{28}{subsubsection.2.2.4.1}
+\contentsline {subsubsection}{\numberline {2.2.4.2}M\IeC {\'e}thode d'impl\IeC {\'e}mentation}{28}{subsubsection.2.2.4.2}
+\contentsline {subsubsection}{\numberline {2.2.4.3}Caract\IeC {\'e}ristiques et limites}{29}{subsubsection.2.2.4.3}
+\contentsline {subsection}{\numberline {2.2.5}Hypervisor Exclusive Cache}{29}{subsection.2.2.5}
+\contentsline {subsubsection}{\numberline {2.2.5.1}Description}{29}{subsubsection.2.2.5.1}
+\contentsline {subsubsection}{\numberline {2.2.5.2}M\IeC {\'e}thode d'impl\IeC {\'e}mentation}{29}{subsubsection.2.2.5.2}
+\contentsline {subsubsection}{\numberline {2.2.5.3}Caract\IeC {\'e}ristiques et limites}{30}{subsubsection.2.2.5.3}
+\contentsline {subsection}{\numberline {2.2.6}Dynamic MPA ballooning}{30}{subsection.2.2.6}
+\contentsline {subsubsection}{\numberline {2.2.6.1}Description}{30}{subsubsection.2.2.6.1}
+\contentsline {subsubsection}{\numberline {2.2.6.2}Caract\IeC {\'e}ristiques et limites}{31}{subsubsection.2.2.6.2}
+\contentsline {chapter}{\chapternumberline {3}Contributions}{32}{chapter.3}
+\contentsline {section}{\numberline {3.1}Contributions sur le plan architectural}{33}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}Design actuel du PML}{33}{subsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.1.1}Architecture}{33}{subsubsection.3.1.1.1}
+\contentsline {subsubsection}{\numberline {3.1.1.2}Limites de l'architecture actuelle}{35}{subsubsection.3.1.1.2}
+\contentsline {paragraph}{\textbullet \ \textbf {Limite 1 : Le VMExit lors de l'interruption \textit {pml buffer full} ne devrait pas \IeC {\^e}tre g\IeC {\'e}r\IeC {\'e} par le CPU sur lequel s'ex\IeC {\'e}cute la VM dont on estime le WSS}}{35}{section*.48}
+\contentsline {paragraph}{\textbullet \ \textbf {Limite 2 : La taille du \textit {pml\_log} est tr\IeC {\`e}s petite (4KB)}}{36}{section*.49}
+\contentsline {paragraph}{\textbullet \ \textbf {Limite 3 : Le PML ne devrait pas loguer uniquement les adresses des pages modifi\IeC {\'e}es}}{36}{section*.50}
+\contentsline {paragraph}{\textbullet \ \textbf {Limite 4 : Le PML ne devrait pas loguer les adresses des pages de la table de pages}}{36}{section*.51}
+\contentsline {paragraph}{\textbullet \ \textbf {Limite 5 : Le PML devrait tenir compte de la chaleur\cite {pages_chaudes} des pages dans son m\IeC {\'e}canisme}}{37}{section*.52}
+\contentsline {subsection}{\numberline {3.1.2}Proposition d'un design am\IeC {\'e}lior\IeC {\'e} pour l'estimation du WSS}{37}{subsection.3.1.2}
+\contentsline {subsubsection}{\numberline {3.1.2.1}Redirection des \textit {VMExits} vers le dom0}{37}{subsubsection.3.1.2.1}
+\contentsline {subsubsection}{\numberline {3.1.2.2}Introduction d'une deuxi\IeC {\`e}me page de log (\textit {page modification log})}{38}{subsubsection.3.1.2.2}
+\contentsline {subsubsection}{\numberline {3.1.2.3}Remettre \IeC {\`a} 0 le bit \textit {dirty} des pages apr\IeC {\`e}s avoir vid\IeC {\'e} la page de logs}{39}{subsubsection.3.1.2.3}
+\contentsline {subsubsection}{\numberline {3.1.2.4}Modification de la structure de donn\IeC {\'e}es \textit {bitmap}}{40}{subsubsection.3.1.2.4}
+\contentsline {section}{\numberline {3.2}Algorithmique d'estimation}{41}{section.3.2}
+\contentsline {section}{\numberline {3.3}Avantages de la solution propos\IeC {\'e}e}{43}{section.3.3}
+\contentsline {chapter}{\chapternumberline {4}Impl\IeC {\'e}mentation et Evaluations}{44}{chapter.4}
+\contentsline {section}{\numberline {4.1}Impl\IeC {\'e}mentation}{45}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}Environnement d'impl\IeC {\'e}mentation}{45}{subsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.1.1}Hyperviseur}{45}{subsubsection.4.1.1.1}
+\contentsline {subsubsection}{\numberline {4.1.1.2}Syst\IeC {\`e}me d'exploitation}{45}{subsubsection.4.1.1.2}
+\contentsline {subsubsection}{\numberline {4.1.1.3}Langage de programmation}{46}{subsubsection.4.1.1.3}
+\contentsline {subsubsection}{\numberline {4.1.1.4}Outils de d\IeC {\'e}veloppement}{46}{subsubsection.4.1.1.4}
+\contentsline {paragraph}{\textbf {Le compilateur}}{46}{section*.58}
+\contentsline {paragraph}{\textbf {L'\IeC {\'e}diteur}}{46}{section*.59}
+\contentsline {subsection}{\numberline {4.1.2}D\IeC {\'e}tails d'impl\IeC {\'e}mentation}{47}{subsection.4.1.2}
+\contentsline {subsubsection}{\numberline {4.1.2.1}D\IeC {\'e}finition des hypercalls pour activer et d\IeC {\'e}sactiver le PML pour une VM donn\IeC {\'e}e}{47}{subsubsection.4.1.2.1}
+\contentsline {subsubsection}{\numberline {4.1.2.2}Modification de la structure de donn\IeC {\'e}es bitmap}{49}{subsubsection.4.1.2.2}
+\contentsline {subsubsection}{\numberline {4.1.2.3}Modification du traitant \textit {pml buffer full}}{51}{subsubsection.4.1.2.3}
+\contentsline {subsubsection}{\numberline {4.1.2.4}Mise en place du m\IeC {\'e}canisme (hypercall) de copie des logs consolid\IeC {\'e}s de l'hyperviseur vers le dom0}{51}{subsubsection.4.1.2.4}
+\contentsline {subsubsection}{\numberline {4.1.2.5}Impl\IeC {\'e}mentation de la version 0 de l'algorithme d'estimation du WSS}{52}{subsubsection.4.1.2.5}
+\contentsline {section}{\numberline {4.2}\IeC {\'E}valuations}{53}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Environnement d'\IeC {\'e}valuation}{53}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Exp\IeC {\'e}rimentation 1 : charge synth\IeC {\'e}tique manipulant un working set constant}{54}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Exp\IeC {\'e}rimentation 2 : charges synth\IeC {\'e}tiques manipulant un working set variable (en escaliers)}{55}{subsection.4.2.3}
+\contentsline {chapter}{\chapternumberline {5}Conclusion}{57}{chapter.5}
+\contentsline {chapter}{Annexes}{58}{appendix*.71}
+\contentsline {section}{Annexe 1 : Description des structures d'accueil IRIT et LaBRI}{58}{section*.72}
+\contentsline {section}{Annexe 2 : Hypercalls d'activation et de d\IeC {\'e}sactivation du PML}{60}{section*.73}
+\contentsline {section}{Annexe 3 : Modification de la structure de donn\IeC {\'e}es bitmap}{60}{section*.74}
+\contentsline {section}{Annexe 4 : Modification du traitant \textit {pml buffer full}}{61}{section*.75}
+\contentsline {section}{Annexe 5 : M\IeC {\'e}canisme (hypercall) de copie des logs consolid\IeC {\'e}s de l'hyperviseur vers le dom0}{66}{section*.76}
+\contentsline {section}{Annexe 6 : Version 0 de l'algorithme d'estimation du WSS}{69}{section*.77}
+\contentsfinish

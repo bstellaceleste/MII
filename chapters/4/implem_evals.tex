@@ -1,6 +1,8 @@
 \let\textcircled=\pgftextcircled
 \chapter{Implémentation et Evaluations}
 \label{chap:implem_eval}
+%\mtcaddchapter
+%\adjustmtc
 
 \initial{C}\textit{e chapitre présente quelques détails d’implémentation et les évaluations que nous avons effectuées pour valider l’intérêt de notre solution.}
 
@@ -103,19 +105,19 @@ Nous avons modifié le comportement du mécanisme lorsque le \textit{pml\_log} e
 Les modifications effectuées sont dans les codes \ref{lst:pml_buffer_full_avant} et \ref{lst:pml_buffer_full_apres} en annexe \ref{section:pml_buffer_full}.
 
 \subsubsection{Mise en place du mécanisme (hypercall) de copie des logs consolidés de l'hyperviseur vers le dom0}
-Pour éviter d'imposer des coûts de surcharge à l'hyperviseur, nous implémentons les algos de calcul dans le dom0. Pour celà, il faut copier les logs depuis la longmap dans l'hyperviseur, vers le dom0 (figure \ref{fig:collect-dirty-logs}). Ceci ne peut se faire qu'à l'aide d'un hypercall que nous avons donc défini : $«xl \quad collect-dirty-logs»$.
+Pour éviter d'imposer des coûts de surcharge à l'hyperviseur, nous implémentons les algos de calcul dans le dom0. Pour celà, il faut copier les logs depuis la longmap dans l'hyperviseur, vers le dom0 (figure \ref{fig:collect-dirty-logs}). Ceci ne peut se faire qu'à l'aide d'un hypercall que nous avons donc défini : $«xl \quad collect-dirty-logs»$.\\
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=.8]{chapters/4/fig4/collect-dirty-logs}
+    \includegraphics[scale=1]{chapters/4/fig4/collect-dirty-logs}
     \caption{Copie des logs de l'hyperviseur vers le dom0}
     \label{fig:collect-dirty-logs}
 \end{figure}
 
-\noindent Cet hypercall est appelé avec l'$id$ de la VM en paramètre. Ainsi, dès qu'on fait un $xl \quad collect-dirty-logs \quad id\_vm$, la chaîne d'appel de fonctions de l'hypercall  est la suivante :
+\noindent Cet hypercall est appelé avec l'$id$ de la VM en paramètre. Ainsi, dès qu'on fait un «$xl \quad collect-dirty-logs \quad id\_vm$», la chaîne d'appels de fonctions de l'hypercall  est la suivante :
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=.6]{chapters/4/fig4/collect-dirty-logs_appel_fonction}
+    \includegraphics[scale=.5]{chapters/4/fig4/collect-dirty-logs_appel_fonction}
     \caption{Copie des logs de l'hyperviseur vers le dom0 : chaîne d'appel de fonctions}
     \label{fig:collect-dirty-logs_appel_fonction}
 \end{figure}
@@ -252,7 +254,7 @@ Pour chacune des expérimentations ci-après, nous allons présenter les résult
    \addplot [blue] coordinates {
     (0,437) (180,437)
   }; 
-  \legend{$W^o$,$W^{e}_{self_ballooning}$}    
+  \legend{$W^o$,$W^{e}_{self ballooning}$}    
 \end{axis}  
 \end{tikzpicture}
 %%%%%%%%%%%%%%%%%%%%%
@@ -346,7 +348,7 @@ Pour chacune des expérimentations ci-après, nous allons présenter les résult
   \legend{$W^o_$,$W^e_{cache}$}         
 \end{axis}  
 \end{tikzpicture}
-\caption{Résultats d'évaluations de la première charge synthétique avec les techniques existantes\\ \centering\bf $W^o$ : WSS escompté -- $W^e$ : WSS estimé}
+\caption{Résultats d'évaluations de la première charge synthétique avec les techniques existantes}
 \label{fig:studied_technique_ws_cst}
 \end{figure}
 
@@ -380,7 +382,7 @@ L'application qui tourne dans la VM utilise activement les $102400$ pages qui co
   \legend{$W^o$,$W^{e}_pml$}    
 \end{axis}  
 \end{tikzpicture}
-\caption{Résultats d'évaluations de la première charge synthétique avec la technique implémentée. $W^o$ : WSS escompté -- $W^e$ WSS : estimé}
+\caption{Résultats d'évaluations de la première charge synthétique avec la technique implémentée}
 \label{fig:eval_pml_cst}
 \end{figure}
 
@@ -432,10 +434,11 @@ En observant les résultats présentés à la figure \ref{fig:studied_technique_
   \addplot [blue] coordinates {
      (0,150) (180,150) (180,275) (360,275) (360,410) (540,410) (540,275) (720,275) (720,150) (900,150) 
   };
-\legend{$W^o_{ss}$,$W^{e}_{ss}$} 
+  \legend{$W^o_{ss}$,$W^{e}_{ss}$} 
  \end{axis}
 %\node[anchor=north] at (1.2,2.6) {$WS\_2escaliers$};
-\end{tikzpicture}\caption{Résultats d'évaluations des charges variables avec le PML. $W^o_{ss}$ : WSS escompté -- $W^e_{ss}$ WSS : estimé}
+\end{tikzpicture}
+\caption{Résultats d'évaluations des charges variables avec le PML}
 \label{fig:eval_pml_var}
 \end{figure}
 
@@ -656,6 +659,6 @@ En observant les résultats présentés à la figure \ref{fig:studied_technique_
  \end{axis}
 \end{tikzpicture} 
  
-\caption{Résultats d'évaluations des charges variables avec les techniques existantes. $W^o_{ss}$ : WSS escompté -- $W^e_{ss}$ WSS estimé}
+\caption{Résultats d'évaluations des charges variables avec les techniques existantes}
 \label{fig:studied_technique_ws_var}
 \end{figure}
