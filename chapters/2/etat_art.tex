@@ -1,12 +1,12 @@
 \let\textcircled=\pgftextcircled
-\chapter{Positionnement du problème et Etat de l'art}
+\chapter{Etat de l'art}
 \label{chap:etat_de_lart}
 %\mtcaddchapter
 %\adjustmtc
 
 \initial{C}\textit{e chapitre fait le tour des différents travaux qui proposent des solutions au problème d'estimation du WSS.}
 
-\minitoc
+%\minitoc
 
 \newpage    
 \section{Enoncé du problème}
@@ -14,10 +14,10 @@ Comme mentionné à l'introduction, la mémoire est la ressource critique en ter
 
 \subsection{Allocation de mémoire à la demande}
 Soit une VM dont la mémoire réservée a une capacité $\textit{m}_\textit{r}$ (représentant le \acs{SLA} \footnote{En français entente du niveau de service, c'est un document qui définit la qualité de service attendue et le niveau de service que souhaite obtenir un client de son fournisseur.}, \acl{SLA}, que le fournisseur ou l'hébergeur doit respecter), mais dont la mémoire activement utilisée est $\textit{m}_\textit{u}$ ($\textit{m}_\textit{u}$ \leq $\textit{m}_\textit{r}$), l'approche d'allocation à la demande n'allouera à la VM qu'une quantité $\textit{m}_\textit{u}$ de mémoire (au lieu de $\textit{m}_\textit{r}$ comme avec une allocation statique) : $\textit{m}_\textit{u}$ est appelée \ac{WSS} de la VM \cite{article9}. Cette approche nécessite d'implémenter une boucle qui fonctionne comme suit :
-\begin{itemize}
-    \item L'activité de chaque VM est collectée périodiquement et sert d'\textit{input} à l'algorithme d'estimation du WSS
-    \item Une fois l'estimation faite (notée $\textit{wss}_\textit{est}$), la mémoire allouée à la VM est ajustée à l'estimation faite $\textit{wss}_\textit{est}$
-\end{itemize}
+\begin{enumerate}[label=(\roman*)]
+    \item A chaque période $T$ définie, l'activité de chaque VM est collectée périodiquement et sert d'\textit{input} à l'algorithme d'estimation du WSS;
+    \item Une fois l'estimation faite (notée $\textit{wss}_\textit{est}$), la mémoire allouée à la VM est ajustée à l'estimation faite $\textit{wss}_\textit{est}$. On observe la VM pendant un certain moment puis on recommence au $(i)$.
+\end{enumerate}
 Ceci fait naître deux principales interrogations : 
 \begin{itemize}[label=\ding{42}, font=\large \color{darkorange}]
     \item \textbf{\large{\textcolor{darkorange}{(Q1)}}} Comment observer la VM et collecter les informations sur son activité sachant que celle-ci est une \textbf{«boîte noire»} pour l'hébergeur ?\\
@@ -31,13 +31,13 @@ Répondre à (Q1) soulève deux défis :
     \item Le premier est relatif à la méthode à utiliser pour la collecte des données liées à l'activité mémoire de la VM. Une telle méthode peut être soit \textbf{active} soit \textbf{\textit{passive}}. Dans le premier cas, la méthode aura pour conséquence de modifier le cours d'exécution de la VM, ce qui n'est pas le cas pour une méthode passive.\\
     Une méthode active peut impacter sur les performances de la machine virtuelle. Par exemple, une façon triviale de traquer tous les accès mémoire est d'invalider (les marquer comme étant \textit{non présentes}) toutes les pages du \textit{shadow page table} (sous-section \ref{subsubsection:shadow_paging}) de la VM. Ainsi tous les accès subséquents produiront des défauts de page qui seront capturés par l'hyperviseur. Cette méthode peut en effet être catastrophique pour les performances de la VM à cause des coûts imputés par un défaut de page.
     
-    \item Le deuxième défi se rapporte au niveau d'implémentation de la méthode utilisée. En effet, une telle méthode peut être implémentée à trois endroits : soit exclusivement dans l'hyperviseur (ou dans le dom0), soit exclusivement à l'intérieurde la VM, soit réparti à travers les deux. Dans les deux derniers cas, la méthode est dite \textbf{\textit{intrusive}} car la nature \textit{boîte noire de la VM} sera altérée. Dans cette circonstance, l'implémentation de la méthode nécessiterait l'accord du client.
+    \item Le deuxième défi se rapporte au niveau d'implémentation de la méthode utilisée. En effet, une telle méthode peut être implémentée à trois endroits : soit exclusivement dans l'hyperviseur (ou dans le dom0), soit exclusivement à l'intérieur de la VM, soit réparti à travers les deux. Dans les deux derniers cas, la méthode est dite \textbf{\textit{intrusive}} car la nature \textit{boîte noire de la VM} sera altérée. Dans cette circonstance, l'implémentation de la méthode nécessiterait l'accord du client.
 \end{itemize}
 
 \subsubsection{Répondre à Q2 : Comment estimer le WSS à partir des données collectées ?}
 Concernant (Q2), les principaux défis à relever sont : la \textbf{précision} de l'estimation et le coût lié à l'algorithme utilisé. En effet, étant donné qu'après estimation faite du WSS la mémoire allouée à la VM est réajustée, une estimation erronée pourrait soit impacter sur les performances de la machine, soit causer un gaspillage encore plus conséquent des ressources.
 
-\subsection{Les métriques de l'estimation du WSS}
+\subsection{Les critères d'estimation du WSS}
 Les questions soulevées précédemment mettent l'accent sur les métriques à prendre en compte lorsqu'on définit un algorithme d'estimation pour le WSS :
 \begin{itemize}[label=\ding{42}, font=\large]
     \item \textbf{Intrusive.} Une bonne méthode d'estimation ne devrait pas être intrusive, i.e. nécessiter la modification de la VM.
@@ -173,3 +173,25 @@ Le \textit{Dynamic MPA \footnote{Dynamic Memory Pressure Aware} ballooning} \cit
 
 \subsubsection{Caractéristiques et limites}
 \textit{Dynamic MPA} est très intrusif étant donné qu'il nécessite des hypercalls supplémentaires de l'OS de la VM. C'est une technique qui n'est donc réellement effective que dans le cas d'un datacenter privé où le gestionnaire a un contrôle plus élevé sur les VMs. En outre, ces nouveaux hypercalls exportent des données précises et importantes sur la couche mémoire des VMs, ce qui accroît le risque d'attaques sur les machines.
+
+\paragraph \noindent 
+\par\noindent Il était question dans ce chapitre premièrement de présenter les critères à prendre en compte lors de la définition d'une technique d'estimation du WSS, et ensuite les techniques existantes, en disant pour chacune d'elles si elle répond à ces critères et pourquoi. Le tableau \ref{tab:existant} suivant récapitule pour chacune des techniques existantes avec, les critères d'estimation :
+
+\begin{table}[H]
+  \begin{center}
+    \caption{Tableau comparatif des techniques d'estimation du WSS existantes}
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{|>{\bfseries}l|c|c|c|c|c|}
+      \hline
+      \cellcolor[RGB]{165,42,42}\textcolor{white}{\textbf{Technique}} & \cellcolor[RGB]{165,42,42}\textcolor{white}{\textbf{Intrusive}} & \cellcolor[RGB]{165,42,42}\textcolor{white}{\textbf{Active}} & \cellcolor[RGB]{165,42,42}\textcolor{white}{\textbf{Précise}} & \cellcolor[RGB]{165,42,42}\textcolor{white}{\textbf{Surcharge la VM}} & \cellcolor[RGB]{165,42,42}\textcolor{white}{\textbf{Surcharge l'hyperviseur}}\\
+      \hline
+      \hline
+      Self-ballooning & Oui & Non & Non & Non & Non \\ \hline
+      ZBalloond & Oui & Oui & Non & Oui & Non \\ \hline 
+      VMWare & Non & Oui & Non & Non & Oui \\ \hline
+      Geiger & Non & Non & Non $si WSS < mémoire allouée$ & Non & Non \\ \hline
+      Exclusive-cache & Non & Oui & Non $si le cache est nul$ & Non & Non \\ \hline
+    \end{tabular}
+    \label{tab:existant}}
+  \end{center}
+\end{table}

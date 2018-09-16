@@ -4,7 +4,7 @@
 %\mtcaddchapter
 %\adjustmtc
 
-\initial{C}\textit{e chapitre présente quelques détails d’implémentation et les évaluations que nous avons effectuées pour valider l’intérêt de notre solution.}
+\initial{C}\textit{e chapitre présente quelques détails d’implémentation du prototype réalisé et les évaluations que nous avons effectuées pour valider l’intérêt de notre solution.}
 
 \minitoc
 
@@ -18,7 +18,7 @@ Plusieurs systèmes de virtualisation existent sur le marché. Nous nous sommes 
 \begin{itemize}[label=\ding{43}]
     \item Du \textbf{support para-virtualisation.} La solution que nous proposons concorde avec les principes de la para-virtualisation car elle exige des modifications dans les systèmes d'exploitation invités.
     \item Du \textbf{droit de modification des sources.} L'hyperviseur choisi doit être \textit{open source} afin de pouvoir en obtenir le code source et de pouvoir le modifier sans contrainte.
-    \item De la \textbf{communauté informatique travaillant sur le système.} À cause de la documentation disponible et du support à la résolution des bogues.
+    \item De la \textbf{communauté informatique travaillant sur le système.} À cause de la documentation disponible et du support à la résolution des buggs.
 \end{itemize}
 \noindent Sur la base de ces critères, nous avons opté pour l'utilisation de l'hyperviseur \emph{XEN} \cite{article2} car c'est celui qui correspondait le mieux à nos besoins.
 
@@ -44,14 +44,14 @@ On a besoin en outre de l'outil \emph{make} qui est un programme permettant de p
 \par\noindent Lorsqu'on développe sur des projets contenant des millions de lignes de code comme ceux de Linux (environ 16 millions de lignes de code réparties dans 45 mille fichiers) \cite{linux} et XEN (environ 600 mille lignes de code réparties dans 7 mille fichiers), il est nécessaire d'utiliser un bon éditeur pour faciliter la navigation entre les fichiers. Nous avons opté pour les éditeurs \emph{VS Code, Visual Studio Code} et \emph{Sublime Text}.\\
 
 \emph{VS Code} est un éditeur multi-plateforme, \textit{open source} et gratuit supportant une dizaine de langages. C'est un éditeur de code extensible développé par Microsoft pour Windows, Linux et macOS.\\
-VS Code combine la simplicité d'un éditeur de code avec ce dont les développeurs ont besoin pour leur cycle de base édition-compilation-débogage. Le code fournit une prise en charge complète de l'édition et du débogage, un modèle d'extensibilité et une intégration légère aux outils existants. Il permet aussi, entre autres fonctionnalités, de retrouver la définition d'une fonction à partir de l'endroit où elle est appelée et de rechercher et remplacer des chaînes de caractères sur la base d'expression régulières.\\
- VS Code est mis à jour tous les mois avec de nouvelles fonctionnalités et corrections de bugs.
+VS Code combine la simplicité d'un éditeur de code avec ce dont les développeurs ont besoin pour leur cycle de base édition-compilation-débogage. Le code fournit une prise en charge complète de l'édition et du débogage, un modèle d'extensibilité et une intégration légère aux outils existants. Il permet aussi, entre autres fonctionnalités, de retrouver la définition d'une fonction à partir de l'endroit où elle est appelée et de rechercher et remplacer des chaînes de caractères sur la base d'expressions régulières.\\
+ VS Code est mis à jour tous les mois avec de nouvelles fonctionnalités et corrections de buggs.
 
-\emph{Sublime Text} est un éditeur de texte générique codé en C++ et Python, disponible sur Windows, Mac et Linux. Le logiciel a été conçu tout d'abord comme une extension pour Vim, riche en fonctionnalités. Cet éditeur prend en charge plus de 44 langages de programmation majeurs, et des plugins sont souvent disponibles pour les langages plus rares. Sur son interface graphique, il intègre la plupart des fonctionnalités de base d'un éditeur de texte, dont la coloration syntaxique personnalisable et l’auto complétion. Tout comme VS Code, il permet également de retrouver la définition d'une fonction à partir de l'endroit où elle est appelée et de rechercher et remplacer des chaînes de caractères sur la base d'expression régulières.
+\emph{Sublime Text} est un éditeur de texte générique codé en C++ et Python, disponible sur Windows, Mac et Linux. Le logiciel a été conçu tout d'abord comme une extension pour Vim, riche en fonctionnalités. Cet éditeur prend en charge plus de 44 langages de programmation majeurs, et des plugins sont souvent disponibles pour les langages plus rares. Sur son interface graphique, il intègre la plupart des fonctionnalités de base d'un éditeur de texte, dont la coloration syntaxique personnalisable et l’auto complétion. Tout comme VS Code, il permet également de retrouver la définition d'une fonction à partir de l'endroit où elle est appelée et de rechercher et remplacer des chaînes de caractères sur la base d'expressions régulières.
 
 \subsection{Détails d'implémentation}
 \subsubsection{Définition des hypercalls pour activer et désactiver le PML pour une VM donnée}
-Le mécanisme du PML n'est pas activé par défaut, même s'il est supporté par le processeur. Certains hyperviseurs tels que VMWare et XEN ont déjà modifié leur code source pour y intégré ce mécanisme, notamment son activation et son utilisation.\\  XEN dans son code source a intégré le PML, mais uniquement dans le cadre de la migration des machines virtuelles \cite{xen_pml}. En effet, pendant la migration d'une VM, XEN utilise le mécanisme du PML pour traquer les pages chaudes qui doivent être déplacées.\\
+Le mécanisme du PML n'est pas activé par défaut, même s'il est supporté par le processeur. Certains hyperviseurs tels que VMWare et XEN ont déjà modifié leur code source pour y intégrer ce mécanisme, notamment son activation et son utilisation.\\  XEN dans son code source a intégré le PML, mais uniquement dans le cadre de la migration des machines virtuelles \cite{xen_pml}. En effet, pendant la migration d'une VM, XEN utilise le mécanisme du PML pour traquer les pages chaudes qui doivent être déplacées.\\
 Or dans le cadre de notre travail, nous devons être capables d'activer le PML hors de ce contexte, i.e. chaque fois que nous avons besoin d'estimer le WSS d'une VM. Dans XEN, la figure \ref{fig:appel_fonction} présente la file d'appels des fonctions liées à l'activation du PML pour une VM : 
 \begin{figure}[H]
     \centering
@@ -60,7 +60,7 @@ Or dans le cadre de notre travail, nous devons être capables d'activer le PML h
     \label{fig:appel_fonction}
 \end{figure}
 
-\noindent Comme nous le montre cette file d'appels, le but est d'activer le PML pour les processeurs sur lesquels s'exécutent la VM. Mais tout part de l'activation du mode \textit{log dirty} pour les pages de la VM. C'est ce mode qui va permettre de traquer les pages mémoire utiliser par la machine virtuelle.\\
+\noindent Comme nous le montre cette file d'appels, le but est d'activer le PML pour les processeurs sur lesquels s'exécutent la VM. Mais tout part de l'activation du mode \textit{log dirty} pour les pages de la VM. C'est ce mode qui va permettre de traquer les pages mémoire utilisées par la machine virtuelle.\\
 L'activation du mode \textit{log dirty} dans XEN se fait depuis les tools. Nous avons donc défini des hypercalls à travers les commandes suivantes : $«xl \quad enable-log-dirty» \quad \& \quad  «xl \quad disable-log-dirty»$.
 
 \noindent Un aperçu des lignes de code liées à la définition de ces hypercalls se trouve en annexes \ref{section:enable_disable_logdirty}, codes \ref{lst:enable_logdirty} et \ref{lst:disable_logdirty}.
@@ -73,13 +73,13 @@ L'activation du mode \textit{log dirty} dans XEN se fait depuis les tools. Nous 
     \label{fig:bitmap}
 \end{figure}
 
-Actuellement la structure de données qui représente la bitmpa est un \textit{radix tree} dont chaque branche est constituée de 4 niveaux tels que matérialisés par la figure \ref{fig:bitmap}:
+Actuellement la structure de données qui représente la bitmap est un \textit{radix tree} dont chaque branche est constituée de 4 niveaux tels que matérialisés par la figure \ref{fig:bitmap}:
 \begin{itemize}
     \item 3 noeuds intermédiaires : dans chaque noeud, une entrée est un pointeur vers une entrée dans le noeud suivant.
     \item 1 feuille terminale : ses entrées quant à elle sont des bits dont chacun représente une adresse du log.
 \end{itemize}
 
-Chaque noeud de l'arbre est une page de $4Ko$, y compris les feuilles terminales. Étant donné que les entrées d'une feuille sont des bits on peut déterminer le nombre d'entrées dans une feuille. En effet : $$1octet \quad = \quad 2^{3} bits$$ 
+\noindent Chaque noeud de l'arbre est une page de $4Ko$, y compris les feuilles terminales. Étant donné que les entrées d'une feuille sont des bits, on peut déterminer le nombre d'entrées dans une feuille. En effet : $$1octet \quad = \quad 2^{3} bits$$ 
 $$\Rightarrow 1Ko \quad = \quad 2^{10}*2^{3} bits$$
 $$\Rightarrow 4Ko \quad = \quad 2^{2}*2^{10}*2^{3} bits \quad = \quad 2^{15} bits$$
 Donc on a $2^{15}$ entrées dans une feuille. Maintenant nous devons garder pour une feuille le même nombre d'entrées mais de type $long$ \footnote{UL : unsigned long} et non plus $bit$. Pour celà nous devons déterminer le nombre $X$ de pages de $4Ko$ dont a besoin pour contenir $2^{15}$ entrées de type $long$ : 
@@ -101,7 +101,7 @@ $$= \quad 8sizeof(UL)$$
 \noindent La méthode qui permettait de générer une feuille $L1$ a été modifiée telle que présentée dans les codes \ref{lst:leaf_bit} et \ref{lst:leaf_UL} en annexe \ref{section:bitmap}. Et la nouvelle structure est matérialisée par la figure \ref{fig:longmap}.
 
 \subsubsection{Modification du traitant \textit{pml buffer full}}
-Nous avons modifié le comportement du mécanisme lorsque le \textit{pml\_log} est plein en accord avec la modification de la structure de consolidation de logs telle que présentée au paragraphe précédent. Ainsi, au moment de vider le buffer, l'algorithme parcours la nouvelle structure de données, et s'il existe déjà une entrée pour l'adresse à enregistrée, son compteur incrémenté. Sinon, une nouvelle entrée est crée et le compteur est initialisé à 1 pour cette adresse.\\
+Nous avons modifié le comportement du mécanisme lorsque le \textit{pml\_log} est plein en accord avec la modification de la structure de consolidation de logs telle que présentée au paragraphe précédent. Ainsi, au moment de vider le buffer, l'algorithme parcours la nouvelle structure de données, et s'il existe déjà une entrée pour l'adresse à enregistrer, son compteur est incrémenté. Sinon, une nouvelle entrée est créée et le compteur est initialisé à 1 pour cette adresse.\\
 Les modifications effectuées sont dans les codes \ref{lst:pml_buffer_full_avant} et \ref{lst:pml_buffer_full_apres} en annexe \ref{section:pml_buffer_full}.
 
 \subsubsection{Mise en place du mécanisme (hypercall) de copie des logs consolidés de l'hyperviseur vers le dom0}
@@ -123,7 +123,7 @@ Pour éviter d'imposer des coûts de surcharge à l'hyperviseur, nous implément
 \end{figure}
 
 \noindent Cette dernière méthode $paging\_log\_dirty\_op$ , nous l'avons modifiée pour remonter les logs vers le dom0. L'algorithme implémenté dans cette méthode consiste à copier dans les logs de XEN, le contenu de la $longmap$ et compter le nombre total de pages différentes.\\
-La définition de la commande $xl$ pour la collecte est en annexe \ref{section:copie_logs}, code \ref{lst:xl}, et celle  de la fonction $xc\_domain\_collect\_dirty\_logs$ code \ref{fig:xc_domain_collect_dirty_logs}.
+La définition de la commande $xl$ pour la collecte est en annexe \ref{section:copie_logs}, code \ref{lst:paging_log_dirty_op}, et celle  de la fonction $xc\_domain\_collect\_dirty\_logs$ code \ref{lst:xc_domain_collect_dirty_logs}.
 
 \subsubsection{Implémentation de la version 0 de l'algorithme d'estimation du WSS}
 Enfin, nous avons implémenter une première version de l'algorithme que nous présentons au chapitre précédent. Cette version ne prend en compte que les parties de l'architecture proposée que nous avons pu implémenter, les autres nécessitant une modification du matériel (modification du processeur).\\
@@ -133,7 +133,7 @@ Des exemples d'application de cet algorithme et des graphes générés sont pré
 \section{Évaluations}
 
 \subsection{Environnement d'évaluation}
-Les expérimentations que nous avons menées ont nécessité l'utilisation d'un seul serveur physique. Les caractéristiques de la machine hôte sont regroupées dans le tableau \ref{table:caracteristiques_machines} suivant.
+Les expérimentations que nous avons menées ont nécessité l'utilisation d'un seul serveur physique. Les caractéristiques de la machine hôte sont regroupées dans le tableau \ref{tab:caracteristiques_machines} suivant.
 \begin{table}[H]
   \begin{center}
     \caption{Caractéristiques de la machine physique dans les expérimentations}
@@ -222,8 +222,9 @@ Les expérimentations que nous avons menées ont nécessité l'utilisation d'un 
 \label{fig:set_workloads}
 \end{figure*}
 
-\noindent La figure \ref{fig:set_workloads} présente pour chacune des charges, la variation attendue du WSS en fonction du temps. Nous avons exécuté dans la VM des applications qui manipulent toutes un working set de $400MB$ (soit $400*1024/4 \quad = \quad 102400$ pages méoire), mais avec de façons différentes : utilisation constante et variation en escaliers.\\
-Pour chacune des expérimentations ci-après, nous allons présenter les résultats obtenus avec les solutions existantes et ensuite avec la solution que nous avons implémentée.
+\noindent La figure \ref{fig:set_workloads} présente pour chacune des charges, la variation attendue du WSS en fonction du temps. Nous avons exécuté dans la VM des applications qui manipulent toutes un working set de $400MB$ (soit $400*1024/4 \quad = \quad 102400$ pages méoire), mais de façons différentes : utilisation constante et variation en escaliers.\\
+Pour chacune des expérimentations ci-après, nous allons présenter les résultats obtenus avec les solutions existantes et ensuite avec la solution que nous avons implémentée.\\
+\textbf{Sur les graphes ci-après présentant les résultats d'expérimentation, $W^0$ représente le \emph{working set attendu} (courbe en rouge) et $W^e$ le \emph{working set estimé} (courbe en bleu).}  
 
 \subsection{Expérimentation 1 : charge synthétique manipulant un working set constant}
 
@@ -352,7 +353,7 @@ Pour chacune des expérimentations ci-après, nous allons présenter les résult
 \label{fig:studied_technique_ws_cst}
 \end{figure}
 
-L'application qui tourne dans la VM utilise activement les $102400$ pages qui constituent son \emph{working set}. Le surplus observé trouve son explication au paragraphe \ref{subsubsection:limites_pml_actuel} - \textit{limite 4}. En effet, comme nous l'avons expliqué les pages de la table de pages sont également loguées pendant le mécanisme, et celles-ci ne sont pas prises en compte dans la valeur expérimentale de la mémoire utilisée par l'application.
+\noindent L'application qui tourne dans la VM utilise activement les $102400$ pages qui constituent son \emph{working set}. Le surplus observé trouve son explication au paragraphe \ref{subsubsection:limites_pml_actuel} - \textit{limite 4}. En effet, comme nous l'avons expliqué les pages de la table de pages sont également loguées pendant le mécanisme, et celles-ci ne sont pas prises en compte dans la valeur expérimentale de la mémoire utilisée par l'application.
 
 \begin{figure}[H]
   \centering  
@@ -379,68 +380,18 @@ L'application qui tourne dans la VM utilise activement les $102400$ pages qui co
    \addplot [blue] coordinates {
         (0,410) (180,410)
     }; 
-  \legend{$W^o$,$W^{e}_pml$}    
+  \legend{$W^o$,$W^{e}_{pml}$}    
 \end{axis}  
 \end{tikzpicture}
 \caption{Résultats d'évaluations de la première charge synthétique avec la technique implémentée}
 \label{fig:eval_pml_cst}
 \end{figure}
 
-\subsection{Expérimentation 2 : charges synthétiques manipulant un working set variable (en escaliers)}
-En observant les résultats présentés à la figure \ref{fig:studied_technique_ws_var}, on constate que pour la plus part des techniques existantes il est difficile de détecter les variations de mémoire. A l'opposé, la technique que nous avons implémentée, dont les résultats sont présentés à la figure \ref{fig:eval_pml_var}.\\
-\par
+\noindent Cette première expérimentation montre que notre solution estime correctement le WSS avec des charges constantes. Par contre, la plupart des techniques existantes passent à côté de l'estimation. Seules deux techniques, Geiger et Exclusive-cache parviennet à donner une estimation précise, mais avec les limites mentionnées dans le chapitre 2.
 
-\begin{figure}[H]
-  \centering
-  \scriptsize
-\begin{tikzpicture}
- \begin{axis}[
-      %name=mygraph,
-        height=4.5cm,
-        width=6cm,
-        legend style={at={(0.45,1.3)},
-        anchor=north,legend columns=-1},        
-        ymax=500,
-        ymin=0,
-  %legend cell align=left, 
-        ylabel near ticks,
-        ylabel style={align=center},
-        ylabel={\textbf{{\em PML}}\\Mémoire(MB)},
-  ]%[name path=A]
-  \addplot [red,dashed,line width=1pt] coordinates {
-    (0,200) (180,200) (180,400) (360,400)
-  };
-  \addplot [blue] coordinates {
-    (0,216) (180,216) (180,410) (360,410)
-  };
-\legend{$W^o_{ss}$,$W^{e}_{ss}$}  
-\end{axis}
-%\node[anchor=north] at (1.2,2.6) {$WS\_constant$};
-\end{tikzpicture}
-\begin{tikzpicture}
- \begin{axis}[
-        height=4.5cm,
-        width=6cm,
-        legend style={at={(0.45,1.3)},
-        anchor=north,legend columns=-1},        
-        ymax=500,
-        ymin=0,
-  %legend cell align=left, 
-        ylabel near ticks,
-  ]%[name path=A]
-   \addplot [red,dashed,line width=1pt] coordinates {
-     (0,130) (180,130) (180,270) (360,270) (360,400) (540,400) (540,270) (720,270) (720,130) (900,130) 
-  };
-  \addplot [blue] coordinates {
-     (0,150) (180,150) (180,275) (360,275) (360,410) (540,410) (540,275) (720,275) (720,150) (900,150) 
-  };
-  \legend{$W^o_{ss}$,$W^{e}_{ss}$} 
- \end{axis}
-%\node[anchor=north] at (1.2,2.6) {$WS\_2escaliers$};
-\end{tikzpicture}
-\caption{Résultats d'évaluations des charges variables avec le PML}
-\label{fig:eval_pml_var}
-\end{figure}
+\subsection{Expérimentation 2 : charges synthétiques manipulant un working set variable (en escaliers)}
+En observant les résultats présentés à la figure \ref{fig:studied_technique_ws_var}, on constate que pour la plupart des techniques existantes il est difficile de détecter les variations de mémoire, à l'opposé de la technique que nous avons implémentée dont les résultats sont présentés à la figure \ref{fig:eval_pml_var}.\\
+\par
 
 \begin{figure}
    
@@ -662,3 +613,59 @@ En observant les résultats présentés à la figure \ref{fig:studied_technique_
 \caption{Résultats d'évaluations des charges variables avec les techniques existantes}
 \label{fig:studied_technique_ws_var}
 \end{figure}
+
+\begin{figure}[H]
+  \centering
+  \scriptsize
+\begin{tikzpicture}
+ \begin{axis}[
+      %name=mygraph,
+        height=4.5cm,
+        width=6cm,
+        legend style={at={(0.45,1.3)},
+        anchor=north,legend columns=-1},        
+        ymax=500,
+        ymin=0,
+  %legend cell align=left, 
+        ylabel near ticks,
+        ylabel style={align=center},
+        ylabel={\textbf{{\em PML}}\\Mémoire(MB)},
+  ]%[name path=A]
+  \addplot [red,dashed,line width=1pt] coordinates {
+    (0,200) (180,200) (180,400) (360,400)
+  };
+  \addplot [blue] coordinates {
+    (0,216) (180,216) (180,410) (360,410)
+  };
+\legend{$W^o_{ss}$,$W^{e}_{ss}$}  
+\end{axis}
+%\node[anchor=north] at (1.2,2.6) {$WS\_constant$};
+\end{tikzpicture}
+\begin{tikzpicture}
+ \begin{axis}[
+        height=4.5cm,
+        width=6cm,
+        legend style={at={(0.45,1.3)},
+        anchor=north,legend columns=-1},        
+        ymax=500,
+        ymin=0,
+  %legend cell align=left, 
+        ylabel near ticks,
+  ]%[name path=A]
+   \addplot [red,dashed,line width=1pt] coordinates {
+     (0,130) (180,130) (180,270) (360,270) (360,400) (540,400) (540,270) (720,270) (720,130) (900,130) 
+  };
+  \addplot [blue] coordinates {
+     (0,150) (180,150) (180,275) (360,275) (360,410) (540,410) (540,275) (720,275) (720,150) (900,150) 
+  };
+  \legend{$W^o_{ss}$,$W^{e}_{ss}$} 
+ \end{axis}
+%\node[anchor=north] at (1.2,2.6) {$WS\_2escaliers$};
+\end{tikzpicture}
+\caption{Résultats d'évaluations des charges variables avec le PML}
+\label{fig:eval_pml_var}
+\end{figure}
+
+\paragraph \noindent
+\par\noindent Dans ce chapitre, 
+nous présentons le prototype en environnement réel que nous avons implémenté, et qui permettra d'exploiter le nouveau design que nous avons proposé en contributions. Ce prototype, nous l'avons testé avec le mécanisme du PML tel que fonctionnant actuellement, et les résultats sont présentés ici en comparaison avec les solutions existantes.

@@ -5,13 +5,36 @@
 \markboth{Conclusion}{}
 
 \section*{Bilan}
-Dans ce document nous avons présenté une solution au problème d'estimation du \textit{working set}, solution qui prend se base sur les améliorations des processeurs à ce sujet. Pour cela, nous avons pris appui sur une amélioration matérielle des processeurs Intel : le PML (\acl{PML}). Après avoir fait un rappel des concepts nécessaires à la compréhension du sujet abordé, nous avons avons fait le tour des solutions déjà établies pour répondre au même problème. Par la suite, nous avons exposé les limites de cette fonctionnalité matérielle ainsi que les améliorations architecturales que nous proposons suite à ces limites. Et pour finir, nous avons fait part de notre solution à travers les détails d'implémentation et les résultats des test effectués.\\
-Les résultats de nos expérimentations montrent que notre solution est un bon estimateur comparé à la plus part des autres solutions existantes. En outre, la technique implémentée permet de détecter les changements dans l'utilisation de mémoire de la machine.\\
-Toutefois, cette technique est loin d'être à point étant donné les modifications matérielles qu'elle nécessite.
+Dans ce mémoire nous avons présenté une solution au problème d'estimation du \break \textit{working set}, solution qui se base sur les améliorations des processeurs à ce sujet.\\ Pour cela, nous avons pris appui sur une amélioration matérielle des processeurs Intel : le PML (\acl{PML}). Après avoir fait un rappel des concepts nécessaires à la compréhension du sujet abordé, nous avons fait le tour des solutions déjà établies pour répondre au même problème. Par la suite, nous avons exposé les limites de cette fonctionnalité matérielle ainsi que les améliorations architecturales que nous proposons suite à ces limites. Et pour finir, nous avons fait part de notre solution à travers les détails d'implémentation et les résultats des tests effectués.\\
+Les résultats des expérimentations montrent que notre solution est un bon estimateur comparé à la plus part des autres solutions existantes. En outre, la technique implémentée permet de détecter les changements dans l'utilisation de mémoire par la machine.\\
+\par \noindent Le tableau \ref{tab:recap_pml_existant} récapitule les critères d'estimation de notre solution en comparaison avec ceux des techniques existantes.
+
+\begin{table}[H]
+  \begin{center}
+    \caption{Tableau comparatif des techniques d'estimation du WSS existantes}
+    \resizebox{\columnwidth}{!}{
+    \begin{tabular}{|>{\bfseries}l|c|c|c|c|c|}
+      \hline
+      \rowcolor[RGB]{165,42,42}
+      \textcolor{white}{\textbf{Technique}} & \textcolor{white}{\textbf{Intrusive}} & \textcolor{white}{\textbf{Active}} & \textcolor{white}{\textbf{Précise}} & \textcolor{white}{\textbf{Surcharge la VM}} & \textcolor{white}{\textbf{Surcharge l'hyperviseur}}\\
+      \hline
+      \hline
+      Self-ballooning & Oui & Non & Non & Non & Non \\ \hline
+      ZBalloond & Oui & Oui & Non & Oui & Non \\ \hline 
+      VMWare & Non & Oui & Non & Non & Oui \\ \hline
+      Geiger & Non & Non & Non $si WSS < mémoire allouée$ & Non & Non \\ \hline
+      Exclusive-cache & Non & Oui & Non $si le cache est nul$ & Non & Non \\ \hline
+      \rowcolor[RGB]{165,42,42}
+      \textcolor{white}{\textbf{PML}} & \textcolor{white}{\textbf{Non}} & \textcolor{white}{\textbf{Non}} & \textcolor{white}{\textbf{Oui \emph{(avec le nouveau design)}}} & \multicolumn{2}{c}{\textcolor{white}{\textbf{Sous réserve d'un simulateur}}}\\ \hline
+    \end{tabular}
+    \label{tab:recap_pml_existant}}
+  \end{center}
+\end{table}
+\noindent Toutefois, cette technique est loin d'être à point étant donné les modifications matérielles qu'elle nécessite.
 
 \section*{Perspectives}
-La solution que nous proposons, nous n'avons pu l'implémenter que partiellement. Nous envisageons donc pour de futures échéances :
+Nous n'avons pu implémenter que partiellement la solution que nous proposons. Nous envisageons donc pour de futures échéances :
 \begin{itemize}[label=\ding{42}]
-    \item L'optimisation de l'algorithme d'estimation.
-    \item Le développement d'un simulateur pour tester en conditions réelles les performances de la nouvelle architecture que nous proposons (redirection des interruptions vers le dom0, élimination des adresses des pages de la table de page, utilisation de deux buffer pour la collecte des logs).
+    \item L'optimisation de la technique d'estimation.
+    \item Le développement d'un simulateur pour tester les performances de la nouvelle architecture que nous proposons (redirection des interruptions vers le dom0, élimination des adresses des pages de la table de page, utilisation de deux buffer pour la collecte des logs).
 \end{itemize}

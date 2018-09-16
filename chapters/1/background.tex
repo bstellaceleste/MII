@@ -6,7 +6,7 @@
 
 \initial{D}\textit{ans ce chapitre nous introduisons ou rappelons les informations et concepts de base nécessaires à la compréhension du travail présenté dans ce document. Il s'agit des notions liées à la \textbf{virtualisation} et au \textbf{PML}.}
 
-\minitoc
+%\minitoc
 
 \newpage    
 %%%%%%%%%%%%%%%%%%%%%%%%%SECTION VIRTUALISATION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,44 +22,7 @@
     \label{fig:environnement_virtualise}
 \end{figure}
 
-\par\noindent La plupart des serveurs (non virtualisés) utilisent moins de 15\% de leurs capacités \cite{online1}, ce qui favorise leur prolifération et la complexité de leur gestion. La virtualisation résout ces problèmes d’efficacité en permettant l'exécution de plusieurs systèmes d’exploitation sur un même serveur physique sous la forme de machines virtuelles, dont chacune peut accéder aux ressources de calcul du serveur sous-jacent. Chaque VM est une entité isolée, autonome et complètement indépendante des autres. Dans ces environnements virtualisés, un système de virtualisation, \ac{VMM}, est responsable de la gestion de ces machines virtuelles et du partage des ressources entre elles. Il émule le matériel pour elles, et établit la communication entre elles et les périphériques (de la machine hôte). Il existe plusieurs types de systèmes de virtualisation.
-
-\subsection{Systèmes de virtualisation}
-Le tableau suivant (\ref{tab:sytemes_virtualisation}) présente certaines \acs{VMM}s en fonction de leur type de licence :
-\begin{table}[H]
-  \begin{center}
-    \caption{Systèmes de virtualisation en fonction du type de licence}
-    \begin{tabular}{>{\bfseries}l r}
-      \hline
-      \textbf{VMM} & \textbf{Licence} \\
-      \hline
-      Bosch & Open source \\ 
-      KVM & Open source \\ 
-      LXC & Open source \\ 
-      Microsoft Virtual PC & Commerciale \\ 
-      Parallels & Commerciale \\
-      QEMU & Open source \\ 
-      VMWare Vcenter & Commerciale \\ 
-      VMWare Workstation par nœud & Gratuite (mais pas open source) \\ 
-      VNUML (Virtual Network User Model Linux) & Open source \\
-      VServer & Open source \\ 
-      XEN & Open source \\ \hline
-    \end{tabular}
-    \label{tab:sytemes_virtualisation}
-  \end{center}
-\end{table}
-
-\noindent Le système que nous utilisons dans le cadre de ce travail est \textbf{XEN}. \emph{XEN} est un système de virtualisation assez connu \cite{article2} et utilisé par Amazon pour virtualiser ses datacenters \cite{online4}. Il s'appuie sur un hyperviseur qui s'exécute sur le matériel et une machine virtuelle particulière appelée \textit{\textbf{dom0}} : il s'agit de l'OS de la machine hôte. Les services de l'OS hôte ne sont pas inclus dans l'hyperviseur afin de le maintenir aussi léger que possible. Les autres VMs ici sont appelées \textit{\textbf{domU}} (voir figure \ref{fig:virtualisation_xen}).\\
-
-
-\begin{figure}[H]
-      \centering
-      \includegraphics[scale=.7]{fig1/virtualisation_xen}
-      \caption{Architecture Virtualisation avec hyperviseur XEN}
-      \label{fig:virtualisation_xen}
-\end{figure}
-
-\noindent Les systèmes de virtualisation peuvent également être classés en fonction du type de virtualisation qu'elles peuvent exécuter.
+\par\noindent La plupart des serveurs (non virtualisés) utilisent moins de 15\% de leurs capacités \cite{online1}, ce qui favorise leur prolifération et la complexité de leur gestion. La virtualisation résout ces problèmes d’efficacité en permettant l'exécution de plusieurs systèmes d’exploitation sur un même serveur physique sous la forme de machines virtuelles, dont chacune peut accéder aux ressources de calcul du serveur sous-jacent. Chaque VM est une entité isolée, autonome et complètement indépendante des autres. Dans ces environnements virtualisés, un système de virtualisation, \ac{VMM}, est responsable de la gestion de ces machines virtuelles et du partage des ressources entre elles. Il émule le matériel pour elles, et établit la communication entre elles et les périphériques (de la machine hôte). Il existe plusieurs techniques de virtualisation.
 
 \subsection{Techniques de virtualisation}
 En fonction de la position du système de virtualisation et des machines virtuelles par rapport au matériel, il existe cinq techniques de virtualisation:
@@ -104,7 +67,7 @@ Ici, un OS de base exécute des logiciels parmi lesquels la VMM, qui à son tour
 
 \noindent La VMM émule le matériel pour les OS invités de façon à ce que ces derniers croient communiquer directement avec ledit matériel. L'OS de la VM est non modifié et peut être de n'importe quel type (Linux, Windows, etc.). Cette solution isole bien les OS invités, mais elle a un coût en performance qui peut être très élevé.  La figure \ref{fig:virualisation_complete} présente l'architecture de cette technique de virtualisation.\\
 
-\noindent \textbf{Exemples :} Oracle VM VirtualBox, QEMU, KVM, Microsoft VirtualPC VMware Workstation.
+\noindent \textbf{Exemples :} Oracle VM VirtualBox, QEMU, KVM, Microsoft VirtualPC, VMware Workstation.
 
 \subsubsection{Para-virtualisation}
 La VMM (ici appelée hyperviseur) remplace l'OS hôte et sert d'intermédiaire pour communiquer avec le matériel. Les OS invités fonctionnent en ayant conscience d'être virtualisés et sont optimisés pour ce fait. L'OS hôte est lui-même considéré comme une VM (privilégiée) et est utilisé par la VMM pour assurer certaines tâches. C'est la méthode de virtualisation la plus performante, mais elle a pour contrainte d'exiger la modification des OS des VMs. La figure \ref{fig:para_virtualisation} présente l'architecture de cette technique de virtualisation.
@@ -161,11 +124,42 @@ C'est une sorte de para-virtualisation sans intervention de l'OS hôte et dans l
 %\end{landscape}
 \end{comment}
 
+\subsection{Systèmes de virtualisation}
+Le tableau suivant (\ref{tab:sytemes_virtualisation}) récapitule certaines \acs{VMM}s en fonction de leur type de virtualisation :
+\begin{table}[H]
+  \begin{center}
+    \caption{Systèmes de virtualisation en fonction du type de virtualisation}
+    \begin{tabular}{>{\bfseries}l r}
+      \hline
+      \textbf{VMM} & \textbf{Licence} \\
+      \hline
+      OpenVZ & Niveau OS \\ 
+      Linux-VServer & Niveau OS \\ 
+      L4Linux & Noyau en espace utilisateur \\ 
+      Adeos & Noyau en espace utilisateur \\ 
+      Oracle VM Virtualbox & Virtualisation complète \\
+      QEMU & Virtualisation complète \\ 
+      VMWare vSphere & Para-virtualisation \\ 
+      Xen & Para-virtualisation \\   \hline
+    \end{tabular}
+    \label{tab:sytemes_virtualisation}
+  \end{center}
+\end{table}
+
+\noindent Le système que nous utilisons dans le cadre de ce travail est \textbf{XEN}. \emph{XEN} est un système de virtualisation assez connu \cite{article2} et utilisé par Amazon pour virtualiser ses datacenters \cite{online4}. Il s'appuie sur un hyperviseur qui s'exécute sur le matériel et une machine virtuelle particulière appelée \textit{\textbf{dom0}} : il s'agit de l'OS de la machine hôte. Les services de l'OS hôte ne sont pas inclus dans l'hyperviseur afin de le maintenir aussi léger que possible. Les autres VMs ici sont appelées \textit{\textbf{domU}} (voir figure \ref{fig:virtualisation_xen}).\\
+
+\begin{figure}[H]
+      \centering
+      \includegraphics[scale=.7]{fig1/virtualisation_xen}
+      \caption{Architecture Virtualisation avec hyperviseur XEN}
+      \label{fig:virtualisation_xen}
+\end{figure}
+
 \subsection{Avantages de la virtualisation}
 Selon le dernier rapport de l’entreprise de conseil et de recherche Gartner Inc. au sujet de la virtualisation, le niveau de pénétration de la virtualisation est assez élevé, avec plusieurs organisations ayant un taux de virtualisation de leurs serveurs excédant les 75\% \cite{online3}. Cette utilisation de plus en plus importante des techniques de virtualisation dans les DCs doit son mérite aux nombreux avantages qu'elles offrent. Ceux-ci sont relatifs à :
 
 \begin{itemize}[label=\ding{42}, font=\large \color{darkorange}]
-    \item \textbf{La réduction des coûts} : le fait que plusieurs VMs pouvent s'exécuter sur une même machine hôte entraîne une réduction du nombre de serveurs physiques et donc une réduction des coûts liés à l'acquisition, l'exploitation et l'expansion de l'infrastructure. 
+    \item \textbf{La réduction des coûts} : le fait que plusieurs VMs peuvent s'exécuter sur une même machine hôte entraîne une réduction du nombre de serveurs physiques et donc une réduction des coûts liés à l'acquisition, l'exploitation et l'expansion de l'infrastructure. 
     \item \textbf{L'isolation et l'amélioration de la sécurité} : la virtualisation offre la possibilité de séparer les différentes tâches d'un serveur physique entre plusieurs VMs, ce qui permet donc de les isoler les unes des autres et donc d'accroître le niveau de sécurité.
     \item \textbf{La minimisation des interruptions et l'amélioration de la disponibilité des services} : les solutions de virtualisation rendent possible la migration de machines virtuelles d'un serveur physique à un autre \cite{article3, article4}. Cette fonctionnalité est un élément important qui améliore la disponibilité des services.
     \item \textbf{L'optimisation des performances} : un autre avantage de la migration de machines virtuelles est qu'elle rend possible de distribuer les charges de travail entre les différents serveurs physiques \cite{article3, article4}. Ceci permet donc une meilleure gestion des ressources et donc une optimatisation des performances.
@@ -207,6 +201,7 @@ Il existe une entrée de la table de pages pour l'intégralité de l'espace d'ad
     \includegraphics[scale=.7]{chapters/1/fig1/tlb}
     \caption{Fonctionnement global de la TLB}
     \label{fig:tlb}
+    \centering \bfseries Source : référence\cite{tlb}
 \end{figure}
 
 \subsubsection{Shadow paging}
@@ -245,6 +240,7 @@ Il existe une entrée de la table de pages pour l'intégralité de l'espace d'ad
         \includegraphics[scale=.5]{chapters/1/fig1/nested_paging}
         \caption{Mécanisme du nested paging}
         \label{fig:parcours_2D}
+        \centering \bfseries Source : (référence \cite{article8})
 \end{figure}
 
 \begin{enumerate}[label=\textbf{(\roman*)}]
@@ -275,9 +271,9 @@ Avec les VT-x, chaque VM a une structure de données en mémoire centrale, gér�
 \subsection{Description du PML}
 \label{subsubsection:description_pml}
 Le \acs{PML} est utilisé dans le cadre de la virtualisation. C'est une amélioration de la technologie \textit{\ac{Intel VT}}. Il étend les capacités des VMM qui utilisent le mécanisme d'\acs{EPT}, en leur donnant la possibilité de traquer les pages mémoire modifiées par les \acs{VMs} (\textit{guest-physical pages}) durant leur exécution \cite{online5}.\\
-Intel a inclu dans ses processeurs récents des bits \ac{A/D} \footnote{Lorsqu'un processus accède à une page mémoire, pendant la translation d'adresse lors du parcours de l'EPT, le bit \textit{accessed} correspondant est mis à 1. De même le bit \textit{dirty} est mis à 1 pour signifier que la page a été modifiée.} pour l'\acs{EPT} \cite{book3}. Etant donné que ces bits sont définis ou mis à jour sans invoquer la VMM, elle n'a aucun moyen d'accumuler des statistiques de \textit{working set} (pages utilisées, modifiées, etc.) pendant l'exécution de la VM. Pour obtenir de telles statistiques, la VMM doit scanner à tout moment l'EPT pour collecter les informations sur les bits \textit{accessed} et \textit{dirty}, ou alors marquer les pages comme \textit{non présentes} ou \emph{en lecture seule}, de sorte que si un processus tente d'accéder à une page ou de la modifier, cela génère une exception que la VMM pourra capturer. De telles opérations imposent des coûts de latence et de performance qui sont inacceptables dans certaines circonstances.\\
+Intel a inclu dans ses processeurs récents des bits \ac{A/D} \footnote{Lorsqu'un processus accède à une page mémoire, pendant la translation d'adresse lors du parcours de l'EPT, le bit \textit{accessed} correspondant est mis à 1. De même le bit \textit{dirty} est mis à 1 pour signifier que la page a été modifiée.} pour l'\acs{EPT} \cite{book3}. Etant donné que ces bits sont définis ou mis à jour sans invoquer la VMM, elle n'a aucun moyen d'accumuler des statistiques de \textit{working set} (pages utilisées, modifiées, etc.) pendant l'exécution de la VM. Pour obtenir de telles statistiques, la VMM doit scanner à tout moment l'EPT pour collecter les informations sur les bits \textit{accessed} et \textit{dirty}, ou alors marquer les pages comme \textit{non présentes} ou \emph{en lecture seule}, de sorte que si un processus tente d'accéder à une page ou de la modifier, cela génère une exception que la VMM pourra capturer. De telles opérations imposent des coûts de latence et de performance qui sont inacceptables dans certaines circonstances.
 
-\par\noindent Le PML s'appuie sur la prise en charge par le processeur des bits \acs{A/D} de l'\acs{EPT} (sous-section \ref{subsubsection:nested_paging} : virtualisation complète de la mémoire). En effet, il étend le procédé qui se produit lorsque les bits \textit{dirty} sont mis à jour (quand une page mémoire est modifiée). Lorsqu'une écriture fait passer un bit \textit{dirty} de 0 à 1, le processeur enregistre l'adresse physique (\acs{gPA}) de la page mémoire\footnote{Il s'agit des \textit{guest-physical adresses}, i.e. des pages mémoire des processus s'exécutant dans la VM.} à l'origine de cet accès dans un emplacement mémoire sous le nom de \textit{page modification log}. Lorsque cette page de logs est pleine (512 entrées), le processeur génère un \textit{VMExit}. Pendant ce \textit{VMExit}, aucune adresse supplémentaire n'est enregistrée\footnote{Car pendant un VMExit, la VM est en pause étant donné que l'hyperviseur prend la main.}, et le processeur met effectivement à jour les bits dirty des adresses correspondantes dans une structure de données associée à chaque VM et appelée \emph{bitmap} (voir paragraphe \ref{subsection:design_actuel_pml}).\\
+\noindent Le PML s'appuie sur la prise en charge par le processeur des bits \acs{A/D} de l'\acs{EPT} (sous-section \ref{subsubsection:nested_paging} : virtualisation complète de la mémoire). En effet, il étend le procédé qui se produit lorsque les bits \textit{dirty} sont mis à jour (quand une page mémoire est modifiée). Lorsqu'une écriture fait passer un bit \textit{dirty} de 0 à 1, le processeur enregistre l'adresse physique (\acs{gPA}) de la page mémoire\footnote{Il s'agit des \textit{guest-physical adresses}, i.e. des pages mémoire des processus s'exécutant dans la VM.} à l'origine de cet accès dans un emplacement mémoire sous le nom de \textit{page modification log}. Lorsque cette page de logs est pleine (512 entrées), le processeur génère un \textit{VMExit}. Pendant ce \textit{VMExit}, aucune adresse supplémentaire n'est enregistrée\footnote{Car pendant un VMExit, la VM est en pause étant donné que l'hyperviseur prend la main.}, et le processeur met effectivement à jour les bits dirty des adresses correspondantes dans une structure de données associée à chaque VM et appelée \emph{bitmap} (voir paragraphe \ref{subsection:design_actuel_pml}).\\
 
 \par\noindent L'introduction du PML a nécessité des changements spécifiques dans les \acs{VMCS}
  : 
@@ -287,3 +283,5 @@ Intel a inclu dans ses processeurs récents des bits \ac{A/D} \footnote{Lorsqu'u
     \item \textit{\textbf{PML address}} : c'est un nouveau champ de 64 bits dans le régistre de contrôle spécifique \textit{«secondary processor-based VM execution control»}. Il représente l'adresse physique \footnote{Page mémoire de 4-KBytes} du \textit{page modification log}.
     \item \textit{\textbf{PML index}} : c'est également un nouveau champ, de 16 bits. Il représente l'index de la prochaine entrée dans le \textit{page modification log}. Etant donné que le \textit{page modification log} n'enregistre que 512 entrées, la valeur de cet index est compris entre 0 et 511.
 \end{itemize}
+
+\par\noindent Dans ce chapitre, il a été question tout d'abord d'introduire des généralités sur la \break virtualisation (les types et techniques de virtualisation), puis de parler de la vitualisation de la mémoire (en évoquant les notions de TLB, \emph{shadow} et \emph{nested} paging) et enfin d'introduire la notion de PML.

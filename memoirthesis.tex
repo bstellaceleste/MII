@@ -358,14 +358,14 @@ expansion=true]{microtype}
     \par\nointerlineskip \vspace{.5\baselineskip}
   }
 %An initial of the very first character of the content
-\usepackage{Carrickc,ArtNouvc,Kramer,Konanur,Rothdn,Starburst}
+\usepackage{Carrickc,ArtNouvc,Kramer,Konanur,Rothdn,Starburst,Zallman}
 \usepackage{hyperref}
 \usepackage{lettrine}
 %\renewcommand\LettrineFontHook{\Rothdnfamily}
 \newcommand{\initial}[1]{%
     \setcounter{DefaultLines}{3}%
     \renewcommand{\rmdefault}{fnc}%
-    \renewcommand\LettrineFontHook{\Starburstfamily}%
+    \renewcommand\LettrineFontHook{\Zallmanfamily}%
 	\lettrine[lines=2,lhang=0.45,nindent=0.5em]{
 		\color{darkorange}
      		{\textsc{#1}}}{}}
@@ -435,7 +435,9 @@ expansion=true]{microtype}
 \addto\captionsenglish{%
    \renewcommand\listfigurename{Figures}}   
 \addto\captionsenglish{%
-   \renewcommand\listtablename{Tableaux}}  
+   \renewcommand\listtablename{Tableaux}}
+\addto\captionsenglish{%
+   \renewcommand\tablename{Tableau}}
 \addto\captionsenglish{%
    \renewcommand\lstlistlistingname{Codes}}
 \addto\captionsenglish{%
@@ -468,7 +470,7 @@ expansion=true]{microtype}
 \input{frontmatter/declaration}
 \clearemptydoublepage
 %
-\dominitoc
+%\dominitoc
 \tableofcontents*
 \mtcaddchapter
 \adjustmtc

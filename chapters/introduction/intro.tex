@@ -10,15 +10,15 @@
 \adjustmtc
 \section*{CONTEXTE}
 
-\initial{L}e \emph{cloud computing} consiste à externaliser les services d’une entreprise dans un centre d’hébergement géré par une autre entreprise (Amazon EC2 par exemple). La \emph{virtualisation}, qui a été rendue populaire grâce à cette pratique du \emph{cloud computing}, s'impose comme la technologie de base dans les \ac{DCs}, car elle favorise l'utilisation optimale des ressources (et donc une économie d'énergie) à travers la \break consolidation des machines virtuelles (VMs).
-\par\noindent Néanmoins les gains observés dans les datacenters de production sont très faibles comparés à ceux attendus. En effet, le nombre de VMs consolidées dans un serveur est calculé en fonction des ressources réservées ou allouées à une machine. Or il est connu que les ressources consommées par la VM varient au cours de son exécution. En outre les utilisateurs ont le souci de garder le même rendement tant sur le plan de la confidentialité (données) que des performances (applications), ce qui les pousse à surdimensionner les ressources de leurs applications. Autrement dit, ils réservent auprès des hébergeurs bien plus d'espace (mémoire, disque, CPU, etc.) qu'ils n'en ont besoin.
+\initial{L}e \emph{cloud computing} consiste à externaliser les services d’une entreprise dans un centre d’hébergement géré par une autre entreprise (Amazon EC2 par exemple). La \emph{virtualisation}, qui a été rendue populaire grâce à cette pratique du \emph{cloud computing}, s'impose comme la technologie de base dans les \ac{DCs}, car elle favorise l'utilisation optimale des ressources (et donc une économie d'énergie) à travers la \break consolidation des machines virtuelles (\acs{VMs}).
+\par\noindent Néanmoins les gains observés dans les datacenters de production sont très faibles comparés à ceux attendus. En effet, le nombre de VMs consolidées dans un serveur est calculé en fonction des ressources réservées ou allouées à une machine. Or il est connu que les ressources consommées par la VM varient au cours de son exécution. En outre les utilisateurs ont le souci de garder le même rendement tant sur le plan de la \break confidentialité (données) que des performances (applications), ce qui les pousse à surdimensionner les ressources de leurs applications. Autrement dit, ils réservent auprès des hébergeurs bien plus d'espace (mémoire, disque, CPU, etc.) qu'ils n'en ont besoin.
 
 \section*{PROBLEMATIQUE}
 
 Le fait que les utilisateurs surdimensionnent les ressources nécessaires peut avoir certaines conséquences :
 
 \begin{itemize}[label=\ding{42}, font=\large \color{darkorange}]
-    \item Un faible taux de consolidation et un rendement énergétique faible dans les datacenters :  il est à noter que la consommation électrique représente environ 50\% - 70\% des dépenses dans un datacenter.
+    \item Un faible taux de consolidation et un rendement énergétique faible dans les datacenters :  il est à noter que la consommation électrique représente environ 50\% - 70\% des dépenses dans un datacenter\cite{energy_consumption}.
     \item Un gaspillage de la mémoire.
 \end{itemize}
 
@@ -35,20 +35,20 @@ Les techniques d'estimation du WSS existantes sont toutes basées sur une approc
 
 \section*{MOTIVATIONS ET OBJECTIFS}
 
-Etant données toutes les contraintes (présentées ci-haut) que posent les solutions logicielles, nous avons pensé qu'une solution matérielle répondrait à ces limites.\\
-Depuis 2016, Intel en collaboration avec \emph{VMWare} (fournisseur d'hyperviseurs), a commencé à produire des processeurs équipés d'une nouvelle technologie de virtualisation dénommée \textit{\ac{PML}}, qui donne à l'hyperviseur la possibilité de traquer efficacement les pages mémoire que la VM modifie durant son exécution. Le PML a été introduit entre autres dans le but d'améliorer l'estimation du WSS, mais jusqu'ici aucune étude n'a été menée pour prouver son efficacité sur ce point. C'est la raison pour laquelle nous avons porté un intérêt particulier à cette fonctionnalité avec pour buts :
+Etant données toutes les contraintes (présentées ci-haut) que posent les approches logicielles, nous avons pensé qu'une solution basée sur une approche matérielle répondrait à ces limites.\\
+Depuis 2016, Intel en collaboration avec \emph{VMWare} (fournisseur d'hyperviseurs), a commencé à produire des processeurs équipés d'une nouvelle technologie de virtualisation dénommée \textit{\ac{PML}}, qui donne à l'hyperviseur la possibilité de traquer efficacement les pages mémoire que la VM modifie durant son exécution\cite{online5}. Le PML a été introduit entre autres dans le but d'améliorer l'estimation du WSS, mais jusqu'ici aucune étude n'a été menée pour prouver son efficacité sur ce point. C'est la raison pour laquelle nous avons porté un intérêt particulier à cette fonctionnalité avec pour buts :
 
 \begin{itemize}[label=\ding{42}, font=\large \color{darkorange}]
-    \item D'étudier le design actuel du PML en mettant en exergue les limites qu'il présente dans le cadre de l'estimation du WSS.
-    \item De proposer une nouvelle architecture (ou design) mieux adaptée à ce problème.
+    \item D'étudier le mécanisme actuel du PML en mettant en exergue les limites qu'il présente dans le cadre de l'estimation du WSS.
+    \item De proposer une nouvelle architecture mieux adaptée à ce problème.
     \item De présenter un algorithme de calcul du WSS qui s'appuie sur le nouveau design proposé.
-    \item D'évaluer et de comparer notre technique d'estimation (qui est une solution matérielle) à celles existantes (qui sont basées sur des approches logicielles).
+    \item D'évaluer et de comparer notre technique d'estimation (qui est basée sur une approche matérielle) à celles existantes (qui sont basées sur des approches logicielles).
 \end{itemize}
 
 \section*{ORGANISATION DU DOCUMENT}
 La suite du document s'organise tel qu'il suit : 
 \begin{itemize}[label=\ding{42}, font=\large \color{darkorange}]
-    \item \textbf{Background} : il s'agira ici de rappeler les définitions de certaines notions et concepts nécessaires à la compréhension du problème.
+    \item \textbf{Concepts généraux} : il s'agira ici de rappeler les définitions de certaines notions nécessaires à la compréhension du problème.
     \item \textbf{Etat de l'art} : ici nous allons présenter en détails les solutions existantes ainsi que les limites que pose chacune d'elles.
     \item \textbf{Contributions} : nous présenterons les détails de la solution que nous proposons.
     \item \textbf{Implémentation et Evaluations} : ce chapitre présentera quelques détails d’implémentation et les évaluations que nous avons effectuées pour valider l’intérêt de notre solution.

@@ -27,7 +27,7 @@ Cette unité est, depuis 2003, structurée en 7 thèmes de recherche qui regroup
 
 \noindent Le LaBRI est une unité de recherche associée au CNRS (UMR 5800), à l'Université de Bordeaux et à Bordeaux INP. Depuis 2002, il est partenaire de l'Inria. Ses effectifs se sont accrus de façon importante ces dernières années. En novembre 2017, il réunit près de 280 personnes, dont 110 enseignants chercheurs (Université de Bordeaux, Bordeaux INP), 41 chercheurs (CNRS, Inria), 20 personnels administratifs et techniques (Université de Bordeaux, Bordeaux INP, CNRS, Inria) et plus de 100 doctorants, post-doctorants et ingénieurs contractuels . Les missions du LaBRI s'articulent autour de trois axes principaux : recherche (théorique, appliquée), valorisation - transfert de technologie et formation.
 
-\noindent Le soutien du Conseil Régional d'Aquitaine à travers l'extension du bâtiment, des équipements et des bourses de thèse et post-doctorants, a été une des briques essentielles du développement du LaBRI.
+\noindent Le soutien du Conseil Régional d'Aquitaine à travers l'extension du bâtiment, des équipements et des bourses de thèse et post-doctorants, a été une des rubriques essentielles du développement du LaBRI.
 
 \noindent Le laboratoire s'articule autour de six équipes thématiques alliant recherche fondamentale, recherche appliquée et transfert technologique : 
 \begin{itemize}[label=\ding{43}]
@@ -245,7 +245,7 @@ void paging_mark_gfn_dirty(struct domain *d, unsigned long pfn)
 \section*{Annexe 5 : Mécanisme (hypercall) de copie des logs consolidés de l'hyperviseur vers le dom0}
 \label{section:copie_logs}
 
-\begin{lstlisting}[language=C, caption=xl collect-dirty-logs, label={lst:xl}]
+\begin{lstlisting}[language=C, caption=xl collect-dirty-logs, label={lst:xc_domain_collect_dirty_logs}]
 int main_collect_dirty_logs(int argc, char **argv)
 {
     int ret=0;
@@ -286,7 +286,7 @@ int xc_domain_collect_dirty_logs(xc_interface *xch, uint32_t dom, xc_hypercall_b
 }
 \end{lstlisting}
 
-\begin{lstlisting}[language=C, caption=Portion de code modifiée dans la méthode paging\_log\_dirty\_op, label={lst:xl}]
+\begin{lstlisting}[language=C, caption=Portion de code modifiée dans la méthode paging\_log\_dirty\_op, label={lst:paging_log_dirty_op}]
 /* Read a domain's log-dirty bitmap and stats.  If the operation is a CLEAN,
  * clear the bitmap and stats as well. */
 static int paging_log_dirty_op(struct domain *d,
