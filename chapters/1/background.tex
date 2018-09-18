@@ -1,5 +1,5 @@
 \let\textcircled=\pgftextcircled
-\chapter{Background}
+\chapter{Concepts généraux}
 \label{chap:background}
 %\mtcaddchapter
 %\adjustmtc
@@ -28,7 +28,7 @@
 En fonction de la position du système de virtualisation et des machines virtuelles par rapport au matériel, il existe cinq techniques de virtualisation:
 
 \subsubsection{Virtualisation niveau OS ou isolation}
-Cette technique de virtualisation permet d'isoler l'exécution des applications des zones d'exécution appelées contextes ou containers. Ici, l'\acs{OS} hôte dispose des mécanismes pour construire des containers isolés (VMs). Ces derniers partagent le même OS (l'hôte). La \acs{VMM} fait donc partie de l'OS hôte. Cette solution est très bonne en performance, mais les environnements virtualisés ne sont pas complètement isolés. La figure \ref{fig:virtualisation_niveau_os} présente l'architecture de cette technique de virtualisation.
+Cette technique de virtualisation permet d'isoler l'exécution des applications des zones d'exécution appelées contextes ou containers. Ici, l'\acs{OS} hôte dispose des mécanismes pour construire des containers isolés (VMs). Ces derniers partagent le même OS (l'hôte). La \ac{VMM} fait donc partie de l'OS hôte. Cette solution est très bonne en performance, mais les environnements virtualisés ne sont pas complètement isolés. La figure \ref{fig:virtualisation_niveau_os} présente l'architecture de cette technique de virtualisation.
     
     \begin{figure}[H]
       \centering
@@ -131,7 +131,7 @@ Le tableau suivant (\ref{tab:sytemes_virtualisation}) récapitule certaines \acs
     \caption{Systèmes de virtualisation en fonction du type de virtualisation}
     \begin{tabular}{>{\bfseries}l r}
       \hline
-      \textbf{VMM} & \textbf{Licence} \\
+      \textbf{VMM} & \textbf{Technique de virtualisation} \\
       \hline
       OpenVZ & Niveau OS \\ 
       Linux-VServer & Niveau OS \\ 
@@ -146,7 +146,7 @@ Le tableau suivant (\ref{tab:sytemes_virtualisation}) récapitule certaines \acs
   \end{center}
 \end{table}
 
-\noindent Le système que nous utilisons dans le cadre de ce travail est \textbf{XEN}. \emph{XEN} est un système de virtualisation assez connu \cite{article2} et utilisé par Amazon pour virtualiser ses datacenters \cite{online4}. Il s'appuie sur un hyperviseur qui s'exécute sur le matériel et une machine virtuelle particulière appelée \textit{\textbf{dom0}} : il s'agit de l'OS de la machine hôte. Les services de l'OS hôte ne sont pas inclus dans l'hyperviseur afin de le maintenir aussi léger que possible. Les autres VMs ici sont appelées \textit{\textbf{domU}} (voir figure \ref{fig:virtualisation_xen}).\\
+\noindent Le système que nous utilisons dans le cadre de ce travail est \textbf{XEN}. \emph{XEN} est un système de virtualisation assez connu \cite{article2} et utilisé par Amazon pour virtualiser ses datacenters\cite{online4}. Il s'appuie sur un hyperviseur qui s'exécute sur le matériel et une machine virtuelle particulière appelée \textit{\textbf{dom0}} : il s'agit de l'OS de la machine hôte. Les services de l'OS hôte ne sont pas inclus dans l'hyperviseur afin de le maintenir aussi léger que possible. Les autres VMs ici sont appelées \textit{\textbf{domU}} (voir figure \ref{fig:virtualisation_xen}).\\
 
 \begin{figure}[H]
       \centering

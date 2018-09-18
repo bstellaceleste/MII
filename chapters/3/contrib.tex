@@ -1,15 +1,15 @@
 \let\textcircled=\pgftextcircled
-\chapter{Contributions}
+\chapter{Contribution : Technique d'estimation basée sur une architecture améliorée du PML}
 \label{chap:contrib}
 %\mtcaddchapter
 %\adjustmtc
 
-\initial{C}\textit{e chapitre présente nos contributions à la résolution du problème ci-dessus présenté. Nous montrons au travers de celles-ci comment nous répondons aux questions Q1 et Q2 énoncées au chapitre précédent.}
+\initial{C}\textit{e chapitre présente notre contribution à la résolution du problème ci-dessus présenté. Nous montrons au travers de celle-ci comment nous répondons aux questions Q1 et Q2 énoncées au chapitre précédent.}
 
 %\minitoc
 
 \newpage  
-\section{Contributions sur le plan architectural}
+\section{Contribution sur le plan architectural}
 
 \subsection{Design actuel du PML}
 \label{subsection:design_actuel_pml}
@@ -57,7 +57,7 @@ Nous présentons ici les principales contraintes auxquelles nous avons fait face
 \paragraph{\textbullet\ \textbf{Limite 1 : Le VMExit lors de l'interruption \textit{pml buffer full} ne devrait pas être géré par le CPU sur lequel s'exécute la VM dont on estime le WSS}}
 \par\noindent
 \par\noindent Lorsque le buffer du \textit{pml\_log} est plein, le CPU génère un \textit{VMExit} qui stoppe l'exécution de la VM qui utilise actuellement le CPU en question, cette VM est celle dont le WSS est calculé. Un changement de contexte est donc effectué pour que l'hyperviseur prenne en main cette interruption. Or les transitions\footnote{Passage du mode \textit{non-root} au mode \textit{root}. (Voir sous-section \ref{subsubsection:intel_vtx})} liées aux \textit{VMExits} sont connus pour introduire des coûts significatifs dans la VM \cite{vmexit}. Ainsi accroître le nombre de \textit{VMExits} sur une VM du fait de l'évaluation de son \textit{working set} est \break inacceptable pour le client car cette opération n'est bénéfique que pour le propriétaire du DC qui veut optimiser l'utilisation de ses ressources et économiser de l'argent. En effet, le client a payé pour une quantité de ressources (ici le temps CPU) qui doit être allouée à sa VM. En générant des \textit{VMExits} supplémentaires, le design actuel du PML réduit le temps CPU réservé par le client. En outre, le temps pris par l'hyperviseur pour capturer cette exception accroît cet impact.\\
-Cette limite n'est un problème ni pour la migration, ni pour le checkpointing car il a été prouvé que réduire le temps CPU durant ces opérations a pour but de les accélérer \cite{cpu_live_miration}.
+Cette limite n'est un problème ni pour la migration, ni pour le checkpointing car il a été prouvé que réduire le temps CPU durant ces opérations a pour but de les accélérer \cite{cpu_live_miration}.\\
 
 \paragraph{\textbullet\ \textbf{Limite 2 : La taille du \textit{pml\_log} est très petite (4KB)}}
 \par\noindent
