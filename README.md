@@ -9,7 +9,7 @@ In order to follow the tutorial smoothly, start by installing latex on your mach
 To get this starter template on your local machine, you can either download the zip file or clone the project using git
 
 ```
-git clone https://github.com/Yuhala/latex-thesis.git
+git clone https://github.com/bstellaceleste/MII.git
 
 ```
 ## Uploading the project to ShareLaTeX 
@@ -83,7 +83,7 @@ For any strange errors, [TeX-LaTeXStackExchange](https://tex.stackexchange.com/)
 
 ## Author
 
-* **Peterson Yuhala** 
+* **** 
 
 
 ## Acknowledgments
